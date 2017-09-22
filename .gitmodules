@@ -1,6 +1,3 @@
-[submodule "microservices-scrum-api-story"]
-	path = estafet-microservices-scrum-api-story
-	url = https://github.com/Estafet-LTD/estafet-microservices-scrum-api-story.git
 [submodule "estafet-microservices-scrum-basic-ui"]
 	path = estafet-microservices-scrum-basic-ui
 	url = https://github.com/Estafet-LTD/estafet-microservices-scrum-basic-ui.git
@@ -25,3 +22,6 @@
 [submodule "estafet-microservices-scrum-api-project-burndown"]
 	path = estafet-microservices-scrum-api-project-burndown
 	url = https://github.com/Estafet-LTD/estafet-microservices-scrum-api-project-burndown.git
+[submodule "estafet-microservices-scrum-api-story"]
+	path = estafet-microservices-scrum-api-story
+	url = https://github.com/Estafet-LTD/estafet-microservices-scrum-api-story.git
