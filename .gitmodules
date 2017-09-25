@@ -25,3 +25,6 @@
 [submodule "estafet-microservices-scrum-api-story"]
 	path = estafet-microservices-scrum-api-story
 	url = https://github.com/Estafet-LTD/estafet-microservices-scrum-api-story.git
+[submodule "estafet-microservices-scrum-api-task"]
+	path = estafet-microservices-scrum-api-task
+	url = https://github.com/Estafet-LTD/estafet-microservices-scrum-api-task.git
