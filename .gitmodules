@@ -1,3 +1,21 @@
 [submodule "estafet-microservices-scrum-api-project"]
 	path = estafet-microservices-scrum-api-project
 	url = https://github.com/Estafet-LTD/estafet-microservices-scrum-api-project.git
+[submodule "estafet-microservices-scrum-api-sprint"]
+	path = estafet-microservices-scrum-api-sprint
+	url = https://github.com/Estafet-LTD/estafet-microservices-scrum-api-sprint.git
+[submodule "estafet-microservices-scrum-api-story"]
+	path = estafet-microservices-scrum-api-story
+	url = https://github.com/Estafet-LTD/estafet-microservices-scrum-api-story.git
+[submodule "estafet-microservices-scrum-basic-ui"]
+	path = estafet-microservices-scrum-basic-ui
+	url = https://github.com/Estafet-LTD/estafet-microservices-scrum-basic-ui.git
+[submodule "estafet-microservices-scrum-api-sprint-board"]
+	path = estafet-microservices-scrum-api-sprint-board
+	url = https://github.com/Estafet-LTD/estafet-microservices-scrum-api-sprint-board.git
+[submodule "estafet-microservices-scrum-api-project-burndown"]
+	path = estafet-microservices-scrum-api-project-burndown
+	url = https://github.com/Estafet-LTD/estafet-microservices-scrum-api-project-burndown.git
+[submodule "estafet-microservices-scrum-api-sprint-burndown"]
+	path = estafet-microservices-scrum-api-sprint-burndown
+	url = https://github.com/Estafet-LTD/estafet-microservices-scrum-api-sprint-burndown.git
