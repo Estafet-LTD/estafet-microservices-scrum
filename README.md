@@ -106,6 +106,10 @@ The application consists of 7 microservices + the user interface. These are depl
 
 ![alt tag](https://github.com/Estafet-LTD/estafet-microservices-scrum/blob/master/PodComponents.png)
 
+### Domain Model
+Here's the overall business domain model.
+
+![alt tag](https://github.com/Estafet-LTD/estafet-microservices-scrum/blob/master/PodComponents.png)
 
 
 
