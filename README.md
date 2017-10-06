@@ -11,9 +11,9 @@ This can cause a management headache, as the number of microservices grow. Fortu
 
 | Repository        | Description |
 | ----------------- |-------------|
-| col 3 is          | Master repository containing submodules for all microservices of the demo application. |
-| col 2 is          | Microservices for managing scrum projects. |
-| zebra stripes     | Microservices for aggregating and generating project burndown reports. |
+| [estafet-microservices-scrum](https://github.com/Estafet-LTD/estafet-microservices-scrum)| Master repository containing submodules for all microservices of the demo application. |
+| [estafet-microservices-scrum-api-project](https://github.com/Estafet-LTD/estafet-microservices-scrum-api-project) | Microservices for managing scrum projects. |
+| [I'm an inline-style link](https://www.google.com) | Microservices for aggregating and generating project burndown reports. |
 
 
 ## Getting started
