@@ -1,8 +1,33 @@
 # Estafet Microservices Scrum Demo Application
-This is the master repository for containing sub modules for all of the microservices for the scrum application
+The scrum demo application is built upon microservices and provides a tangible example of how microservices are implemented to address common application aspects, such as data management, stateful domain objects and reporting. It is a useful starting point for a Java engineer who is interesting in understanding how microservices are built.
+
+The application is designed to be deployed within an Openshift cluster and provides a convenient platform for demonstrating other aspects such as logging, monitoring, release management and testing.
+
+We chose a scrum application for the demo because it is a business domain that pretty much everybody in the company understands. I did simplify some of the behaviour to limit the scope, but the core elements of scrum, such as project backlogs, stories, tasks, sprints, scrum boards and of course project burndown and sprint burndown reports exist.
+## Structure
+One thing to note is that each microservice has its own git repository. If all of the microservices are stored in a single repository there is a risk that they could be unintentionally recoupled. Separate repositories means that each service has its own specific lifecycle and can also be released independently (an important aspect for microservices). 
+
+This can cause a management headache, as the number of microservices grow. Fortunately git provides a neat solution to this problem in the form of submodules. 
+
+| Repository        | Description |
+| ----------------- |-------------|
+| col 3 is          | Master repository containing submodules for all microservices of the demo application. |
+| col 2 is          | Microservices for managing scrum projects. |
+| zebra stripes     | Microservices for aggregating and generating project burndown reports. |
+
 
 ## Getting started
 
+
+There are a couple of deployment options for the demo application:
+
+* Deployment to an Openshift Cluster
+* Deployment to local application server (JBoss EAP and Wildfly are supported out-of-the-box).
+
+
+
+
+The demo application can be deployed 
 
 ### Prerequisites
 
