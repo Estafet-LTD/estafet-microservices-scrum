@@ -3,7 +3,7 @@ The scrum demo application is built upon microservices and provides a tangible e
 
 The application is designed to be deployed within an Openshift cluster and provides a convenient platform for demonstrating other aspects such as logging, monitoring, release management and testing.
 
-We chose a scrum application for the demo because it is a business domain that pretty much everybody in the company understands. I did simplify some of the behaviour to limit the scope, but the core elements of scrum, such as project backlogs, stories, tasks, sprints, scrum boards and of course project burndown and sprint burndown reports exist.
+A scrum application was chosen for the demo because it is a business domain many are familiar with. Some of the behaviour is simplified to limit the scope, but the core elements of scrum, such as project backlogs, stories, tasks, sprints, scrum boards and of course project burndown and sprint burndown reports exist.
 ## Structure
 One thing to note is that each microservice has its own git repository. If all of the microservices are stored in a single repository there is a risk that they could be unintentionally recoupled. Separate repositories means that each service has its own specific lifecycle and can also be released independently (an important aspect for microservices). 
 
@@ -35,7 +35,6 @@ There are a couple of installation options for the demo application:
 ### Openshift Installation
 
 tbd
-
 
 ### Local Installation
 Review the prerequities for the local installation for continuing.
@@ -77,19 +76,33 @@ http://localhost:8080/projects
 
 #### Prerequisites
 Before installing the application you'll need to have a installed PostgreSQL, Wildfly (or JBoss EAP) and JBoss A-MQ (or ActiveMQ). If you choose to install the application on a different application server (other than Wildfly or JBoss EAP), you'll need to modify the source to change the context route of each application. 
-
 ##### PostgreSQL
+Note:- You need to create a password for the postgres db user. The environment scripts default to "welcome1".
 
+* [Linux Installation Guide](https://www.linode.com/docs/databases/postgresql/how-to-install-postgresql-relational-databases-on-centos-7)
+* [Windows Installation Guide](https://labkey.org/Documentation/wiki-page.view?name=installPostgreSQLWindows)
+##### Java 8
+
+* You can download java 8 from [here](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
 
 ##### Wildfly
+* [Wildfly installation for windows](http://wwu-pi.github.io/tutorials/lectures/eai/010_tutorial_jboss_setup.html)
+* [Wildfly installation generic](https://docs.jboss.org/author/display/WFLY10/Getting+Started+Guide#GettingStartedGuide-Installation)
 
+Create an environment variable for the installation directory so that the deployment scripts can work.
+
+```
+export WILDFLY_INSTALL={some directory}
+```
 
 ##### JBoss A-MQ
 
-
-
+* How can download the A-MQ from [here](https://developers.redhat.com/products/amq/download/)
+* After you've installed A-MQ, you'll need to setup a user name and password. The environment scripts default to estafet/estafet.
+* You can define a guide for setting up credentials for A-MQ (here)[https://developers.redhat.com/products/amq/hello-world/]
 
 ## Architecture
+The application consists of 7 microservices + the user interface. These are deployed to openshift as pods. The postgres pod instance contains 6 databases, each "owned" by a microservice. The A-MQ broker processes messages sent to topics.
 
 ![alt tag](https://github.com/Estafet-LTD/estafet-microservices-scrum/blob/master/PodComponents.png)
 
