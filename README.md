@@ -20,29 +20,73 @@ This can cause a management headache, as the number of microservices grow. Fortu
 | [estafet-microservices-scrum-api-story](https://github.com/Estafet-LTD/estafet-microservices-scrum-api-story) | Microservices for managing stories. |
 | [estafet-microservices-scrum-api-task](https://github.com/Estafet-LTD/estafet-microservices-scrum-api-task) | Microservices for managing tasks. |
 | [estafet-microservices-scrum-basic-ui](https://github.com/Estafet-LTD/estafet-microservices-scrum-basic-ui) | Basic User Interface that uses the scrum microservices. |
-
-
 ## Getting started
+The entire application can be cloned in one go by recursively cloning the master repository.
 
+```
+git clone --recursive https://github.com/Estafet-LTD/estafet-microservices-scrum.git
+```
 
-There are a couple of deployment options for the demo application:
+There are a couple of installation options for the demo application:
 
 * Deployment to an Openshift Cluster
 * Deployment to local application server (JBoss EAP and Wildfly are supported out-of-the-box).
 
-
-
-
-The demo application can be deployed 
-
-### Prerequisites
-
-
-
 ### Openshift Installation
 
+tbd
 
-### Openshift
+
+### Local Installation
+Review the prerequities for the local installation for continuing.
+
+1. Change to the root directory for of the repository.
+2. Set all of the environment variables.
+    
+    ```
+    $ ./setallenv.sh
+    ```
+    
+3. Create the databases for each of the microservices 
+    
+    ```
+    $ sudo su postgres
+    bash-4.2$ createdb project-api
+    bash-4.2$ createdb sprint-api
+    bash-4.2$ createdb story-api
+    bash-4.2$ createdb task-api
+    bash-4.2$ createdb project-burndown
+    bash-4.2$ createdb sprint-burndown
+    ```
+    
+4. Generate all of the database schemas
+    
+    ```
+    ./drop-create-all-db.sh
+    ```
+    
+5. deploy all of the microservices
+
+    ```
+    ./deploy-all-services.sh
+    ```
+    
+You can now access the application using the following url:
+
+http://localhost:8080/projects
+
+#### Prerequisites
+Before installing the application you'll need to have a installed PostgreSQL, Wildfly (or JBoss EAP) and JBoss A-MQ (or ActiveMQ). If you choose to install the application on a different application server (other than Wildfly or JBoss EAP), you'll need to modify the source to change the context route of each application. 
+
+##### PostgreSQL
+
+
+##### Wildfly
+
+
+##### JBoss A-MQ
+
+
 
 
 ## Architecture
