@@ -1,9 +1,7 @@
 # Estafet Microservices Scrum Demo Application
-The scrum demo application is built upon microservices and provides a tangible example of how microservices are implemented to address common application aspects, such as data management, stateful domain objects and reporting. It is a useful starting point for a Java engineer who is interesting in understanding how microservices are built.
+The scrum demo application is composed of microservices and provides a example of how microservices implement common application aspects, such as data management, stateful domain objects and reporting in a distributed architecture. It is a useful starting point for a Java engineer who is interesting in understanding how microservices are built.
 
-The application is designed to be deployed within an Openshift cluster and provides a convenient platform for demonstrating other aspects such as logging, monitoring, release management and testing.
-
-A scrum application was chosen for the demo because it is a business domain many are familiar with. Some of the behaviour is simplified to limit the scope, but the core elements of scrum, such as project backlogs, stories, tasks, sprints, scrum boards and of course project burndown and sprint burndown reports exist.
+The application is designed to be deployed within an Openshift cluster and provides a convenient platform for demonstrating aspects such as logging, monitoring, release management and testing for microservices.
 ## Structure
 One thing to note is that each microservice has its own git repository. If all of the microservices are stored in a single repository there is a risk that they could be unintentionally recoupled. Separate repositories means that each service has its own specific lifecycle and can also be released independently (an important aspect for microservices). 
 
