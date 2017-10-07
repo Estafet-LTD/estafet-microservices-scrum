@@ -39,7 +39,7 @@ The entire application source must be cloned in one go by recursively cloning th
 git clone --recursive https://github.com/Estafet-LTD/estafet-microservices-scrum.git
 ```
 
-Review the prerequities for the local installation for continuing.
+Review the [prerequities](https://github.com/Estafet-LTD/estafet-microservices-scrum#prerequisites) for the local installation for continuing.
 
 1. Change to the root directory for of the repository.
 2. Set all of the environment variables.
