@@ -109,7 +109,7 @@ export WILDFLY_INSTALL={some directory}
 
 * How can download the A-MQ from [here](https://developers.redhat.com/products/amq/download/)
 * After you've installed A-MQ, you'll need to setup a user name and password. The environment scripts default to estafet/estafet.
-* You can define a guide for setting up credentials for A-MQ (here)[https://developers.redhat.com/products/amq/hello-world/]
+* You can define a guide for setting up credentials for A-MQ [here](https://developers.redhat.com/products/amq/hello-world/)
 
 ## Architecture
 The application consists of 7 microservices + the user interface. These are deployed to openshift as pods. The postgres pod instance contains 6 databases, each "owned" by a microservice. The A-MQ broker processes messages sent to topics.
