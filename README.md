@@ -11,9 +11,7 @@ The application is designed to be deployed within an Openshift cluster and provi
 * Distributed Tracing with Jaegar
 
 ## Project Structure
-One thing to note is that each microservice has its own git repository. If all of the microservices are stored in a single repository there is a risk that they could be unintentionally recoupled. Separate repositories means that each service has its own specific lifecycle and can also be released independently (an important aspect for microservices). 
-
-This can cause a management headache, as the number of microservices grow. Fortunately git provides a neat solution to this problem in the form of submodules. 
+One thing to note is that each microservice has its own git repository. Separate repositories means that each service be released independently. 
 
 | Repository        | Description |
 | ----------------- |-------------|
