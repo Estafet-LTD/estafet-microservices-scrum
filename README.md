@@ -18,22 +18,27 @@ This can cause a management headache, as the number of microservices grow. Fortu
 | [estafet-microservices-scrum-api-task](https://github.com/Estafet-LTD/estafet-microservices-scrum-api-task) | Microservices for managing tasks. |
 | [estafet-microservices-scrum-basic-ui](https://github.com/Estafet-LTD/estafet-microservices-scrum-basic-ui) | Basic User Interface that uses the scrum microservices. |
 ## Getting started
-The entire application can be cloned in one go by recursively cloning the master repository.
-
-```
-git clone --recursive https://github.com/Estafet-LTD/estafet-microservices-scrum.git
-```
-
 There are a couple of installation options for the demo application:
 
 * Deployment to an Openshift Cluster
 * Deployment to local application server (JBoss EAP and Wildfly are supported out-of-the-box).
 
 ### Openshift Installation
+Only the master repository needs to be cloned for openshift installation.
+
+```
+git clone https://github.com/Estafet-LTD/estafet-microservices-scrum.git
+```
 
 tbd
 
 ### Local Installation
+The entire application source must be cloned in one go by recursively cloning the master repository.
+
+```
+git clone --recursive https://github.com/Estafet-LTD/estafet-microservices-scrum.git
+```
+
 Review the prerequities for the local installation for continuing.
 
 1. Change to the root directory for of the repository.
