@@ -2,7 +2,15 @@
 The scrum demo application is composed of microservices and provides a example of how microservices implement common application aspects, such as data management, stateful domain objects and reporting in a distributed architecture. It is a useful starting point for a Java engineer who is interesting in understanding how microservices are built.
 
 The application is designed to be deployed within an Openshift cluster and provides a convenient platform for demonstrating aspects such as logging, monitoring, release management and testing for microservices.
-## Structure
+
+## Contents
+
+* Project Structure
+* Getting Started
+* Architecture
+* Distributed with Jaegar
+
+## Project Structure
 One thing to note is that each microservice has its own git repository. If all of the microservices are stored in a single repository there is a risk that they could be unintentionally recoupled. Separate repositories means that each service has its own specific lifecycle and can also be released independently (an important aspect for microservices). 
 
 This can cause a management headache, as the number of microservices grow. Fortunately git provides a neat solution to this problem in the form of submodules. 
@@ -39,7 +47,7 @@ The entire application source must be cloned in one go by recursively cloning th
 git clone --recursive https://github.com/Estafet-LTD/estafet-microservices-scrum.git
 ```
 
-Review the [prerequities](https://github.com/Estafet-LTD/estafet-microservices-scrum#prerequisites) for the local installation for continuing.
+Review the [prerequities](https://github.com/Estafet-LTD/estafet-microservices-scrum#prerequisites) for the local installation before continuing.
 
 1. Change to the root directory for of the repository.
 2. Set all of the environment variables.
@@ -112,6 +120,10 @@ The application consists of 7 microservices + the user interface. These are depl
 Here's the overall business domain model.
 
 ![alt tag](https://github.com/Estafet-LTD/estafet-microservices-scrum/blob/master/UnboundedDomainModel.png)
+
+## Distributed with Jaegar
+
+tbd
 
 
 
