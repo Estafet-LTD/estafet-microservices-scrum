@@ -92,10 +92,9 @@ Note:- You need to create a password for the postgres db user. The environment s
 
 Create environment variables for the db schema generation
 
-	```
+
 	export POSTGRESQL_SERVICE_HOST=localhost
 	export POSTGRESQL_SERVICE_PORT=5432
-	```
 
 ##### Java 8
 
