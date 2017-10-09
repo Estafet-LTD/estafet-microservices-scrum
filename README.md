@@ -89,6 +89,14 @@ Note:- You need to create a password for the postgres db user. The environment s
 
 * [Linux Installation Guide](https://www.linode.com/docs/databases/postgresql/how-to-install-postgresql-relational-databases-on-centos-7)
 * [Windows Installation Guide](https://labkey.org/Documentation/wiki-page.view?name=installPostgreSQLWindows)
+
+Create environment variables for the db schema generation
+
+	```
+	export POSTGRESQL_SERVICE_HOST=localhost
+	export POSTGRESQL_SERVICE_PORT=5432
+	```
+
 ##### Java 8
 
 * You can download java 8 from [here](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
