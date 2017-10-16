@@ -1,0 +1,26 @@
+---
+- name: Install Estafet Microservices Application in Openshift
+  hosts: localhost
+  vars_files:
+    - vars.yml
+  tasks:
+  
+    - include: setup.yml
+    
+    - name: Login in Openshift
+      shell: "oc login --insecure-skip-tls-verify=true -u {{ username }} -p {{ password }} {{ openshift }}"
+      tags:
+        - openshift
+        
+    - name: Create a new Openshift project
+      shell: "oc new-project {{ project_name }}"
+      register: command_result
+      failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+      changed_when: "'exists' not in command_result.stderr"
+      tags:
+        - openshift
+        
+    - name: Define Openshift project
+      shell: "oc project {{ project_name }}"
+      tags:
+        - openshift  

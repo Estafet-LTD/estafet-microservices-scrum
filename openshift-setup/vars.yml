@@ -1,0 +1,70 @@
+---
+# UNCOMENT define the Absolute path where you want to checkout the sourcecode
+#workdir: "{{ ansible_user_dir }}/helloworld-msa-src"
+# UNCOMENT Define the OpenShift host:port address
+#openshift: 192.168.64.11:8443
+# Customize the domain of the project
+domain: app.192.168.64.11.nip.io
+# Your OpenShift credentials
+username: developer
+password: developer
+# Administrative credentials
+admin_username: system:admin
+admin_password: "''"
+# Uncomment the following line to adjust the SCC (not using CDK3/minishift)
+adjust_scc: true
+# Define the name of the OpenShift project
+project_name: helloworld-msa
+
+# Optional parts
+# Some users might have the MSA modules cloned locally already. For those cases, make this 'false' and
+# we'll not attempt to clone it again
+clone_modules: true
+
+# Define if we should deploy CI/CD capabilities with Jenkins
+deploy_jenkins: false
+#Define if we should deploy Hystrix and Kubeflix
+deploy_hystrix: false
+#Define if we should deploy Jaeger
+deploy_jaeger: false
+#Define if we should deploy Keycloak for SSO
+deploy_keycloak: false
+
+# Project definition - You don't need to change anything here
+msa_projects:
+  - name: hola
+    project: java
+    hystrix: true
+    probe: http://:8080/api/health
+    jolokia: false #This project doesn't support Jolokia
+    sso_support: true
+  - name: frontend
+    project: node
+    hystrix: false
+    probe: http://:8080/
+    jolokia: false #This project doesn't support Jolokia
+    sso_support: true
+  - name: bonjour
+    project: node
+    hystrix: false
+    probe: http://:8080/api/health
+    jolokia: false #This project doesn't support Jolokia
+    sso_support: true
+  - name: api-gateway
+    project: java
+    hystrix: true
+    probe: http://:8080/health
+    jolokia: false
+    sso_support: false
+  - name: ola
+    project: java
+    hystrix: true
+    probe: http://:8080/api/health
+    jolokia: false
+    sso_support: true
+  - name: aloha
+    project: java
+    hystrix: true
+    probe: http://:8080/api/health
+    jolokia: false
+    sso_support: true
