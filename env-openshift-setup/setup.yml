@@ -4,11 +4,10 @@
     msg: "[Target directory] and/or [OpenShift host] is not defined. Please edit vars.yml"
   when: (workdir is undefined) or (openshift is undefined)
 
-- name: Login in OpenShift as administrator
-  shell: "oc login --insecure-skip-tls-verify=true -u {{ admin_username }} -p {{ admin_password }} {{ openshift }}"
+- name: Login in OpenShift as a regular user
+  shell: "oc login --insecure-skip-tls-verify=true -u {{ username }} -p {{ password }} {{ openshift }}"
   tags:
     - openshift
-    - admin
 
 - name: Adjust SCC
   shell: "oc patch scc restricted -p '{\"runAsUser\":{\"type\":\"RunAsAny\"}}'"
@@ -21,10 +20,21 @@
 
 - name: Checkout source code from Github
   git:
-    repo: "https://github.com/Estafet-LTD/{{ item.name }}"
-    dest: "{{ workdir }}/{{ item.name }}"
+    repo: "https://github.com/Estafet-LTD/{{ item.repo }}"
+    dest: "{{ workdir }}/{{ item.repo }}"
     update: yes
   with_items: "{{ microservices_scrum_projects }}"
   when: "{{ clone_modules }}"
   tags:
     - git
+
+- name: Checkout xpaas image stream from Github
+  git:
+    repo: "https://github.com/Estafet-LTD/openshift-ansible.git"
+    dest: "{{ workdir }}/openshift-ansible"
+    update: yes
+  tags:
+    - git  
+
+
+    

@@ -3,14 +3,9 @@
 workdir: "{{ ansible_env.HOME }}/microservices-scrum"
 # UNCOMENT Define the OpenShift host:port address
 openshift: 192.168.99.100:8443
-# Customize the domain of the project
-domain: app.192.168.64.11.nip.io
 # Your OpenShift credentials
 username: developer
 password: developer
-# Administrative credentials
-admin_username: system:admin
-admin_password: "''"
 # Uncomment the following line to adjust the SCC (not using CDK3/minishift)
 adjust_scc: false
 # Define the name of the OpenShift project
@@ -23,27 +18,56 @@ clone_modules: true
 
 # Project definition - You don't need to change anything here
 microservices_scrum_projects:
+
   - name: project-api
-    project: java
+    repo: estafet-microservices-scrum-api-project
+    db: true
+    create_ddl: create-project-api-db.ddl
+    drop_ddl: drop-project-api-db.ddl
     probe: http://:8080/api
+    
   - name: project-burndown
-    project: java
+    repo: estafet-microservices-scrum-api-project-burndown
+    db: true
+    create_ddl: create-project-burndown-db.ddl
+    drop_ddl: drop-project-burndown-db.ddl
     probe: http://:8080/api
+    
   - name: sprint-api
-    project: java
+    repo: estafet-microservices-scrum-api-sprint
+    db: true
+    create_ddl: create-sprint-api-db.ddl
+    drop_ddl: drop-sprint-api-db.ddl
     probe: http://:8080/api
+    
   - name: sprint-board
-    project: java
+    repo: estafet-microservices-scrum-api-sprint-board
+    db: false
     probe: http://:8080/api
+    
   - name: sprint-burndown
-    project: java
+    repo: estafet-microservices-scrum-api-sprint-burndown
+    db: true
+    create_ddl: create-sprint-burndown-db.ddl
+    drop_ddl: drop-sprint-burndown-db.ddl
     probe: http://:8080/api
+    
   - name: story-api
-    project: java
+    repo: estafet-microservices-scrum-api-story
+    db: true
+    create_ddl: create-story-api-db.ddl
+    drop_ddl: drop-story-api-db.ddl
     probe: http://:8080/api
+    
   - name: task-api
-    project: java
+    repo: estafet-microservices-scrum-api-task
+    db: true
+    create_ddl: create-task-api-db.ddl
+    drop_ddl: drop-task-api-db.ddl
     probe: http://:8080/api
+    
   - name: basic-ui
-    project: java
+    repo: estafet-microservices-scrum-basic-ui
+    db: false
     probe: http://:8080
+    

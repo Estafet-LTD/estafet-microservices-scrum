@@ -24,3 +24,98 @@
       shell: "oc project {{ project_name }}"
       tags:
         - openshift  
+               
+    - name: Install xpaas image streams
+      shell: "oc create -f {{ workdir }}/openshift-ansible/roles/openshift_examples/files/examples/v3.7/xpaas-streams/jboss-image-streams.json -n {{ project_name }}"
+      register: command_result
+      failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+      changed_when: "'exists' not in command_result.stderr"
+      tags:
+        - openshift
+        - xpaas 
+      
+    - name: Install xpaas source to image templates
+      shell: "oc create -f {{ workdir }}/openshift-ansible/roles/openshift_examples/files/examples/v3.7/xpaas-templates -n {{ project_name }}"
+      register: command_result
+      failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+      changed_when: "'exists' not in command_result.stderr"
+      tags:
+        - openshift
+        - xpaas       
+
+    - name: Install the PostgreSQL server
+      shell : "oc new-app postgresql-persistent --name postgresql"
+      register: command_result
+      failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+      changed_when: "'exists' not in command_result.stderr"
+      tags:
+        - openshift
+        - a-mq            
+        
+                
+    - name: Install the JBoss A-MQ Message Broker
+      shell: "oc process amq63-basic -p IMAGE_STREAM_NAMESPACE={{ project_name }} | oc create -f -"
+      register: command_result
+      failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+      changed_when: "'exists' not in command_result.stderr"
+      tags:
+        - openshift
+        - a-mq        
+        
+    - name: Install Jeager
+      shell: "oc process -f https://raw.githubusercontent.com/jaegertracing/jaeger-openshift/master/all-in-one/jaeger-all-in-one-template.yml | oc create -f -"
+      register: command_result
+      failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+      changed_when: "'exists' not in command_result.stderr"
+      tags:
+        - openshift
+        - opentracing
+        - jaeger       
+        
+    - name: Read the List of Pods
+      shell: "oc get pods --selector app=postgresql -o json"
+      register: list_of_pods
+    
+    - name: Get the name of the PostgreSQL Pod
+      set_fact: db_pod="{{list_of_pods.stdout|from_json|json_query('items[0].metadata.name')}}"
+      
+    - name: Copy ddl to PostgreSQL Pod
+      shell: 'oc rsync --no-perms=true --include="*.ddl" --exclude="*" {{ workdir }}/{{ item.repo }}/ {{db_pod}}:/tmp'
+      with_items: "{{ microservices_scrum_projects }}"
+      when: "{{ item.db }}"
+      failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+      changed_when: "'exists' not in command_result.stderr"
+      tags:
+        - openshift
+        - postgresql
+
+    - name: Create the microservice databases on PostgreSQL Pod
+      shell: 'oc exec createdb {{ item.name }}'
+      with_items: "{{ microservices_scrum_projects }}"
+      when: "{{ item.db }}"
+      failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+      changed_when: "'exists' not in command_result.stderr"
+      tags:
+        - openshift
+        - postgresql
+
+    - name: Execute Drop ddl on PostgreSQL Pod
+      shell: 'oc exec {{db_pod}} psql -d {{ item.name }} -U postgres -f {{ item.drop_ddl }}'
+      with_items: "{{ microservices_scrum_projects }}"
+      when: "{{ item.db }}"
+      failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+      changed_when: "'exists' not in command_result.stderr"
+      tags:
+        - openshift
+        - postgresql
+
+    - name: Execute Create ddl on PostgreSQL Pod
+      shell: 'oc exec {{db_pod}} psql -d {{ item.name }} -U postgres -f {{ item.create_ddl }}'
+      with_items: "{{ microservices_scrum_projects }}"
+      when: "{{ item.db }}"
+      failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+      changed_when: "'exists' not in command_result.stderr"
+      tags:
+        - openshift
+        - postgresql
+      
