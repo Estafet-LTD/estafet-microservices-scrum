@@ -119,3 +119,10 @@
         - openshift
         - postgresql
       
+    - name: Create the microservices application from the source to image builder
+      shell: 'oc new-app redhat-openjdk18-openshift~https://github.com/Estafet-LTD/{{ item.repo }} --name={{ item.name }}'
+      with_items: "{{ microservices_scrum_projects }}"
+      failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+      changed_when: "'exists' not in command_result.stderr"
+      tags:
+        - openshift
