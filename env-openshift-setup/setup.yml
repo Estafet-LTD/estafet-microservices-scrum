@@ -1,0 +1,30 @@
+---
+- name: Verify if variables are set
+  fail:
+    msg: "[Target directory] and/or [OpenShift host] is not defined. Please edit vars.yml"
+  when: (workdir is undefined) or (openshift is undefined)
+
+- name: Login in OpenShift as administrator
+  shell: "oc login --insecure-skip-tls-verify=true -u {{ admin_username }} -p {{ admin_password }} {{ openshift }}"
+  tags:
+    - openshift
+    - admin
+
+- name: Adjust SCC
+  shell: "oc patch scc restricted -p '{\"runAsUser\":{\"type\":\"RunAsAny\"}}'"
+  when: adjust_scc
+
+- name: Create Workdir
+  file:
+    path: "{{ workdir }}"
+    state: directory
+
+- name: Checkout source code from Github
+  git:
+    repo: "https://github.com/Estafet-LTD/{{ item.name }}"
+    dest: "{{ workdir }}/{{ item.name }}"
+    update: yes
+  with_items: "{{ microservices_scrum_projects }}"
+  when: "{{ clone_modules }}"
+  tags:
+    - git
