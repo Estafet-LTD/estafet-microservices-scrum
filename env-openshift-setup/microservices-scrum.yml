@@ -50,8 +50,30 @@
       changed_when: "'exists' not in command_result.stderr"
       tags:
         - openshift
-        - a-mq            
-        
+        - a-mq   
+
+    - name: wait 20 seconds for postgresql
+      wait_for: timeout=20
+      delegate_to: localhost
+
+    - name: Set the db credentials
+      shell: "oc env dc postgresql -e POSTGRESQL_USER=postgres -e POSTGRESQL_PASSWORD=welcome1"
+      register: command_result
+      failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+      changed_when: "'exists' not in command_result.stderr"
+      tags:
+        - openshift
+        - postgres   
+
+    - include: postgres-vars.yml
+    
+    - name: Change the database credentials
+      shell: "oc env dc -e POSTGRESQL_PASSWORD=welcome1"
+      failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+      changed_when: "'exists' not in command_result.stderr"
+      tags:
+        - openshift       
+        - postgres         
                 
     - name: Install the JBoss A-MQ Message Broker
       shell: "oc process amq63-basic -p IMAGE_STREAM_NAMESPACE={{ project_name }} | oc create -f -"
@@ -62,6 +84,10 @@
         - openshift
         - a-mq        
         
+    - name: wait 30 seconds for a-mq
+      wait_for: timeout=30
+      delegate_to: localhost        
+        
     - name: Install Jeager
       shell: "oc process -f https://raw.githubusercontent.com/jaegertracing/jaeger-openshift/master/all-in-one/jaeger-all-in-one-template.yml | oc create -f -"
       register: command_result
@@ -71,14 +97,11 @@
         - openshift
         - opentracing
         - jaeger       
-        
-    - name: Read the List of Pods
-      shell: "oc get pods --selector app=postgresql -o json"
-      register: list_of_pods
-    
-    - name: Get the name of the PostgreSQL Pod
-      set_fact: db_pod="{{list_of_pods.stdout|from_json|json_query('items[0].metadata.name')}}"
-      
+
+    - name: wait 10 seconds for jaeger
+      wait_for: timeout=10
+      delegate_to: localhost        
+     
     - name: Copy ddl to PostgreSQL Pod
       shell: 'oc rsync --no-perms=true --include="*.ddl" --exclude="*" {{ workdir }}/{{ item.repo }}/ {{db_pod}}:/tmp'
       with_items: "{{ microservices_scrum_projects }}"
@@ -90,7 +113,7 @@
         - postgresql
 
     - name: Create the microservice databases on PostgreSQL Pod
-      shell: 'oc exec createdb {{ item.name }}'
+      shell: 'oc exec {{db_pod}} createdb {{ item.name }}'
       with_items: "{{ microservices_scrum_projects }}"
       when: "{{ item.db }}"
       failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
@@ -126,3 +149,17 @@
       changed_when: "'exists' not in command_result.stderr"
       tags:
         - openshift
+    
+    - include: a-mq-vars.yml    
+    
+    - name: Set the environment variables for the db and message broker
+      shell: "oc env dc {{ item.name }} -e {{ item.db_url_env }}=jdbc:postgresql://{{ db_ip }}:5432/{{ item.name }} -e {{ item.db_user_env }}=postgres -e {{ item.db_db_env }}=welcome1 -e JBOSS_A_MQ_BROKER_URL=tcp://{{ broker_ip }}:61616 -e JBOSS_A_MQ_BROKER_USER={{ broker_pod_user }} -e JBOSS_A_MQ_BROKER_PASSWORD={{ broker_pod_password }}"
+      with_items: "{{ microservices_scrum_projects }}"
+      failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+      changed_when: "'exists' not in command_result.stderr"
+      tags:
+        - openshift
+    
+    
+      
+            
