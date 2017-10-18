@@ -1,6 +1,6 @@
 ---
 # UNCOMENT define the Absolute path where you want to checkout the sourcecode
-workdir: "{{ ansible_env.HOME }}/microservices-scrum"
+workdir: "{{ ansible_env.HOME }}/.estafet"
 # UNCOMENT Define the OpenShift host:port address
 openshift: 192.168.99.100:8443
 # Your OpenShift credentials
@@ -24,7 +24,6 @@ microservices_scrum_projects:
     db: true
     create_ddl: create-project-api-db.ddl
     drop_ddl: drop-project-api-db.ddl
-    probe: http://:8080/api
     db_url_env: PROJECT_API_JDBC_URL
     db_user_env: PROJECT_API_DB_USER
     db_db_env: PROJECT_API_DB_PASSWORD
@@ -36,7 +35,6 @@ microservices_scrum_projects:
     db: true
     create_ddl: create-project-burndown-db.ddl
     drop_ddl: drop-project-burndown-db.ddl
-    probe: http://:8080/api 
     db_url_env: PROJECT_BURNDOWN_REPOSITORY_JDBC_URL
     db_user_env: PROJECT_BURNDOWN_REPOSITORY_DB_USER
     db_db_env: PROJECT_BURNDOWN_REPOSITORY_DB_PASSWORD    
@@ -48,7 +46,6 @@ microservices_scrum_projects:
     db: true
     create_ddl: create-sprint-api-db.ddl
     drop_ddl: drop-sprint-api-db.ddl
-    probe: http://:8080/api
     db_url_env: SPRINT_API_JDBC_URL
     db_user_env: SPRINT_API_DB_USER
     db_db_env: SPRINT_API_DB_PASSWORD    
@@ -58,7 +55,6 @@ microservices_scrum_projects:
   - name: sprint-board
     repo: estafet-microservices-scrum-api-sprint-board
     db: false
-    probe: http://:8080/api
     service_host: sprint-board.microservices-scrum.svc
     service_uri_env: SPRINT_BOARD_API_SERVICE_URI
     
@@ -67,7 +63,6 @@ microservices_scrum_projects:
     db: true
     create_ddl: create-sprint-burndown-db.ddl
     drop_ddl: drop-sprint-burndown-db.ddl
-    probe: http://:8080/api
     db_url_env: SPRINT_BURNDOWN_JDBC_URL
     db_user_env: SPRINT_BURNDOWN_DB_USER
     db_db_env: SPRINT_BURNDOWN_DB_PASSWORD    
@@ -80,7 +75,6 @@ microservices_scrum_projects:
     db: true
     create_ddl: create-story-api-db.ddl
     drop_ddl: drop-story-api-db.ddl
-    probe: http://:8080/api
     db_url_env: STORY_API_JDBC_URL
     db_user_env: STORY_API_DB_USER
     db_db_env: STORY_API_DB_PASSWORD    
@@ -92,7 +86,6 @@ microservices_scrum_projects:
     db: true
     create_ddl: create-task-api-db.ddl
     drop_ddl: drop-task-api-db.ddl
-    probe: http://:8080/api 
     db_url_env: TASK_API_JDBC_URL
     db_user_env: TASK_API_DB_USER
     db_db_env: TASK_API_DB_PASSWORD    
@@ -102,7 +95,6 @@ microservices_scrum_projects:
   - name: basic-ui
     repo: estafet-microservices-scrum-basic-ui
     db: false
-    probe: http://:8080
     service_host: basic-ui.microservices-scrum.svc
     service_uri_env: BASIC_UI_SERVICE_URI
     

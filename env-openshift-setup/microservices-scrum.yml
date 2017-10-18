@@ -13,7 +13,7 @@
         - openshift
         
     - name: Create a new Openshift project
-      shell: "oc new-project {{ project_name }}"
+      shell: "oc new-project {{ project_name }} --display-name='Scrum Management Demo'"
       register: command_result
       failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
       changed_when: "'exists' not in command_result.stderr"
@@ -53,7 +53,7 @@
         - postgres   
 
     - name: wait for postgresql
-      wait_for: timeout=10
+      wait_for: timeout=90
       delegate_to: localhost
 
     - name: Set the db credentials
@@ -66,7 +66,7 @@
         - postgres   
 
     - name: wait for postgresql to redeploy
-      wait_for: timeout=10
+      wait_for: timeout=20
       delegate_to: localhost
 
     - include: postgres-vars.yml
@@ -125,7 +125,7 @@
         - a-mq        
         
     - name: wait for a-mq
-      wait_for: timeout=10
+      wait_for: timeout=60
       delegate_to: localhost        
 
     - include: a-mq-vars.yml    
@@ -143,22 +143,11 @@
     - name: wait for jaeger
       wait_for: timeout=10
       delegate_to: localhost          
+
+    - include: services-vars.yml    
       
-    - name: Create the microservices application from the source to image builder
-      shell: 'oc new-app redhat-openjdk18-openshift~https://github.com/Estafet-LTD/{{ item.repo }} --name={{ item.name }}'
-      register: command_result
-      with_items: "{{ microservices_scrum_projects }}"
-      failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
-      changed_when: "'exists' not in command_result.stderr"
-      tags:
-        - openshift
-    
-    - name: wait for the services to build
-      wait_for: timeout=5
-      delegate_to: localhost   
-    
-    - name: Set the environment variables for the db and message broker
-      shell: "oc env dc {{ item.name }} -e {{ item.db_url_env }}=jdbc:postgresql://{{ db_ip }}:5432/{{ item.name }} -e {{ item.db_user_env }}=postgres -e {{ item.db_db_env }}=welcome1 -e JBOSS_A_MQ_BROKER_URL=tcp://{{ broker_ip }}:61616 -e JBOSS_A_MQ_BROKER_USER={{ broker_pod_user }} -e JBOSS_A_MQ_BROKER_PASSWORD={{ broker_pod_password }}"
+    - name: Create the microservices application from the source to image builder for db application
+      shell: 'oc new-app redhat-openjdk18-openshift~https://github.com/Estafet-LTD/{{ item.repo }} --name={{ item.name }} -e {{ item.db_url_env }}=jdbc:postgresql://{{ db_ip }}:5432/{{ item.name }} -e {{ item.db_user_env }}=postgres -e {{ item.db_db_env }}=welcome1 -e JBOSS_A_MQ_BROKER_URL=tcp://{{ broker_ip }}:61616 -e JBOSS_A_MQ_BROKER_USER={{ broker_pod_user }} -e JBOSS_A_MQ_BROKER_PASSWORD={{ broker_pod_password }} {{ service_envs }} && sleep 120'
       register: command_result
       when: "{{ item.db }}"
       with_items: "{{ microservices_scrum_projects }}"
@@ -166,23 +155,23 @@
       changed_when: "'exists' not in command_result.stderr"
       tags:
         - openshift
-
-    - name: wait for the services to redeploy
-      wait_for: timeout=5
-      delegate_to: localhost  
-    
-    - include: services-vars.yml    
-
-    - name: Set the environment variables services
-      shell: "oc env dc {{ item.name }} {{ service_envs }}"
+        
+    - name: Create the microservices application from the source to image builder for non db applications
+      shell: 'oc new-app redhat-openjdk18-openshift~https://github.com/Estafet-LTD/{{ item.repo }} --name={{ item.name }} {{ service_envs }} && sleep 120'
       register: command_result
+      when: "{{ item.db }} == false"
       with_items: "{{ microservices_scrum_projects }}"
       failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
       changed_when: "'exists' not in command_result.stderr"
       tags:
-        - openshift
+        - openshift        
+      
+    - name: Expose Basic UI
+      shell: "oc expose service basic-ui"
+      register: command_result
+      failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+      changed_when: "'exists' not in command_result.stderr"
+      tags:
+        - openshift           
 
-    - name: wait for the services to redeploy
-      wait_for: timeout=5
-      delegate_to: localhost        
             
