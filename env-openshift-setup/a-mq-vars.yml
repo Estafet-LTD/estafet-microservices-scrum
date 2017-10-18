@@ -13,9 +13,13 @@
       
 - name: Get the user name for the Broker Pod
   set_fact: broker_pod_user="{{broker_pod_vars|json_query(broker_query_user)}}"
+
+- set_fact: broker_pod_user={{broker_pod_user|replace("[u", "")|replace("]", "")}}
     
 - name: Get the password for the Broker Pod
   set_fact: broker_pod_password="{{broker_pod_vars|json_query(broker_query_password)}}"    
+  
+- set_fact: broker_pod_password={{broker_pod_password|replace("[u", "")|replace("]", "")}}  
 
 - name: Read the broker pod services
   shell: "oc get service/broker-amq-tcp -o json"
@@ -23,9 +27,3 @@
       
 - name: Get the cluster id address for the broker
   set_fact: broker_ip="{{list_of_broker_services.stdout|from_json|json_query('spec.clusterIP')}}"      
-
-#- name: get the vars
-#  set_fact: item.env=hello
-#  with_items: "{{ microservices_scrum_projects }}"
-#  
-#- debug: var=microservices_scrum_projects
