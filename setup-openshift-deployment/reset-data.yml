@@ -1,7 +1,8 @@
 ---
 - name: Resets the data for microservices
   hosts: localhost
-  vars_files: vars.yml
+  vars_files: 
+    - vars.yml
   tasks:
   
     - include: setup.yml
