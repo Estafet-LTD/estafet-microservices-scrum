@@ -12,6 +12,17 @@
 
     - include: postgres-vars.yml
 
+    - name: Copy ddl to PostgreSQL Pod
+      shell: 'oc rsync --no-perms=true --include="*.ddl" --exclude="*" {{ workdir }}/{{ item.repo }}/ {{db_pod}}:/tmp'
+      register: command_result
+      when: "{{ item.db }}"
+      with_items: "{{ microservices_scrum_projects }}"
+      failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+      changed_when: "'exists' not in command_result.stderr"
+      tags:
+        - openshift
+        - postgresql
+
     - name: Execute Drop ddl on PostgreSQL Pod
       shell: 'oc exec {{db_pod}} -- /bin/sh -i -c "psql -d {{ item.name }} -U postgres -f /tmp/{{ item.drop_ddl }}"'
       register: command_result
