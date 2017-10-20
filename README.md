@@ -8,7 +8,7 @@ The application is designed to be deployed within an Openshift cluster and provi
 * [Project Structure](https://github.com/Estafet-LTD/estafet-microservices-scrum#project-structure)
 * [Getting Started](https://github.com/Estafet-LTD/estafet-microservices-scrum#getting-started)
 * [Architecture](https://github.com/Estafet-LTD/estafet-microservices-scrum#architecture)
-* Distributed Tracing with Jaegar
+* [Distributed Tracing with Jaegar](https://github.com/Estafet-LTD/estafet-microservices-scrum#distributed-tracing-with-jaegar)
 
 ## Project Structure
 One thing to note is that each microservice has its own git repository. Separate repositories means that each service be released independently. 
@@ -40,8 +40,7 @@ Here's the overall business domain model.
 ![alt tag](https://github.com/Estafet-LTD/estafet-microservices-scrum/blob/master/UnboundedDomainModel.png)
 
 ## Distributed Tracing with Jaegar
-
-tbd
+You video coming soon...
 
 
 
