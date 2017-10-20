@@ -26,14 +26,8 @@ One thing to note is that each microservice has its own git repository. Separate
 ## Getting started
 There are a couple of installation options for the demo application:
 
-* Deployment to an Openshift Cluster
-* Deployment to local application server (JBoss EAP and Wildfly are supported out-of-the-box).
-
-### Openshift Installation
-The openshift deployment is based on ansible. You can find the instructions [here.](https://github.com/Estafet-LTD/estafet-microservices-scrum/tree/master/setup-openshift-deployment)
-
-### Local Installation
-If you do not want to deploy this application to openshift, you can still run this. You can find the sintructions here.
+* [Deployment to an Openshift Cluster](https://github.com/Estafet-LTD/estafet-microservices-scrum/tree/master/setup-openshift-deployment)
+* Deployment to local development environment
 
 ## Architecture
 The application consists of 7 microservices + the user interface. These are deployed to openshift as pods. The postgres pod instance contains 6 databases, each "owned" by a microservice. The A-MQ broker processes messages sent to topics.
