@@ -4,9 +4,7 @@
   vars_files: 
     - vars.yml
   tasks:
-  
-    - include: setup.yml
-    
+     
     - name: Login in Openshift
       shell: "oc login --insecure-skip-tls-verify=true -u {{ username }} -p {{ password }} {{ openshift }}"
       tags:
