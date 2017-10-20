@@ -1,0 +1,48 @@
+---
+- name: Resets the data for microservices
+  hosts: localhost
+  vars_files: vars.yml
+  tasks:
+  
+    - include: setup.yml
+    
+    - name: Login in Openshift
+      shell: "oc login --insecure-skip-tls-verify=true -u {{ username }} -p {{ password }} {{ openshift }}"
+      tags:
+        - openshift    
+
+    - include: postgres-vars.yml
+
+    - name: Execute Drop ddl on PostgreSQL Pod
+      shell: 'oc exec {{db_pod}} -- /bin/sh -i -c "psql -d {{ item.name }} -U postgres -f /tmp/{{ item.drop_ddl }}"'
+      register: command_result
+      when: "{{ item.db }}"
+      with_items: "{{ microservices_scrum_projects }}"
+      failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+      changed_when: "'exists' not in command_result.stderr"
+      tags:
+        - openshift
+        - postgresql
+
+    - name: Execute Create ddl on PostgreSQL Pod
+      shell: 'oc exec {{db_pod}} -- /bin/sh -i -c "psql -d {{ item.name }} -U postgres -f /tmp/{{ item.create_ddl }}"'
+      register: command_result
+      when: "{{ item.db }}"
+      with_items: "{{ microservices_scrum_projects }}"
+      failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+      changed_when: "'exists' not in command_result.stderr"
+      tags:
+        - openshift
+        - postgresql
+      
+    - name: Redeploy all of the applications that have databases
+      shell: "oc deploy {{ item.name }} --latest && sleep 5"
+      register: command_result
+      when: "{{ item.db }}"
+      with_items: "{{ microservices_scrum_projects }}"      
+      failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+      changed_when: "'exists' not in command_result.stderr"
+      tags:
+        - openshift           
+
+            
