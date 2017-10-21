@@ -33,7 +33,7 @@ The playbook also assumes that the Openshift CLI `oc` is installed on the same m
 ## Steps
 
 ### Step #1
-Clone the master repository to a directory for your choice.
+Clone the master repository to a directory of your choice.
 
 ```
 git clone https://github.com/Estafet-LTD/estafet-microservices-scrum.git
