@@ -5,6 +5,17 @@
     - vars.yml
   tasks:
      
+    - name: Checkout source code from Github for db schemas
+      git:
+        repo: "https://github.com/Estafet-LTD/{{ item.repo }}"
+        dest: "{{ workdir }}/{{ item.repo }}"
+        update: yes
+      when: "{{ item.db }}"
+      with_items: "{{ microservices_scrum_projects }}"
+      when: "{{ clone_modules }}"
+      tags:
+        - git     
+     
     - name: Login in Openshift
       shell: "oc login --insecure-skip-tls-verify=true -u {{ username }} -p {{ password }} {{ openshift }}"
       tags:
