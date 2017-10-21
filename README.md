@@ -26,7 +26,7 @@ One thing to note is that each microservice has its own git repository. Separate
 ## Getting started
 There are a couple of installation options for the demo application:
 
-* [Deployment to an Openshift](https://github.com/Estafet-LTD/estafet-microservices-scrum/tree/master/setup-openshift-deployment)
+* [Deployment to Openshift](https://github.com/Estafet-LTD/estafet-microservices-scrum/tree/master/setup-openshift-deployment)
 * [Setting up a Development Environment](https://github.com/Estafet-LTD/estafet-microservices-scrum/tree/master/setup-development-environment)
 
 ## Architecture
