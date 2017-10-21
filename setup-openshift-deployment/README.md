@@ -19,6 +19,11 @@ Windows users will need to install ansible using Windows Subsytem for Linux (WSL
 
 https://www.jeffgeerling.com/blog/2017/using-ansible-through-windows-10s-subsystem-linux
 
+#### MAC OS X Users
+Mac users can easily install ansible provided homebrew isinstalled. For a comprehensive description, please consult this article. 
+
+https://hvops.com/articles/ansible-mac-osx/
+
 ### Openshift
 The ansible playbook assumes that you have installed Openshift on your local development machine. If this is not the case, you will need to amend the ansible `vars.yml` file and modify the `openshift: 192.168.99.100:8443` directive.
 
