@@ -46,7 +46,7 @@ Run the playbook. The playbook takes about 20 mins complete.
 
 ```
 $ cd estafet-microservices-scrum/setup-openshift-deployment
-$ ansible-playbook microservices-scrum.yml --connection=local
+$ ansible-playbook microservices-scrum.yml
 
 ```
 
@@ -54,7 +54,7 @@ $ ansible-playbook microservices-scrum.yml --connection=local
 You can reset the application data by executing the following playbook. This will redeploy all of database dependent microservices so it takes about a 30 seconds to complete.
 
 ```
-ansible-playbook reset-data.yml --connection=local
+ansible-playbook reset-data.yml
 
 ```
 
