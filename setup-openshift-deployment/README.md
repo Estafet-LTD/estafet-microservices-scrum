@@ -1,5 +1,5 @@
 # Deploying the Scrum Application to Openshift
-Installing and configuring the scrum demo application to openshift manually is a manual process. There are 11 applications in total (8 microservices + db + jaeger + message broker). Fortunately this process has been automated using Ansible.
+Installing and configuring the scrum demo application to openshift manually is a lengthy process. There are 11 applications in total (8 microservices + db + jaeger + message broker). Fortunately this process has been automated using Ansible.
 
 ## Prerequisites
 Please review the prerequisites below before continuing with the deployment steps:
