@@ -7,13 +7,6 @@ Please review the prerequisites below before continuing with the deployment step
 ### Ansible
 Ansible is installed as a linux application, but it is possible to install it on Windows 10 and Mac OS X machines.
 
-### Additional Python Library
-The ansible playbook requires a python module that is not always installed with the standard ansible distributions.
-
-```
-sudo apt-get install python-jmespath
-```
-
 #### Windows Users
 Windows users will need to install ansible using Windows Subsytem for Linux (WSL). For instructions on how to install anisble on a Window 10 machine, please refer to this excellent article.
 
@@ -23,6 +16,13 @@ https://www.jeffgeerling.com/blog/2017/using-ansible-through-windows-10s-subsyst
 Mac users can easily install ansible provided homebrew isinstalled. For a comprehensive description, please consult this article. 
 
 https://hvops.com/articles/ansible-mac-osx/
+
+#### Additional Python Library
+The ansible playbook requires a python module that is not always installed with the standard ansible distributions.
+
+```
+sudo apt-get install python-jmespath
+```
 
 ### Openshift
 The ansible playbook assumes that you have installed Openshift on your local development machine. If this is not the case, you will need to amend the ansible `vars.yml` file and modify the `openshift: 192.168.99.100:8443` directive.
