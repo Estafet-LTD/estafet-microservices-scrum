@@ -30,7 +30,7 @@ There are a couple of installation options for the demo application:
 * [Setting up a Development Environment](https://github.com/Estafet-LTD/estafet-microservices-scrum/tree/master/setup-development-environment)
 
 ## Architecture
-The application consists of 7 microservices + the user interface. These are deployed to openshift as pods. The postgres pod instance contains 6 databases, each "owned" by a microservice. The A-MQ broker processes messages sent to topics.
+The application consists of 7 microservices + the user interface. These are deployed to openshift as pods. The postgres pod instance contains 6 databases, each "owned" by a microservice. The A-MQ broker processes messages sent to topics and distributes these to microservices that have subscribedtothose topics.
 
 ![alt tag](https://github.com/Estafet-LTD/estafet-microservices-scrum/blob/master/PodComponents.png)
 
