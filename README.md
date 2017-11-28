@@ -40,7 +40,8 @@ Here's the overall business domain model.
 ![alt tag](https://github.com/Estafet-LTD/estafet-microservices-scrum/blob/master/UnboundedDomainModel.png)
 
 ## Distributed Tracing with Jaegar
-Youtube video coming soon...
+
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/EdFYvUBaKbY/0.jpg)](https://www.youtube.com/watch?v=EdFYvUBaKbY)
 
 
 
