@@ -41,9 +41,11 @@ Here's the overall business domain model.
 
 ## Distributed Tracing with Jaegar
 Here's a short summary of the Opentracing and Jaeger with microservices.
+
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/EdFYvUBaKbY/0.jpg)](https://www.youtube.com/watch?v=EdFYvUBaKbY)
 
 This is a more detailed walkthrough of the scrum demo application and it's integration with Jaeger.
+
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/U04MzSGzF3s/0.jpg)](https://www.youtube.com/watch?v=U04MzSGzF3s)
 
 
