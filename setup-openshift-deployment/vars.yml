@@ -2,7 +2,7 @@
 # UNCOMENT define the Absolute path where you want to checkout the sourcecode
 workdir: "{{ ansible_env.HOME }}/.estafet"
 # UNCOMENT Define the OpenShift host:port address
-openshift: 192.168.99.100:8443
+openshift: 192.168.99.101:8443
 # Your OpenShift credentials
 username: developer
 password: developer
@@ -18,7 +18,12 @@ clone_modules: true
 
 # Project definition - You don't need to change anything here
 microservices_scrum_projects:
-
+  - name: gateway
+    repo: estafet-microservices-scrum-gateway
+    db: false
+    service_host: gateway.microservices-scrum.svc
+    service_uri_env: GATEWAY_SERVICE_URI
+    
   - name: project-api
     repo: estafet-microservices-scrum-api-project
     db: true
