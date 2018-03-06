@@ -34,6 +34,8 @@ microservices_scrum_projects:
     db_db_env: PROJECT_API_DB_PASSWORD
     service_host: project-api.microservices-scrum.svc 
     service_uri_env: PROJECT_API_SERVICE_URI
+    gateway_service_host: gateway.microservices-scrum.svc:8080/project-api
+    gateway_service_uri_env: PROJECT_GATEWAY_SERVICE_URI
     
   - name: project-burndown
     repo: estafet-microservices-scrum-api-project-burndown
@@ -56,6 +58,8 @@ microservices_scrum_projects:
     db_db_env: SPRINT_API_DB_PASSWORD    
     service_host: sprint-api.microservices-scrum.svc
     service_uri_env: SPRINT_API_SERVICE_URI
+    gateway_service_host: gateway.microservices-scrum.svc:8080/sprint-api
+    gateway_service_uri_env: SPRINT_GATEWAY_SERVICE_URI
     
   - name: sprint-board
     repo: estafet-microservices-scrum-api-sprint-board
@@ -85,6 +89,8 @@ microservices_scrum_projects:
     db_db_env: STORY_API_DB_PASSWORD    
     service_host: story-api.microservices-scrum.svc
     service_uri_env: STORY_API_SERVICE_URI
+    gateway_service_host: gateway.microservices-scrum.svc:8080/story-api
+    gateway_service_uri_env: STORY_GATEWAY_SERVICE_URI
     
   - name: task-api
     repo: estafet-microservices-scrum-api-task

@@ -4,4 +4,7 @@
 
 - set_fact: service_envs="{{ service_envs }} -e {{ item.service_uri_env }}=http://{{ item.service_host }}:8080"
   with_items: "{{ microservices_scrum_projects }}"
-  
+
+- set_fact: service_envs="{{ service_envs }} -e {{ item.gateway_service_uri_env }}=http://{{ item.gateway_service_host }}"
+  when: item.gateway_service_uri_env is defined
+  with_items: "{{ microservices_scrum_projects }}"  
