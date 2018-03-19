@@ -18,6 +18,12 @@ clone_modules: true
 
 # Project definition - You don't need to change anything here
 microservices_scrum_projects:
+  - name: discovery
+    repo: estafet-microservices-scrum-api-discovery
+    db: false
+    service_host: discovery.microservices-scrum.svc
+    service_uri_env: DISCOVERY_SERVICE_URI
+    
   - name: gateway
     repo: estafet-microservices-scrum-gateway
     db: false
