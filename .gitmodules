@@ -1,3 +1,6 @@
+[submodule "estafet-microservices-scrum-api-discovery"]
+	path = estafet-microservices-api-discovery
+	url = https://github.com/Estafet-LTD/estafet-microservices-scrum-api-discovery.git
 [submodule "estafet-microservices-scrum-gateway"]
 	path = estafet-microservices-scrum-gateway
 	url = https://github.com/Estafet-LTD/estafet-microservices-scrum-gateway.git
