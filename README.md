@@ -15,6 +15,8 @@ One thing to note is that each microservice has its own git repository. Separate
 
 | Repository        | Description |
 | ----------------- |-------------|
+| [estafet-microservices-scrum-api-discovery](https://github.com/Estafet-LTD/estafet-microservices-scrum-api-discovery) | Service Discovery for microservices. |
+| [estafet-microservices-scrum-api-gateway](https://github.com/Estafet-LTD/estafet-microservices-scrum-api-gateway) | Microservices API Gateway. |
 | [estafet-microservices-scrum-api-project](https://github.com/Estafet-LTD/estafet-microservices-scrum-api-project) | Microservices for managing scrum projects. |
 | [estafet-microservices-scrum-api-project-burndown](https://github.com/Estafet-LTD/estafet-microservices-scrum-api-project-burndown) | Microservices for aggregating and generating project burndown reports. |
 | [estafet-microservices-scrum-api-sprint](https://github.com/Estafet-LTD/estafet-microservices-scrum-api-sprint) | Microservices for managing sprints. |
@@ -30,9 +32,9 @@ There are a couple of installation options for the demo application:
 * [Setting up a Development Environment](https://github.com/Estafet-LTD/estafet-microservices-scrum/tree/master/setup-development-environment)
 
 ## Architecture
-The application consists of 7 microservices + the user interface. These are deployed to openshift as pods. The postgres pod instance contains 6 databases, each "owned" by a microservice. The A-MQ broker processes messages sent to topics and distributes these to microservices that have subscribedtothose topics.
+The application consists of 9 microservices + the user interface. These are deployed to openshift as pods. The postgres pod instance contains 6 databases, each "owned" by a microservice. The A-MQ broker processes messages sent to topics and distributes these to microservices that have subscribedtothose topics.
 
-![alt tag](https://github.com/Estafet-LTD/estafet-microservices-scrum/blob/master/PodComponents.png)
+![alt tag](https://github.com/Estafet-LTD/estafet-microservices-scrum/blob/master/Estafet-Scrum-App-Gateway_V2.PNG)
 
 ### Domain Model
 Here's the overall business domain model.
