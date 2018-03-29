@@ -1,9 +1,3 @@
-[submodule "estafet-microservices-scrum-api-discovery"]
-	path = estafet-microservices-api-discovery
-	url = https://github.com/Estafet-LTD/estafet-microservices-scrum-api-discovery.git
-[submodule "estafet-microservices-scrum-gateway"]
-	path = estafet-microservices-scrum-gateway
-	url = https://github.com/Estafet-LTD/estafet-microservices-scrum-gateway.git
 [submodule "estafet-microservices-scrum-api-project"]
 	path = estafet-microservices-scrum-api-project
 	url = https://github.com/Estafet-LTD/estafet-microservices-scrum-api-project.git
@@ -28,3 +22,9 @@
 [submodule "estafet-microservices-scrum-api-task"]
 	path = estafet-microservices-scrum-api-task
 	url = https://github.com/Estafet-LTD/estafet-microservices-scrum-api-task.git
+[submodule "estafet-microservices-scrum-api-discovery"]
+	path = estafet-microservices-scrum-api-discovery
+	url = https://github.com/Estafet-LTD/estafet-microservices-scrum-api-discovery
+[submodule "estafet-microservices-scrum-api-gateway"]
+	path = estafet-microservices-scrum-api-gateway
+	url = https://github.com/Estafet-LTD/estafet-microservices-scrum-api-gateway
