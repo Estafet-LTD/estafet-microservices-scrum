@@ -20,7 +20,7 @@
 
 - name: Checkout source code from Github
   git:
-    repo: "https://github.com/Estafet-LTD/{{ item.repo }}"
+    repo: "{{ github }}/{{ item.repo }}"
     dest: "{{ workdir }}/{{ item.repo }}"
     update: yes
   with_items: "{{ microservices_scrum_projects }}"

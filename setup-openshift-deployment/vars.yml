@@ -2,7 +2,7 @@
 # UNCOMENT define the Absolute path where you want to checkout the sourcecode
 workdir: "{{ ansible_env.HOME }}/.estafet"
 # UNCOMENT Define the OpenShift host:port address
-openshift: 192.168.99.100:8443
+openshift: 10.0.75.2:8443
 # Your OpenShift credentials
 username: developer
 password: developer
@@ -10,108 +10,43 @@ password: developer
 adjust_scc: false
 # Define the name of the OpenShift project
 project_name: microservices-scrum
-
+# defines the location of the estafet github (change this if you have forked and want to use another github)
+github: https://github.com/Estafet-LTD
+# specify whether to remove the readiness probe for amq - this is a workaround for an issue with oc cluster up on windows
+remove_amq_readiness: true
 # Optional parts
 # Some users might have the MSA modules cloned locally already. For those cases, make this 'false' and
 # we'll not attempt to clone it again
 clone_modules: true
-
 # Project definition - You don't need to change anything here
 microservices_scrum_projects:
-  - name: discovery
-    repo: estafet-microservices-scrum-api-discovery
-    db: false
-    service_host: discovery.microservices-scrum.svc
-    service_uri_env: DISCOVERY_SERVICE_URI
-    
-  - name: gateway
-    repo: estafet-microservices-scrum-gateway
-    db: false
-    service_host: gateway.microservices-scrum.svc
-    service_uri_env: GATEWAY_SERVICE_URI
+#  - name: discovery
+#    repo: estafet-microservices-scrum-api-discovery
+#    
+#  - name: gateway
+#    repo: estafet-microservices-scrum-gateway
     
   - name: project-api
     repo: estafet-microservices-scrum-api-project
-    db: true
-    create_ddl: create-project-api-db.ddl
-    drop_ddl: drop-project-api-db.ddl
-    db_url_env: PROJECT_API_JDBC_URL
-    db_user_env: PROJECT_API_DB_USER
-    db_db_env: PROJECT_API_DB_PASSWORD
-    service_host: project-api.microservices-scrum.svc 
-    service_uri_env: PROJECT_API_SERVICE_URI
-    gateway_service_host: gateway.microservices-scrum.svc:8080/project-api
-    gateway_service_uri_env: PROJECT_GATEWAY_SERVICE_URI
     
-  - name: project-burndown
-    repo: estafet-microservices-scrum-api-project-burndown
-    db: true
-    create_ddl: create-project-burndown-db.ddl
-    drop_ddl: drop-project-burndown-db.ddl
-    db_url_env: PROJECT_BURNDOWN_REPOSITORY_JDBC_URL
-    db_user_env: PROJECT_BURNDOWN_REPOSITORY_DB_USER
-    db_db_env: PROJECT_BURNDOWN_REPOSITORY_DB_PASSWORD    
-    service_host: project-burndown.microservices-scrum.svc
-    service_uri_env: PROJECT_BURNDOWN_SERVICE_URI
+#  - name: project-burndown
+#    repo: estafet-microservices-scrum-api-project-burndown
+#   
+#  - name: sprint-api
+#    repo: estafet-microservices-scrum-api-sprint
+#   
+#  - name: sprint-board
+#    repo: estafet-microservices-scrum-api-sprint-board
+#    
+#  - name: sprint-burndown
+#    repo: estafet-microservices-scrum-api-sprint-burndown
+#    
+#  - name: story-api
+#    repo: estafet-microservices-scrum-api-story
+#   
+#  - name: task-api
+#    repo: estafet-microservices-scrum-api-task
     
-  - name: sprint-api
-    repo: estafet-microservices-scrum-api-sprint
-    db: true
-    create_ddl: create-sprint-api-db.ddl
-    drop_ddl: drop-sprint-api-db.ddl
-    db_url_env: SPRINT_API_JDBC_URL
-    db_user_env: SPRINT_API_DB_USER
-    db_db_env: SPRINT_API_DB_PASSWORD    
-    service_host: sprint-api.microservices-scrum.svc
-    service_uri_env: SPRINT_API_SERVICE_URI
-    gateway_service_host: gateway.microservices-scrum.svc:8080/sprint-api
-    gateway_service_uri_env: SPRINT_GATEWAY_SERVICE_URI
-    
-  - name: sprint-board
-    repo: estafet-microservices-scrum-api-sprint-board
-    db: false
-    service_host: sprint-board.microservices-scrum.svc
-    service_uri_env: SPRINT_BOARD_API_SERVICE_URI
-    
-  - name: sprint-burndown
-    repo: estafet-microservices-scrum-api-sprint-burndown
-    db: true
-    create_ddl: create-sprint-burndown-db.ddl
-    drop_ddl: drop-sprint-burndown-db.ddl
-    db_url_env: SPRINT_BURNDOWN_JDBC_URL
-    db_user_env: SPRINT_BURNDOWN_DB_USER
-    db_db_env: SPRINT_BURNDOWN_DB_PASSWORD    
-    service_host: sprint-burndown.microservices-scrum.svc
-    service_uri_env: SPRINT_BURNDOWN_SERVICE_URI
-    
-    
-  - name: story-api
-    repo: estafet-microservices-scrum-api-story
-    db: true
-    create_ddl: create-story-api-db.ddl
-    drop_ddl: drop-story-api-db.ddl
-    db_url_env: STORY_API_JDBC_URL
-    db_user_env: STORY_API_DB_USER
-    db_db_env: STORY_API_DB_PASSWORD    
-    service_host: story-api.microservices-scrum.svc
-    service_uri_env: STORY_API_SERVICE_URI
-    gateway_service_host: gateway.microservices-scrum.svc:8080/story-api
-    gateway_service_uri_env: STORY_GATEWAY_SERVICE_URI
-    
-  - name: task-api
-    repo: estafet-microservices-scrum-api-task
-    db: true
-    create_ddl: create-task-api-db.ddl
-    drop_ddl: drop-task-api-db.ddl
-    db_url_env: TASK_API_JDBC_URL
-    db_user_env: TASK_API_DB_USER
-    db_db_env: TASK_API_DB_PASSWORD    
-    service_host: task-api.microservices-scrum.svc
-    service_uri_env: TASK_API_SERVICE_URI
-    
-  - name: basic-ui
-    repo: estafet-microservices-scrum-basic-ui
-    db: false
-    service_host: basic-ui.microservices-scrum.svc
-    service_uri_env: BASIC_UI_SERVICE_URI
+#  - name: basic-ui
+#    repo: estafet-microservices-scrum-basic-ui
     
