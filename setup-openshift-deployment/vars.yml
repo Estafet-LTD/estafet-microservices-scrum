@@ -1,52 +1,40 @@
 ---
 # UNCOMENT define the Absolute path where you want to checkout the sourcecode
 workdir: "{{ ansible_env.HOME }}/.estafet"
+
 # UNCOMENT Define the OpenShift host:port address
 openshift: 10.0.75.2:8443
+
 # Your OpenShift credentials
 username: developer
 password: developer
+
 # Uncomment the following line to adjust the SCC (not using CDK3/minishift)
 adjust_scc: false
+
 # Define the name of the OpenShift project
 project_name: microservices-scrum
+
 # defines the location of the estafet github (change this if you have forked and want to use another github)
 github: https://github.com/Estafet-LTD
+
 # specify whether to remove the readiness probe for amq - this is a workaround for an issue with oc cluster up on windows
 remove_amq_readiness: true
-# Optional parts
+
 # Some users might have the MSA modules cloned locally already. For those cases, make this 'false' and
 # we'll not attempt to clone it again
 clone_modules: true
 # Project definition - You don't need to change anything here
+
 microservices_scrum_projects:
-#  - name: discovery
-#    repo: estafet-microservices-scrum-api-discovery
-#    
-#  - name: gateway
-#    repo: estafet-microservices-scrum-gateway
-    
-  - name: project-api
-    repo: estafet-microservices-scrum-api-project
-    
-  - name: project-burndown
-    repo: estafet-microservices-scrum-api-project-burndown
-   
-  - name: sprint-api
-    repo: estafet-microservices-scrum-api-sprint
-   
-  - name: sprint-board
-    repo: estafet-microservices-scrum-api-sprint-board
-    
-  - name: sprint-burndown
-    repo: estafet-microservices-scrum-api-sprint-burndown
-    
-  - name: story-api
-    repo: estafet-microservices-scrum-api-story
-   
-  - name: task-api
-    repo: estafet-microservices-scrum-api-task
-    
-  - name: basic-ui
-    repo: estafet-microservices-scrum-basic-ui
+#  - repo: estafet-microservices-scrum-api-discovery
+#  - repo: estafet-microservices-scrum-gateway
+  - repo: estafet-microservices-scrum-api-project   
+  - repo: estafet-microservices-scrum-api-project-burndown
+  - repo: estafet-microservices-scrum-api-sprint
+  - repo: estafet-microservices-scrum-api-sprint-board
+  - repo: estafet-microservices-scrum-api-sprint-burndown
+  - repo: estafet-microservices-scrum-api-story
+  - repo: estafet-microservices-scrum-api-task
+  - repo: estafet-microservices-scrum-basic-ui
     
