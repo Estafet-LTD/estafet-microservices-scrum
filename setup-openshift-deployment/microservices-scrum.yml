@@ -109,9 +109,9 @@
       changed_when: "'exists' not in command_result.stderr"
       tags:
         - openshift
-        - postgres   
+        - a-mq   
         
-    - name: Install Jeager
+    - name: Install Jaeger
       shell: "oc process -f https://raw.githubusercontent.com/jaegertracing/jaeger-openshift/master/all-in-one/jaeger-all-in-one-template.yml | oc create -f -"
       register: command_result
       failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
