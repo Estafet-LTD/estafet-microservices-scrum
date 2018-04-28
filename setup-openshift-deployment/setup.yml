@@ -4,7 +4,7 @@
     msg: "[Target directory] and/or [OpenShift host] is not defined. Please edit vars.yml"
   when: (workdir is undefined) or (openshift is undefined)
 
-- name: Login in OpenShift as a regular user
+- name: Login in OpenShift as {{ username }}
   shell: "oc login --insecure-skip-tls-verify=true -u {{ username }} -p {{ password }} {{ openshift }}"
   tags:
     - openshift
@@ -30,7 +30,7 @@
 
 - name: Checkout xpaas image stream from Github
   git:
-    repo: "https://github.com/Estafet-LTD/openshift-ansible.git"
+    repo: "https://github.com/openshift/openshift-ansible.git"
     dest: "{{ workdir }}/openshift-ansible"
     update: yes
   tags:
