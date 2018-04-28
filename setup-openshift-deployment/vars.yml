@@ -1,9 +1,9 @@
 ---
-# UNCOMENT define the Absolute path where you want to checkout the sourcecode
+# the Absolute path where you want to checkout the sourcecode
 workdir: "{{ ansible_env.HOME }}/.estafet"
 
 # UNCOMENT Define the OpenShift host:port address
-openshift: 10.0.75.2:8443
+#openshift: 10.0.75.2:8443
 
 # Your OpenShift credentials
 username: developer

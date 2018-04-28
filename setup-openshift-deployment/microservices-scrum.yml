@@ -51,9 +51,14 @@
         - openshift
         - postgres   
 
-    - name: wait for postgresql
-      wait_for: timeout=90
-      delegate_to: localhost
+    - name: Wait for the postgresql server to become available
+      shell : "oc rollout status dc/database"
+      register: command_result
+      failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+      changed_when: "'exists' not in command_result.stderr"
+      tags:
+        - openshift
+        - postgres   
 
     - name: Set the db credentials
       shell: "oc env dc postgresql -e POSTGRESQL_USER=postgres -e POSTGRESQL_PASSWORD=welcome1"
@@ -64,9 +69,14 @@
         - openshift
         - postgres   
 
-    - name: wait for postgresql to redeploy
-      wait_for: timeout=20
-      delegate_to: localhost
+    - name: Wait for the postgresql server to become available
+      shell : "oc rollout status dc/database"
+      register: command_result
+      failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+      changed_when: "'exists' not in command_result.stderr"
+      tags:
+        - openshift
+        - postgres   
                 
     - name: Install the JBoss A-MQ Message Broker
       shell: "oc process amq63-basic -p IMAGE_STREAM_NAMESPACE={{ project_name }} | oc create -f -"
@@ -86,10 +96,15 @@
       tags:
         - openshift
         - a-mq     
-        
-    - name: wait for a-mq
-      wait_for: timeout=60
-      delegate_to: localhost        
+
+    - name: Wait for the a-mq to become available
+      shell : "oc rollout status dc/broker-amq"
+      register: command_result
+      failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+      changed_when: "'exists' not in command_result.stderr"
+      tags:
+        - openshift
+        - postgres   
         
     - name: Install Jeager
       shell: "oc process -f https://raw.githubusercontent.com/jaegertracing/jaeger-openshift/master/all-in-one/jaeger-all-in-one-template.yml | oc create -f -"
