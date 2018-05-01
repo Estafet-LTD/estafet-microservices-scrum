@@ -1,0 +1,7 @@
+---
+# Define the name and description of the OpenShift project
+- set_fact: project_name="test"
+- set_fact: project_description="Test Environment for Microservices Scrum"
+    
+- include: environment-setup.yml
+- include: jaeger-setup.yml

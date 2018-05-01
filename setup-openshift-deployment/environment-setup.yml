@@ -1,0 +1,102 @@
+---
+- name: Login in OpenShift as {{ username }}
+  shell: "oc login --insecure-skip-tls-verify=true -u {{ username }} -p {{ password }} {{ openshift }}"
+  tags:
+    - openshift
+        
+- name: Create a new Openshift project
+  shell: "oc new-project {{ project_name }} --display-name='{{ project_description }}'"
+  register: command_result
+  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+  changed_when: "'exists' not in command_result.stderr"
+  tags:
+    - openshift
+        
+- name: Define Openshift project
+  shell: "oc project {{ project_name }}"
+  tags:
+    - openshift  
+
+- name: Install xpaas image streams
+  shell: "oc create -f {{ workdir }}/openshift-ansible/roles/openshift_examples/files/examples/latest/xpaas-streams/jboss-image-streams.json -n {{ project_name }}"
+  register: command_result
+  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+  changed_when: "'exists' not in command_result.stderr"
+  tags:
+    - openshift
+    - xpaas 
+      
+- name: Install xpaas source to image templates
+  shell: "oc create -f {{ workdir }}/openshift-ansible/roles/openshift_examples/files/examples/latest/xpaas-templates -n {{ project_name }}"
+  register: command_result
+  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+  changed_when: "'exists' not in command_result.stderr"
+  tags:
+    - openshift
+    - xpaas  
+
+- name: Install the PostgreSQL server
+  shell : "oc new-app postgresql-persistent --name postgresql"
+  register: command_result
+  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+  changed_when: "'exists' not in command_result.stderr"
+  tags:
+    - openshift
+    - postgres   
+
+- name: Wait for the postgresql server to become available
+  shell : "oc rollout status dc/postgresql"
+  register: command_result
+  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+  changed_when: "'exists' not in command_result.stderr"
+  tags:
+    - openshift
+    - postgres   
+
+- name: Set the db credentials
+  shell: "oc env dc postgresql -e POSTGRESQL_USER=postgres -e POSTGRESQL_PASSWORD=welcome1"
+  register: command_result
+  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+  changed_when: "'exists' not in command_result.stderr"
+  tags:
+    - openshift
+    - postgres   
+
+- name: Wait for the postgresql server to become available
+  shell : "oc rollout status dc/postgresql"
+  register: command_result
+  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+  changed_when: "'exists' not in command_result.stderr"
+  tags:
+   - openshift
+   - postgres   
+                
+- name: Install the JBoss A-MQ Message Broker
+  shell: "oc process amq63-basic -p IMAGE_STREAM_NAMESPACE={{ project_name }} -p MQ_USERNAME=amq -p MQ_PASSWORD=amq | oc create -f -"
+  register: command_result
+  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+  changed_when: "'exists' not in command_result.stderr"
+  tags:
+    - openshift
+    - a-mq        
+
+- name: Remove the readiness probe as some OS implements with ipv4 only stop this from working correctly
+  shell: "oc set probe dc/broker-amq --readiness --remove"
+  when: "{{ remove_amq_readiness }}"
+  register: command_result
+  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+  changed_when: "'exists' not in command_result.stderr"
+  tags:
+    - openshift
+    - a-mq     
+
+- name: Wait for the a-mq to become available
+  shell : "oc rollout status dc/broker-amq"
+  register: command_result
+  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+  changed_when: "'exists' not in command_result.stderr"
+  tags:
+    - openshift
+    - a-mq   
+   
+
