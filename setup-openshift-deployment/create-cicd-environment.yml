@@ -1,0 +1,76 @@
+---
+# Define the name and description of the OpenShift project
+- set_fact: project_name="cicd"
+- set_fact: project_description="CI/CD Jenkins for Microservices Scrum"
+
+- name: Login in OpenShift as {{ username }}
+  shell: "oc login --insecure-skip-tls-verify=true -u {{ username }} -p {{ password }} {{ openshift }}"
+  tags:
+    - openshift
+        
+- name: Create a new Openshift project
+  shell: "oc new-project {{ project_name }} --display-name='{{ project_description }}'"
+  register: command_result
+  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+  changed_when: "'exists' not in command_result.stderr"
+  tags:
+    - openshift
+        
+- name: Define Openshift project
+  shell: "oc project {{ project_name }}"
+  tags:
+    - openshift  
+
+- name: Allows jenkins to access the dev environment
+  shell: "oc policy add-role-to-user edit system:serviceaccount:cicd:jenkins -n dev"
+  register: command_result
+  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+  changed_when: "'exists' not in command_result.stderr"
+  tags:
+    - openshift
+    - jenkins   
+
+- name: Allows jenkins to access the test environment
+  shell: "oc policy add-role-to-user edit system:serviceaccount:cicd:jenkins -n test"
+  register: command_result
+  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+  changed_when: "'exists' not in command_result.stderr"
+  tags:
+    - openshift
+    - jenkins   
+
+- name: Allows jenkins to access the production environment
+  shell: "oc policy add-role-to-user edit system:serviceaccount:cicd:jenkins -n prod"
+  register: command_result
+  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+  changed_when: "'exists' not in command_result.stderr"
+  tags:
+    - openshift
+    - jenkins   
+
+- name: Install the Jenkins master server
+  shell: "oc new-app jenkins-persistent"
+  register: command_result
+  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+  changed_when: "'exists' not in command_result.stderr"
+  tags:
+    - openshift
+    - jenkins   
+
+- name: Wait for the jenkins master server to become available
+  shell: "oc rollout status dc/jenkins"
+  register: command_result
+  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+  changed_when: "'exists' not in command_result.stderr"
+  tags:
+    - openshift
+    - jenkins  
+    
+- name: Create the ci pipeline for each of the microservices
+  shell: "oc create -n cicd -f {{ workdir }}/{{ item.repo }}/ci-pipeline.yaml"
+  with_items: "{{ microservices_scrum_projects }}"
+  tags:
+    - openshift       
+
+
+
