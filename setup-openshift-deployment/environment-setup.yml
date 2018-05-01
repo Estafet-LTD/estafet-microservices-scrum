@@ -5,7 +5,7 @@
     - openshift
         
 - name: Create a new Openshift project
-  shell: "oc new-project {{ project_name }} --display-name='{{ project_description }}'"
+  shell: "oc new-project {{ project }} --display-name='{{ project_description }}'"
   register: command_result
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
   changed_when: "'exists' not in command_result.stderr"
@@ -13,12 +13,12 @@
     - openshift
         
 - name: Define Openshift project
-  shell: "oc project {{ project_name }}"
+  shell: "oc project {{ project }}"
   tags:
     - openshift  
 
 - name: Install xpaas image streams
-  shell: "oc create -f {{ workdir }}/openshift-ansible/roles/openshift_examples/files/examples/latest/xpaas-streams/jboss-image-streams.json -n {{ project_name }}"
+  shell: "oc create -f {{ workdir }}/openshift-ansible/roles/openshift_examples/files/examples/latest/xpaas-streams/jboss-image-streams.json -n {{ project }}"
   register: command_result
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
   changed_when: "'exists' not in command_result.stderr"
@@ -27,7 +27,7 @@
     - xpaas 
       
 - name: Install xpaas source to image templates
-  shell: "oc create -f {{ workdir }}/openshift-ansible/roles/openshift_examples/files/examples/latest/xpaas-templates -n {{ project_name }}"
+  shell: "oc create -f {{ workdir }}/openshift-ansible/roles/openshift_examples/files/examples/latest/xpaas-templates -n {{ project }}"
   register: command_result
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
   changed_when: "'exists' not in command_result.stderr"
@@ -72,7 +72,7 @@
    - postgres   
                 
 - name: Install the JBoss A-MQ Message Broker
-  shell: "oc process amq63-basic -p IMAGE_STREAM_NAMESPACE={{ project_name }} -p MQ_USERNAME=amq -p MQ_PASSWORD=amq | oc create -f -"
+  shell: "oc process amq63-basic -p IMAGE_STREAM_NAMESPACE={{ project }} -p MQ_USERNAME=amq -p MQ_PASSWORD=amq | oc create -f -"
   register: command_result
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
   changed_when: "'exists' not in command_result.stderr"
