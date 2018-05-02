@@ -45,6 +45,12 @@
   tags:
     - openshift       
 
+- name: Create the release pipeline for each of the microservices
+  shell: "oc create -n cicd -f {{ workdir }}/{{ item.repo }}/release-pipeline.yaml"
+  with_items: "{{ microservices_scrum_projects }}"
+  tags:
+    - openshift   
+
 - name: Install the Nexus repository server
   shell: "oc new-app sonatype/nexus"
   register: command_result
