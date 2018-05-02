@@ -6,7 +6,7 @@
     - create-environments-vars.yml    
   tasks:  
     - include: initial-setup.yml
+    - include: create-cicd-environment.yml    
     - include: create-dev-environment.yml
     - include: create-test-environment.yml
     - include: create-prod-environment.yml
-    - include: create-cicd-environment.yml

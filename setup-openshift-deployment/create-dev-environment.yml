@@ -2,7 +2,16 @@
 # Define the name and description of the OpenShift project
 - set_fact: project="dev"
 - set_fact: project_description="Development Environment for Microservices Scrum"
+- set_fact: expose_basic_ui=false
     
 - include: environment-setup.yml
-- include: jaeger-setup.yml
 - include: microservices-setup.yml
+
+- name: Allows jenkins to access the dev environment
+  shell: "oc policy add-role-to-user edit system:serviceaccount:cicd:jenkins -n dev"
+  register: command_result
+  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+  changed_when: "'exists' not in command_result.stderr"
+  tags:
+    - openshift
+    - jenkins   

@@ -21,33 +21,6 @@
   tags:
     - openshift  
 
-- name: Allows jenkins to access the dev environment
-  shell: "oc policy add-role-to-user edit system:serviceaccount:cicd:jenkins -n dev"
-  register: command_result
-  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
-  changed_when: "'exists' not in command_result.stderr"
-  tags:
-    - openshift
-    - jenkins   
-
-- name: Allows jenkins to access the test environment
-  shell: "oc policy add-role-to-user edit system:serviceaccount:cicd:jenkins -n test"
-  register: command_result
-  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
-  changed_when: "'exists' not in command_result.stderr"
-  tags:
-    - openshift
-    - jenkins   
-
-- name: Allows jenkins to access the production environment
-  shell: "oc policy add-role-to-user edit system:serviceaccount:cicd:jenkins -n prod"
-  register: command_result
-  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
-  changed_when: "'exists' not in command_result.stderr"
-  tags:
-    - openshift
-    - jenkins   
-
 - name: Install the Jenkins master server
   shell: "oc new-app jenkins-persistent"
   register: command_result
@@ -72,5 +45,75 @@
   tags:
     - openshift       
 
+- name: Install the Nexus repository server
+  shell: "oc new-app sonatype/nexus"
+  register: command_result
+  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+  changed_when: "'exists' not in command_result.stderr"
+  tags:
+    - openshift
+    - nexus  
+    
+- name: Wait for the nexus server to become available
+  shell: "oc rollout status dc/nexus"
+  register: command_result
+  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+  changed_when: "'exists' not in command_result.stderr"
+  tags:
+    - openshift
+    - nexus  
 
+- name: Expose the nexus service
+  shell: "oc expose svc/nexus --path='/nexus'"
+  register: command_result
+  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+  changed_when: "'exists' not in command_result.stderr"
+  tags:
+    - openshift
+    - nexus  
 
+- name: Configure the liveness probe
+  shell: "oc set probe dc/nexus --liveness --failure-threshold 3 --initial-delay-seconds 30 -- echo ok"
+  register: command_result
+  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+  changed_when: "'exists' not in command_result.stderr"
+  tags:
+    - openshift
+    - nexus  
+
+- name: Configure the readiness probe
+  shell: "oc set probe dc/nexus --readiness --failure-threshold 3 --initial-delay-seconds 30 --get-url=http://:8081/nexus/content/groups/public"
+  register: command_result
+  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+  changed_when: "'exists' not in command_result.stderr"
+  tags:
+    - openshift
+    - nexus  
+
+- name: Wait for the nexus server to become available
+  shell: "oc rollout status dc/nexus"
+  register: command_result
+  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+  changed_when: "'exists' not in command_result.stderr"
+  tags:
+    - openshift
+    - nexus      
+
+- name: Configure the persistent storage for nexus
+  shell: " oc volumes dc/nexus --add --name 'nexus-volume-1' --type 'pvc' --mount-path '/sonatype-work/' --claim-name 'nexus-pv' --claim-size '1G' --overwrite"
+  register: command_result
+  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+  changed_when: "'exists' not in command_result.stderr"
+  tags:
+    - openshift
+    - nexus  
+
+- name: Wait for the nexus server to become available
+  shell: "oc rollout status dc/nexus"
+  register: command_result
+  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+  changed_when: "'exists' not in command_result.stderr"
+  tags:
+    - openshift
+    - nexus  
+    
