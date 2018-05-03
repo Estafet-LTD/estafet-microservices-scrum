@@ -28,3 +28,6 @@
 [submodule "estafet-microservices-scrum-api-gateway"]
 	path = estafet-microservices-scrum-api-gateway
 	url = https://github.com/Estafet-LTD/estafet-microservices-scrum-api-gateway
+[submodule "estafet-microservices-scrum-qa"]
+	path = estafet-microservices-scrum-qa
+	url = https://github.com/Estafet-LTD/estafet-microservices-scrum-qa.git
