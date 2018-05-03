@@ -49,18 +49,27 @@
     
 - name: Create the ci pipeline for each of the microservices
   shell: "oc create -n cicd -f {{ workdir }}/{{ item.repo }}/ci-pipeline.yaml"
+  register: command_result
+  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+  changed_when: "'exists' not in command_result.stderr"  
   with_items: "{{ microservices_scrum_projects }}"
   tags:
     - openshift       
 
 - name: Create the release pipeline for each of the microservices
   shell: "oc create -n cicd -f {{ workdir }}/{{ item.repo }}/release-pipeline.yaml"
+  register: command_result
+  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+  changed_when: "'exists' not in command_result.stderr"  
   with_items: "{{ microservices_scrum_projects }}"
   tags:
     - openshift   
 
 - name: Create the qa pipeline 
   shell: "oc create -n cicd -f {{ workdir }}/estafet-microservices-scrum-qa/qa-pipeline.yaml"
+  register: command_result
+  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+  changed_when: "'exists' not in command_result.stderr"  
   tags:
     - openshift      
 
