@@ -3,6 +3,14 @@
 - set_fact: project="cicd"
 - set_fact: project_description="CI/CD Jenkins for Microservices Scrum"
 
+- name: Checkout qa tests from Github
+  git:
+    repo: "{{ github }}/estafet-microservices-scrum-qa"
+    dest: "{{ workdir }}/estafet-microservices-scrum-qa"
+    update: yes
+  tags:
+    - git
+
 - name: Login in OpenShift as {{ username }}
   shell: "oc login --insecure-skip-tls-verify=true -u {{ username }} -p {{ password }} {{ openshift }}"
   tags:
@@ -50,6 +58,11 @@
   with_items: "{{ microservices_scrum_projects }}"
   tags:
     - openshift   
+
+- name: Create the qa pipeline 
+  shell: "oc create -n cicd -f {{ workdir }}/estafet-microservices-scrum-qa/qa-pipeline.yaml"
+  tags:
+    - openshift      
 
 - name: Install the Nexus repository server
   shell: "oc new-app sonatype/nexus"

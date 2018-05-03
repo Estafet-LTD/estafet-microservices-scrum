@@ -17,7 +17,3 @@ github: https://github.com/Estafet-LTD
 
 # specify whether to remove the readiness probe for amq - this is a workaround for an issue with oc cluster up on windows
 remove_amq_readiness: true
-
-# Some users might have the MSA modules cloned locally already. For those cases, make this 'false' and
-# we'll not attempt to clone it again
-clone_modules: true    

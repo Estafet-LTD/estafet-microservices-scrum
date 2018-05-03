@@ -24,7 +24,6 @@
     dest: "{{ workdir }}/{{ item.repo }}"
     update: yes
   with_items: "{{ microservices_scrum_projects }}"
-  when: "{{ clone_modules }}"
   tags:
     - git
 
