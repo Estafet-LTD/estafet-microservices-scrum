@@ -1,0 +1,9 @@
+---
+- name: Create the microservices applications using the source to image builder
+  include_tasks: "{{ workdir }}/{{ item.repo }}//create-app-tasks.yml repo={{ item.repo }}"
+  with_items: "{{ microservices_scrum_projects }}"
+  tags:
+    - openshift   
+  
+
+    

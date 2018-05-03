@@ -18,7 +18,7 @@
     - openshift  
 
 - name: Install xpaas image streams
-  shell: "oc create -f {{ workdir }}/openshift-ansible/roles/openshift_examples/files/examples/latest/xpaas-streams/jboss-image-streams.json -n {{ project }}"
+  shell: "oc create -f {{ workdir }}/openshift-ansible/roles/openshift_examples/files/examples/v3.9/xpaas-streams/jboss-image-streams.json -n {{ project }}"
   register: command_result
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
   changed_when: "'exists' not in command_result.stderr"
@@ -27,7 +27,7 @@
     - xpaas 
       
 - name: Install xpaas source to image templates
-  shell: "oc create -f {{ workdir }}/openshift-ansible/roles/openshift_examples/files/examples/latest/xpaas-templates -n {{ project }}"
+  shell: "oc create -f {{ workdir }}/openshift-ansible/roles/openshift_examples/files/examples/v3.9/xpaas-templates -n {{ project }}"
   register: command_result
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
   changed_when: "'exists' not in command_result.stderr"
