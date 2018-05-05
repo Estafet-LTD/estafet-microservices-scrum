@@ -31,7 +31,7 @@
   git:
     repo: "https://github.com/openshift/openshift-ansible.git"
     dest: "{{ workdir }}/openshift-ansible"
-    version: release-3.9
+    version: openshift-ansible-3.9.27-1
     update: yes
   tags:
     - git  

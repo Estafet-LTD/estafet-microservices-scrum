@@ -7,11 +7,7 @@
   tags:
     - openshift
     - opentracing
-    - jaeger       
-
-- name: wait for jaeger
-  wait_for: timeout=10
-  delegate_to: localhost          
+    - jaeger             
   
 
     
