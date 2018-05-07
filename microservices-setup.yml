@@ -1,4 +1,14 @@
 ---
+- name: Login in OpenShift as {{ username }}
+  shell: "oc login --insecure-skip-tls-verify=true -u {{ username }} -p {{ password }} {{ openshift }}"
+  tags:
+    - openshift
+        
+- name: Define Openshift project
+  shell: "oc project {{ project }}"
+  tags:
+    - openshift  
+
 - name: Create the microservices applications using the source to image builder
   include_tasks: "{{ workdir }}/{{ item.repo }}//create-app-tasks.yml repo={{ item.repo }}"
   with_items: "{{ microservices_scrum_projects }}"

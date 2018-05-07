@@ -1,0 +1,63 @@
+---
+- name: Login in OpenShift as Administrator
+  shell: "oc login --insecure-skip-tls-verify=true -u system:admin {{ openshift }}"
+  tags:
+    - openshift
+
+- name: Create a persistent volume for wiremock mappings
+  shell : "oc create -f wiremock-volume.json -n {{ project }}"
+  register: command_result
+  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+  changed_when: "'exists' not in command_result.stderr"
+  tags:
+    - openshift
+    - wiremock           
+
+- name: Login in OpenShift as {{ username }}
+  shell: "oc login --insecure-skip-tls-verify=true -u {{ username }} -p {{ password }} {{ openshift }}"
+  tags:
+    - openshift
+        
+- name: Define Openshift project
+  shell: "oc project {{ project }}"
+  tags:
+    - openshift   
+    
+- name: Build and Deploy wiremock 
+  shell: "oc new-app rodolpheche/wiremock~https://github.com/rodolpheche/wiremock-docker.git --strategy=docker -n {{ project }}"
+  register: command_result
+  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+  changed_when: "'exists' not in command_result.stderr"
+  tags:
+    - openshift
+    - wiremock
+    
+- name: Wait for the wiremock server to become available
+  shell : "oc rollout status dc/wiremock-docker -n {{ project }}"
+  register: command_result
+  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+  changed_when: "'exists' not in command_result.stderr"
+  tags:
+    - openshift
+    - wiremock    
+    
+- name: Add persistent storage to the wiremock server so that mappings can be uploaded 
+  shell: "oc volume dc/wiremock-docker --add --name=volume-wiremock-mapping --type=persistentVolumeClaim --mount-path=/home/wiremock/mappings --claim-name=wire-mock-mappings-volume -n {{ project }}"
+  register: command_result
+  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+  changed_when: "'exists' not in command_result.stderr"
+  tags:
+    - openshift
+    - wiremock
+    
+- name: Wait for the wiremock server to become available
+  shell : "oc rollout status dc/wiremock-docker -n {{ project }}"
+  register: command_result
+  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+  changed_when: "'exists' not in command_result.stderr"
+  tags:
+    - openshift
+    - wiremock     
+      
+
+       

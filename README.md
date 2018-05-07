@@ -81,7 +81,6 @@ Run the playbook. The playbook takes about 20 mins complete.
 ```
 $ cd estafet-microservices-scrum
 $ ansible-playbook microservices-scrum.yml
-
 ```
 
 #### Reseting application data
@@ -89,7 +88,6 @@ You can reset the application data by executing the following playbook. This wil
 
 ```
 ansible-playbook reset-data.yml
-
 ```
 
 ### Cloud Paas Setup

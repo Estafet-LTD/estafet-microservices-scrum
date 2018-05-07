@@ -3,8 +3,9 @@
 - set_fact: project="dev"
 - set_fact: project_description="Development Environment for Microservices Scrum"
 - set_fact: expose_basic_ui=false
-    
+
 - include: environment-setup.yml
+- include: wiremock-setup.yml    
 - include: microservices-setup.yml
 
 - name: Allows jenkins to access the dev environment
@@ -15,3 +16,6 @@
   tags:
     - openshift
     - jenkins   
+
+
+  
