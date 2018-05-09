@@ -1,0 +1,9 @@
+---
+- name: Recreate the test environments
+  hosts: localhost
+  vars_files:
+    - vars.yml
+    - create-environments-vars.yml    
+  tasks:  
+    - include: initial-setup.yml
+    - include: create-test-environment.yml

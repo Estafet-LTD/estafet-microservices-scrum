@@ -3,12 +3,20 @@
 microservices_scrum_projects:
 #  - repo: estafet-microservices-scrum-api-discovery
 #  - repo: estafet-microservices-scrum-gateway
-  - repo: estafet-microservices-scrum-api-project   
-  - repo: estafet-microservices-scrum-api-project-burndown
-  - repo: estafet-microservices-scrum-api-sprint
-  - repo: estafet-microservices-scrum-api-sprint-board
-  - repo: estafet-microservices-scrum-api-sprint-burndown
-  - repo: estafet-microservices-scrum-api-story
-  - repo: estafet-microservices-scrum-api-task
-  - repo: estafet-microservices-scrum-basic-ui
+  - name: project-api
+    repo: estafet-microservices-scrum-api-project
+  - name: project-burndown
+    repo: estafet-microservices-scrum-api-project-burndown
+  - name: sprint-api     
+    repo: estafet-microservices-scrum-api-sprint
+  - name: sprint-board
+    repo: estafet-microservices-scrum-api-sprint-board
+  - name: sprint-boarddown
+    repo: estafet-microservices-scrum-api-sprint-burndown
+  - name: story-api
+    repo: estafet-microservices-scrum-api-story
+  - name: task-api
+    repo: estafet-microservices-scrum-api-task
+  - name: basic-ui
+    repo: estafet-microservices-scrum-basic-ui
     
