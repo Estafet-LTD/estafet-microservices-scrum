@@ -2,7 +2,7 @@
 - name: Create Environments for Entire Software Development Lifecycle
   hosts: localhost
   vars_files:
-    - vars.yml
+    - microservices-vars.yml
     - create-environments-vars.yml    
   tasks:  
     - include: initial-setup.yml

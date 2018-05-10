@@ -17,3 +17,6 @@ github: https://github.com/Estafet-LTD
 
 # specify whether to remove the readiness probe for amq - this is a workaround for an issue with oc cluster up on windows
 remove_amq_readiness: true
+
+# enable readiness probe
+readiness_probe: false
