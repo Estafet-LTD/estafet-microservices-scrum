@@ -19,4 +19,4 @@ github: https://github.com/Estafet-LTD
 remove_amq_readiness: true
 
 # enable readiness probe
-readiness_probe: false
+readiness_probe: true
