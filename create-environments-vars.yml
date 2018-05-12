@@ -20,3 +20,6 @@ remove_amq_readiness: true
 
 # enable readiness probe
 readiness_probe: true
+
+# amq url used for the dev environment
+amq_url: tcp://localhost:61616

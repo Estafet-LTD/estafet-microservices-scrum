@@ -29,3 +29,6 @@ expose_basic_ui: true
 
 # enable readiness probe
 readiness_probe: false
+
+# amq url used for local environments
+amq_url: tcp://broker-amq-tcp.microservices-scrum.svc:61616
