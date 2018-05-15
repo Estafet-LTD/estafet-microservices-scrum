@@ -63,6 +63,13 @@ The ansible playbook assumes that you have installed Openshift on your local dev
 #### Openshift CLI (oc)
 The playbook also assumes that the Openshift CLI `oc` is installed on the same machine that you have installed Ansible on. If this is not the case, you will need to amend the Ansible `microservices-scrum.yml` file and modify the `hosts: localhost` directive.
 
+##### Windows Users
+Windows users will need to install the Openshift CLI onto WSL for linux so that the ansible scripts can run. They will also need to copy the kuberenetes credentials from the windows to WSL. This will alllow the ansible script perform certain operations as the system administrator.
+
+```
+cp /mnt/c/Users/<Windows User>/.kube/config .
+```
+
 ### Local Environment Setup
 Installing and configuring the scrum demo application to openshift manually is a lengthy process. There are 13 applications in total (8 microservices + db + jaeger + message broker). Fortunately this process has been automated using Ansible.
 
