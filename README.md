@@ -1,4 +1,4 @@
-# Estafet Microservices Scrum Demo Application
+# Estafet Openshift Microservices Scrum Demo Application
 The scrum demo application is composed of microservices and provides a example of how microservices implement common application aspects, such as data management, stateful domain objects and reporting in a distributed architecture. It is a useful starting point for a Java engineer who is interesting in understanding how microservices are built.
 
 The application is designed to be deployed within an Openshift cluster and provides a convenient platform for demonstrating aspects such as logging, monitoring, release management and testing for microservices.
