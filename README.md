@@ -32,7 +32,7 @@ One thing to note is that each microservice has its own git repository. Separate
 There are a couple of installation options for the demo application:
 
 * [Local Environment Setup](https://github.com/Estafet-LTD/estafet-microservices-scrum#local-environment-setup)
-* [DevOps Environment Set](https://github.com/Estafet-LTD/estafet-microservices-scrum#devops-environment-setup)
+* [DevOps Environment Setup](https://github.com/Estafet-LTD/estafet-microservices-scrum#devops-environment-setup)
 
 ### Prerequisites
 Please review the prerequisites below before continuing with the deployment steps:
