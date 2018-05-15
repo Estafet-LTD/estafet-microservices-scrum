@@ -57,7 +57,7 @@ sudo apt-get install python-jmespath
 ```
 
 #### Openshift
-The ansible playbook assumes that you have installed Openshift on your local development machine. If this is not the case, you will need to amend the ansible `microservices-scrum-vars.yml` file and modify the `openshift: 192.168.99.100:8443` directive.
+The ansible playbook assumes that you have installed Openshift on your local development machine. If this is not the case, you will need to amend the ansible `create-local-environment-vars.yml` or `create-devops-environments-vars.yml` file (depending on which environment you are installing) and modify the `openshift: 192.168.99.100:8443` directive.
 
 #### Openshift CLI (oc)
 The playbook also assumes that the Openshift CLI `oc` is installed on the same machine that you have installed Ansible on. If this is not the case, you will need to amend the Ansible `microservices-scrum.yml` file and modify the `hosts: localhost` directive.
@@ -81,7 +81,7 @@ Run the playbook. The playbook takes about 20 mins complete.
 
 ```
 $ cd estafet-microservices-scrum
-$ ansible-playbook microservices-scrum.yml
+$ ansible-playbook create-local-environment-playbook.yml
 ```
 
 #### Reseting application data
