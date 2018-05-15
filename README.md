@@ -16,9 +16,6 @@ One thing to note is that each microservice has its own git repository. Separate
 
 | Repository        | Description |
 | ----------------- |-------------|
-| [estafet-microservices-scrum-qa](https://github.com/Estafet-LTD/estafet-microservices-scrum-qa) | Cross cutting Quality Assurance tests. |
-| [estafet-microservices-scrum-api-discovery](https://github.com/Estafet-LTD/estafet-microservices-scrum-api-discovery) | Service Discovery for microservices. |
-| [estafet-microservices-scrum-api-gateway](https://github.com/Estafet-LTD/estafet-microservices-scrum-api-gateway) | Microservices API Gateway. |
 | [estafet-microservices-scrum-api-project](https://github.com/Estafet-LTD/estafet-microservices-scrum-api-project) | Microservices for managing scrum projects. |
 | [estafet-microservices-scrum-api-project-burndown](https://github.com/Estafet-LTD/estafet-microservices-scrum-api-project-burndown) | Microservices for aggregating and generating project burndown reports. |
 | [estafet-microservices-scrum-api-sprint](https://github.com/Estafet-LTD/estafet-microservices-scrum-api-sprint) | Microservices for managing sprints. |
@@ -27,11 +24,15 @@ One thing to note is that each microservice has its own git repository. Separate
 | [estafet-microservices-scrum-api-story](https://github.com/Estafet-LTD/estafet-microservices-scrum-api-story) | Microservices for managing stories. |
 | [estafet-microservices-scrum-api-task](https://github.com/Estafet-LTD/estafet-microservices-scrum-api-task) | Microservices for managing tasks. |
 | [estafet-microservices-scrum-basic-ui](https://github.com/Estafet-LTD/estafet-microservices-scrum-basic-ui) | Basic User Interface that uses the scrum microservices. |
+| [estafet-microservices-scrum-lib](https://github.com/Estafet-LTD/estafet-microservices-scrum-lib) | Shared Libraries |
+| [estafet-microservices-scrum-qa](https://github.com/Estafet-LTD/estafet-microservices-scrum-qa) | Cross cutting Quality Assurance tests. |
+| [estafet-microservices-scrum-api-discovery](https://github.com/Estafet-LTD/estafet-microservices-scrum-api-discovery) | Service Discovery for microservices. |
+| [estafet-microservices-scrum-api-gateway](https://github.com/Estafet-LTD/estafet-microservices-scrum-api-gateway) | Microservices API Gateway. |
 ## Getting started
 There are a couple of installation options for the demo application:
 
-* [Local Environment Setup to Openshift](https://github.com/Estafet-LTD/estafet-microservices-scrum#local-setup)
-* [Cloud Paas Setup](https://github.com/Estafet-LTD/estafet-microservices-scrum#cloud-paas-setup)
+* [Local Environment Setup](https://github.com/Estafet-LTD/estafet-microservices-scrum#local-environment-setup)
+* [DevOps Environment Set](https://github.com/Estafet-LTD/estafet-microservices-scrum#devops-environment-setup)
 
 ### Prerequisites
 Please review the prerequisites below before continuing with the deployment steps:
@@ -62,7 +63,7 @@ The ansible playbook assumes that you have installed Openshift on your local dev
 #### Openshift CLI (oc)
 The playbook also assumes that the Openshift CLI `oc` is installed on the same machine that you have installed Ansible on. If this is not the case, you will need to amend the Ansible `microservices-scrum.yml` file and modify the `hosts: localhost` directive.
 
-### Local Setup
+### Local Environment Setup
 Installing and configuring the scrum demo application to openshift manually is a lengthy process. There are 13 applications in total (8 microservices + db + jaeger + message broker). Fortunately this process has been automated using Ansible.
 
 #### Steps
