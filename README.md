@@ -7,8 +7,9 @@ The application is designed to be deployed within an Openshift cluster and provi
 
 * [Project Structure](https://github.com/Estafet-LTD/estafet-microservices-scrum#project-structure)
 * [Getting Started](https://github.com/Estafet-LTD/estafet-microservices-scrum#getting-started)
+* [Environments](https://github.com/Estafet-LTD/estafet-microservices-scrum#environments)
 * [Architecture](https://github.com/Estafet-LTD/estafet-microservices-scrum#architecture)
-* [Distributed Tracing with Jaegar](https://github.com/Estafet-LTD/estafet-microservices-scrum#distributed-tracing-with-jaegar)
+* [Distributed Monitoring with Jaegar](https://github.com/Estafet-LTD/estafet-microservices-scrum#distributed-monitoring-with-jaegar)
 
 ## Project Structure
 One thing to note is that each microservice has its own git repository. Separate repositories means that each service be released independently. 
@@ -90,9 +91,10 @@ You can reset the application data by executing the following playbook. This wil
 ansible-playbook reset-data.yml
 ```
 
-### Cloud Paas Setup
+### DevOps Environment Setup
 tbc...
-
+## Environments
+tbc...
 ## Architecture
 The application consists of 9 microservices + the user interface. These are deployed to openshift as pods. The postgres pod instance contains 6 databases, each "owned" by a microservice. The A-MQ broker processes messages sent to topics and distributes these to microservices that have subscribedtothose topics.
 
@@ -103,7 +105,7 @@ Here's the overall business domain model.
 
 ![alt tag](https://github.com/Estafet-LTD/estafet-microservices-scrum/blob/master/UnboundedDomainModel.png)
 
-## Distributed Tracing with Jaegar
+## Distributed Monitoring with Jaegar
 Here's a short summary of the Opentracing and Jaeger with microservices.
 
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/EdFYvUBaKbY/0.jpg)](https://www.youtube.com/watch?v=EdFYvUBaKbY)
