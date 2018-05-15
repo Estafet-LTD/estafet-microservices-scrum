@@ -89,13 +89,41 @@ $ ansible-playbook create-local-environment-playbook.yml
 You can reset the application data by executing the following playbook. This will redeploy all of database dependent microservices so it takes about a 30 seconds to complete.
 
 ```
-ansible-playbook reset-data.yml
+ansible-playbook reset-data-playbook.yml
 ```
 
 ### DevOps Environment Setup
+The local environment setup allows a developer start using the microservices application, but in order to set up a project, we'll need to create a development, test, continuous integration and project environment. These environments will need CICI pipelines, artifact repositories, code analysis and all of the automation associated with DevOps. Fortunately, this can be setup with running a single script.
+
+#### Steps
+
+##### Step #1
+Clone the master repository to a directory of your choice.
+
+```
+git clone https://github.com/Estafet-LTD/estafet-microservices-scrum.git
+```
+
+##### Step #2
+Run the playbook. The playbook takes about 40 mins complete.
+
+> Note:- If you are using minishift, it might be advisible to tweak the resources available.
+
+```
+$ cd estafet-microservices-scrum
+$ ansible-playbook create-devops-environments-playbook.yml
+```
+
+##### Step #3
+Jenkins setup 
 tbc...
+
+##### Setting Up Maven Locally to Use Nexus
+tbc...
+
 ## Environments
 tbc...
+
 ## Architecture
 The application consists of 9 microservices + the user interface. These are deployed to openshift as pods. The postgres pod instance contains 6 databases, each "owned" by a microservice. The A-MQ broker processes messages sent to topics and distributes these to microservices that have subscribedtothose topics.
 
