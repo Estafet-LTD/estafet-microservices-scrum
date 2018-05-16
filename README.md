@@ -67,7 +67,7 @@ The playbook also assumes that the Openshift CLI `oc` is installed on the same m
 Windows users will need to install the Openshift CLI onto WSL for linux so that the ansible scripts can run. They will also need to copy the kuberenetes credentials from the windows to WSL. This will alllow the ansible script perform certain operations as the system administrator.
 
 ```
-cp /mnt/c/Users/<Windows User>/.kube/config .
+cp /mnt/c/Users/<Windows User>/.kube/config ~/.kube
 ```
 
 ### Local Environment Setup
