@@ -13,7 +13,7 @@ password: developer
 adjust_scc: false
 
 # Define the name of the OpenShift project
-project: microservices-scrum
+project: test-microservices-scrum
 
 # Project Description
 project_description: "Local Test Environment for Microservices Scrum"
