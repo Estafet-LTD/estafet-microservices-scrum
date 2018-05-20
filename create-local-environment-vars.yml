@@ -32,3 +32,6 @@ readiness_probe: false
 
 # amq url used for local environments
 amq_url: tcp://broker-amq-tcp.microservices-scrum.svc:61616
+
+# test environment flag
+test_environment: false

@@ -12,17 +12,26 @@ password: developer
 # Uncomment the following line to adjust the SCC (not using CDK3/minishift)
 adjust_scc: false
 
+# Define the name of the OpenShift project
+project: microservices-scrum
+
+# Project Description
+project_description: "Local Test Environment for Microservices Scrum"
+
 # defines the location of the estafet github (change this if you have forked and want to use another github)
 github: https://github.com/Estafet-LTD
 
 # specify whether to remove the readiness probe for amq - this is a workaround for an issue with oc cluster up on windows
 remove_amq_readiness: true
 
-# enable readiness probe
-readiness_probe: true
+# expose basic ui
+expose_basic_ui: true  
 
-# amq url used for the dev environment
-amq_url: tcp://localhost:61616
+# enable readiness probe
+readiness_probe: false
+
+# amq url used for local environments
+amq_url: tcp://broker-amq-tcp.microservices-scrum.svc:61616
 
 # test environment flag
-test_environment: false
+test_environment: true
