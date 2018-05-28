@@ -11,7 +11,7 @@ microservices_scrum_projects:
     repo: estafet-microservices-scrum-api-sprint
   - name: sprint-board
     repo: estafet-microservices-scrum-api-sprint-board
-  - name: sprint-boarddown
+  - name: sprint-burndown
     repo: estafet-microservices-scrum-api-sprint-burndown
   - name: story-api
     repo: estafet-microservices-scrum-api-story
