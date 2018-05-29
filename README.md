@@ -89,7 +89,7 @@ Run the playbook. The playbook takes about 20 mins complete.
 > Note:- If you are using minishift, it might be advisible to tweak the resources available.
 
 ```
-$ cd estafet-microservices-scrum
+$ cd estafet-microservices-scrum/ansible
 $ ansible-playbook create-local-environment-playbook.yml
 ```
 
@@ -118,7 +118,7 @@ Run the playbook. The playbook takes about 40 mins complete.
 > Note:- If you are using minishift, it might be advisible to tweak the resources available.
 
 ```
-$ cd estafet-microservices-scrum
+$ cd estafet-microservices-scrum/ansible
 $ ansible-playbook create-devops-environments-playbook.yml
 ```
 
