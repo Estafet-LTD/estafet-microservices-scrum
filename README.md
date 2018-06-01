@@ -84,7 +84,7 @@ git clone https://github.com/Estafet-LTD/estafet-microservices-scrum.git
 ```
 
 ##### Step #2
-Run the playbook. The playbook takes about 20 mins complete.
+Run the playbook. The playbook takes about 15 mins complete.
 
 > Note:- If you are using minishift, it might be advisible to tweak the resources available.
 
@@ -113,7 +113,7 @@ git clone https://github.com/Estafet-LTD/estafet-microservices-scrum.git
 ```
 
 ##### Step #2
-Run the playbook. The playbook takes about 40 mins complete.
+Run the playbook. The playbook takes about 30 mins complete.
 
 > Note:- If you are using minishift, it might be advisible to tweak the resources available.
 

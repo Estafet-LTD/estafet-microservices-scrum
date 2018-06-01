@@ -3,18 +3,10 @@
 - set_fact: project="cicd"
 - set_fact: project_description="CI/CD Jenkins for Microservices Scrum"
 
-- name: Checkout qa tests from Github
+- name: Checkout qa from Github to access pipeline
   git:
     repo: "{{ github }}/estafet-microservices-scrum-qa"
     dest: "{{ workdir }}/estafet-microservices-scrum-qa"
-    update: yes
-  tags:
-    - git
-
-- name: Checkout lib from Github
-  git:
-    repo: "{{ github }}/estafet-microservices-scrum-lib"
-    dest: "{{ workdir }}/estafet-microservices-scrum-lib"
     update: yes
   tags:
     - git
@@ -56,7 +48,7 @@
     - jenkins  
     
 - name: Create the ci pipeline for each of the microservices
-  shell: "oc create -n cicd -f {{ workdir }}/{{ item.repo }}/ci-pipeline.yaml"
+  shell: "oc create -n cicd -f {{ workdir }}/{{ item.repo }}/pipelines/ci-pipeline.yaml"
   register: command_result
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
   changed_when: "'exists' not in command_result.stderr"  
@@ -65,7 +57,7 @@
     - openshift       
 
 - name: Create the release pipeline for each of the microservices
-  shell: "oc create -n cicd -f {{ workdir }}/{{ item.repo }}/release-pipeline.yaml"
+  shell: "oc create -n cicd -f {{ workdir }}/{{ item.repo }}/pipelines/release-pipeline.yaml"
   register: command_result
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
   changed_when: "'exists' not in command_result.stderr"  
@@ -74,28 +66,20 @@
     - openshift   
 
 - name: Create the qa pipeline 
-  shell: "oc create -n cicd -f {{ workdir }}/estafet-microservices-scrum-qa/qa-pipeline.yaml"
+  shell: "oc create -n cicd -f {{ workdir }}/estafet-microservices-scrum-qa/pipelines/qa-pipeline.yaml"
   register: command_result
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
   changed_when: "'exists' not in command_result.stderr"  
   tags:
     - openshift      
 
-- name: Create the ci lib pipeline 
-  shell: "oc create -n cicd -f {{ workdir }}/estafet-microservices-scrum-lib/ci-pipeline.yaml"
+- name: Create the prod deploy pipeline 
+  shell: "oc create -n cicd -f ansible/deploy-prod-pipeline.yaml"
   register: command_result
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
   changed_when: "'exists' not in command_result.stderr"  
   tags:
     - openshift      
-
-- name: Create the release lib pipeline 
-  shell: "oc create -n cicd -f {{ workdir }}/estafet-microservices-scrum-lib/release-pipeline.yaml"
-  register: command_result
-  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
-  changed_when: "'exists' not in command_result.stderr"  
-  tags:
-    - openshift   
 
 - name: Install the Nexus repository server
   shell: "oc new-app sonatype/nexus"

@@ -31,9 +31,3 @@
 [submodule "estafet-microservices-scrum-qa"]
 	path = estafet-microservices-scrum-qa
 	url = https://github.com/Estafet-LTD/estafet-microservices-scrum-qa.git
-[submodule "estafet-microservices-scrum-lib.git"]
-	path = estafet-microservices-scrum-lib.git
-	url = https://github.com/Estafet-LTD/estafet-microservices-scrum-lib.git
-[submodule "estafet-microservices-scrum-lib"]
-	path = estafet-microservices-scrum-lib
-	url = https://github.com/Estafet-LTD/estafet-microservices-scrum-lib.git

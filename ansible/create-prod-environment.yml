@@ -15,3 +15,21 @@
   tags:
     - openshift
     - jenkins   
+    
+- name: Create the deployment configuration for each production microservice
+  shell: "oc create -n prod -f {{ workdir }}/{{ item.repo }}/openshift/prod-deployment-config.json"
+  register: command_result
+  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+  changed_when: "'exists' not in command_result.stderr"  
+  with_items: "{{ microservices_scrum_projects }}"
+  tags:
+    - openshift         
+    
+- name: Create the service configuration for each production microservice
+  shell: "oc create -n prod -f {{ workdir }}/{{ item.repo }}/openshift/prod-service-config.yaml"
+  register: command_result
+  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+  changed_when: "'exists' not in command_result.stderr"  
+  with_items: "{{ microservices_scrum_projects }}"
+  tags:
+    - openshift         
