@@ -3,7 +3,6 @@
   hosts: localhost
   vars_files:
     - microservices-vars.yml
-    - create-environments-vars.yml    
   tasks:  
     - include: initial-setup.yml
     - include: create-dev-environment.yml

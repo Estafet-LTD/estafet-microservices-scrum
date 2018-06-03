@@ -66,7 +66,7 @@
     - openshift   
 
 - name: Create the qa pipeline 
-  shell: "oc create -n cicd -f {{ workdir }}/estafet-microservices-scrum-qa/pipelines/qa-pipeline.yaml"
+  shell: "oc create -n cicd -f {{ workdir }}/estafet-microservices-scrum-qa/qa-pipeline.yaml"
   register: command_result
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
   changed_when: "'exists' not in command_result.stderr"  
@@ -74,7 +74,7 @@
     - openshift      
 
 - name: Create the prod deploy pipeline 
-  shell: "oc create -n cicd -f ansible/deploy-prod-pipeline.yaml"
+  shell: "oc create -n cicd -f deploy-prod-pipeline.yaml"
   register: command_result
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
   changed_when: "'exists' not in command_result.stderr"  
