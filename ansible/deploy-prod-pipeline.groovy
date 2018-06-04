@@ -12,7 +12,9 @@ def getDeploymentConfigs(json) {
 node {
 	sh "oc get dc -o json > dc.json"
 	def dc = readFile('dc.json')
-	getDeploymentConfigs(dc).each { 
+	def deploymentConfigs = getDeploymentConfigs(dc)
+	println deploymentConfigs
+	deploymentConfigs.each { 
 				openshiftDeploy namespace: "prod", depCfg: it
 	}
 }
