@@ -12,8 +12,8 @@ def getDeploymentConfigs(json) {
 node {
 	sh "oc get dc -o json > dc.json"
 	def dc = readFile('dc.json')
-	getDeploymentConfigs(dc).each { dc ->
-				openshiftDeploy namespace: "prod", depCfg: dc
+	getDeploymentConfigs(dc).each { 
+				openshiftDeploy namespace: "prod", depCfg: it
 	}
 }
 
