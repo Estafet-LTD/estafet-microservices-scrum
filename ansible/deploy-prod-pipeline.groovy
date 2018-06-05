@@ -1,6 +1,6 @@
 @NonCPS
 def getDeploymentConfigs(json) {
-	return new groovy.json.JsonSlurper().parseText(json).items.'*'.metadata.name
+	return new groovy.json.JsonSlurper().parseText(json).items.'**'.metadata.findAll{node-> node.name() == 'name'}*.text()
 }
 
 node {
