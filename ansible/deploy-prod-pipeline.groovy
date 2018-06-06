@@ -2,7 +2,7 @@ node {
 	sh "oc get dc --selector product=microservices-scrum -n prod > dc.output"
 	def dc = readFile('dc.output')
 	println dc
-	dc.normalize().eachLine { line, count ->
+	dc.split('\n') { line, count ->
     if (count > 0) {
         def matcher = line =~ /(\w+\-\w+)(.*)/
         def microservice = matcher[0][1]
