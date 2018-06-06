@@ -1,15 +1,13 @@
-@NonCPS
-def getDeploymentConfigs(json) {
-	return new groovy.json.JsonSlurper().parseText(json).items.'**'.metadata.findAll{node-> node.name() == 'name'}*.text()
-}
-
 node {
-	sh "oc get dc -o json --selector product=microservices-scrum > dc.json"
-	def dc = readFile('dc.json')
-	def deploymentConfigs = getDeploymentConfigs(dc)
-	println deploymentConfigs
-	deploymentConfigs.each { 
-				openshiftDeploy namespace: "prod", depCfg: it
+	sh "oc get dc --selector product=microservices-scrum > dc.output"
+	def dc = readFile('dc.output')
+	dc.eachLine { line, count ->
+    if (count > 0) {
+        def matcher = line =~ /(\w+\-\w+)(.*)/
+        def microservice = matcher[0][1]
+        openshiftDeploy namespace: "prod", depCfg: microservice
+        openshiftVerifyDeployment namespace: "prod", depCfg: microservice, replicaCount:"1", verifyReplicaCount: "true", waitTime: "600000"
+    }
 	}
 }
 
