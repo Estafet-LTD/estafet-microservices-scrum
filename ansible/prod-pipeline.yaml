@@ -16,7 +16,7 @@ spec:
       uri: "https://github.com/Estafet-LTD/estafet-microservices-scrum"
   strategy:
     jenkinsPipelineStrategy:
-      jenkinsfilePath: ansible/deploy-prod-pipeline.groovy
+      jenkinsfilePath: ansible/prod-pipeline.groovy
     type: JenkinsPipeline
 status:
   lastVersion: 0
