@@ -13,11 +13,22 @@ def getDeploymentConfigs(dc) {
 }
 
 node {
-	sh "oc get dc --selector product=microservices-scrum -n prod > dc.output"
-	def dc = readFile('dc.output')
-	def configs = getDeploymentConfigs dc
-	configs.each { microservice ->
-        openshiftDeploy namespace: "prod", depCfg: microservice
-        openshiftVerifyDeployment namespace: "prod", depCfg: microservice, replicaCount:"1", verifyReplicaCount: "true", waitTime: "600000"
-    }
+	
+	def configs
+	
+	stage ('retrieve deployment configs') {
+		sh "oc get dc --selector product=microservices-scrum -n prod > dc.output"
+		def dc = readFile('dc.output')
+		configs = getDeploymentConfigs dc
+	}
+	
+	stage ('deploy each microservice') {
+		configs.each { microservice ->
+					println microservice
+	        openshiftDeploy namespace: "prod", depCfg: microservice
+	        openshiftVerifyDeployment namespace: "prod", depCfg: microservice, replicaCount:"1", verifyReplicaCount: "true", waitTime: "600000"
+	  }	
+	}
+	
+	
 }
