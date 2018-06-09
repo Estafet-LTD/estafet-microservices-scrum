@@ -58,7 +58,7 @@ def getPod(microservice) {
 	def pod = readFile('pod.output')
 	def lines = pod.split('\n')
 	if (lines.size() > 1) {
-		def matcher = lines[0] =~ /(\w+\-\w+)(.*)/
+		def matcher = lines[1] =~ /(\w+\-\w+)(.*)/
 		return matcher[0][1]
 	} else {
 		return null
