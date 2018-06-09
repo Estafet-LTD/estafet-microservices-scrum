@@ -29,10 +29,13 @@ def getImageStreams(is) {
 }
 
 @NonCPS
-def getImage(json) {
-	def imageId = new groovy.json.JsonSlurper().parseText(json).status.containerStatuses[0].imageID
-	def matcher = imageId =~ /(.*\@sha256\:)(\w+)/
-	return matcher[0][2]
+def getImage(output) {
+	output.split('\n').each { line ->
+		def matcher = line =~ /(\s+)(Image\s+ID\:)(docker\-pullable\:.*\@)(\w+)/
+		if (matcher) {
+			return matcher[0][4]
+		}
+	}
 }
 
 @NonCPS
@@ -66,14 +69,13 @@ def getPod(microservice) {
 }
 
 def getPodImage(pod) {
-	sh "oc get pod/${pod} -n prod"
-	sh "oc get pod/${pod} -o json -n prod > image.json"
-	def image = readFile('image.json')
+	sh "oc describe pod ${pod} -n prod > image.output"
+	def image = readFile('image.output')
 	return getImage(image)
 }
 
 def getLatestImage(microservice) {
-	sh "oc get is/${microservice} -o json -n prod > latest.json"
+	sh "oc get is ${microservice} -o json -n prod > latest.json"
 	def latest = readFile('latest.json')
 	return getLatest(latest)
 }
