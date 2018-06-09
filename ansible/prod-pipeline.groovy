@@ -36,7 +36,7 @@ node {
 		def imageStreams = getImageStreams is
 		sh "oc get dc --selector product=microservices-scrum -n prod > dc.output"
 		def dc = readFile('dc.output')
-		def configs = getDeploymentConfigs(dc:dc, imageStreams:imageStreams)
+		def configs = getDeploymentConfigs(dc, imageStreams)
 		configs.each { microservice ->
 					println microservice
 	        openshiftDeploy namespace: "prod", depCfg: microservice
