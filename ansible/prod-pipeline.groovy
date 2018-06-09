@@ -38,7 +38,6 @@ def getImage(json) {
 @NonCPS
 def getLatest(json) {
 	def tags = new groovy.json.JsonSlurper().parseText(json).status.tags
-	println tags
 	for (int i = 0; i < tags.size(); i++) {
 		if (tags[i]['tag'].equals("latest")) {
 			def image = tags[i]['items'][0]['image']
@@ -53,8 +52,6 @@ def isLatestImageDeployed(microservice) {
 	def pod = getPod microservice
 	def podImage = getPodImage pod
 	def latestImage = getLatestImage microservice
-	println "pod image ${podImage}"
-	println "latest image ${latestImage}"
 	return podImage.equals(latestImage)
 }
 
@@ -79,7 +76,12 @@ def getPodImage(pod) {
 def getLatestImage(microservice) {
 	sh "oc get is ${microservice} -o json -n prod > latest.json"
 	def latest = readFile('latest.json')
-	return getLatest(latest)
+	if (latest != null) {
+		return getLatest(latest)
+	} else {
+		throw new RuntimeException("cannot find latest image for ${microservice}")
+	}
+	
 }
 
 node {
