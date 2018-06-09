@@ -50,6 +50,8 @@ def isLatestImageDeployed(microservice) {
 	def pod = getPod microservice
 	def podImage = getPodImage pod
 	def latestImage = getLatestImage microservice
+	println "pod image ${podImage}"
+	println "latest image ${latestImage}"
 	return podImage.equals(latestImage)
 }
 
@@ -87,7 +89,7 @@ node {
 		def dc = readFile('dc.output')
 		def configs = getDeploymentConfigs(dc, imageStreams)
 		configs.each { microservice ->
-					if (isLatestImageDeployed(microservice)) {
+					if (!isLatestImageDeployed(microservice)) {
 						println "deploying ${microservice}..."
 		        openshiftDeploy namespace: "prod", depCfg: microservice
 		        openshiftVerifyDeployment namespace: "prod", depCfg: microservice, replicaCount:"1", verifyReplicaCount: "true", waitTime: "600000"	
