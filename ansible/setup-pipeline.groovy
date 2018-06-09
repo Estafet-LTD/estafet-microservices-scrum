@@ -3,7 +3,7 @@ def slurper(json) {
 	return new groovy.json.JsonSlurper().parseText(json).metadata.name
 }
 
-node {
+node('maven') {
 	String json = "{\r\n" + 
 			"    \"apiVersion\": \"v1\",\r\n" + 
 			"    \"kind\": \"Pod\",\r\n" + 
