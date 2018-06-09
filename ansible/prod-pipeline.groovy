@@ -37,14 +37,9 @@ def getImage(json) {
 
 @NonCPS
 def getLatest(json) {
-	def tags = new groovy.json.JsonSlurper().parseText(json).status.tags
-	println tags
-	tags.each {
-		if (it.tag.equals("latest")) {
-			return it.items[0].image
-		}
-	}
-	return null
+	def tag = new groovy.json.JsonSlurper().parseText(json).status.tags.'**'.find(item -> item.tag.equals("latest"))
+	println tag
+	return tag.items[0].image
 }
 
 def isLatestImageDeployed(microservice) {
