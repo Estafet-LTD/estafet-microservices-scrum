@@ -1,6 +1,6 @@
 @NonCPS
 def slurper(json) {
-	new groovy.json.JsonSlurper().parseText(json).metadata.name
+	return new groovy.json.JsonSlurper().parseText(json).metadata.name
 }
 
 node {
@@ -40,5 +40,6 @@ node {
 			"}\r\n" + 
 			"";
 			println json
-			slurper(json)
+			def out = slurper(json)
+			println out
 }
