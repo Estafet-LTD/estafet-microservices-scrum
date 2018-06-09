@@ -40,8 +40,7 @@ def getLatest(json) {
 	def tags = new groovy.json.JsonSlurper().parseText(json).status.tags
 	println tags
 	for (int i = 0; i < tags.size(); i++) {
-		def tag = tags[i]['tag']
-		if (tags.equals("latest")) {
+		if (tags[i]['tag'].equals("latest")) {
 			def image = tags[i]['items'][0]['image']
 			def matcher = image =~ /(sha256\:)(\w+)/
 			return matcher[0][2]
