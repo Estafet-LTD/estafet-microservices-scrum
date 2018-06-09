@@ -18,7 +18,7 @@ def getDeploymentConfigs(dc, imageStreams) {
 def getImageStreams(is) {
 	def count = 0
 	def imageStreams = []
-	dc.split('\n').each { line ->
+	is.split('\n').each { line ->
     if (count > 0) {
         def matcher = line =~ /(\w+\-\w+)(.*)/
         imageStreams << matcher[0][1]
