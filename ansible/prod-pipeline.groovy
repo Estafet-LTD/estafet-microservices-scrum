@@ -37,8 +37,9 @@ def getImage(json) {
 
 @NonCPS
 def getLatest(json) {
-	def tags = new groovy.json.JsonSlurper().parseText(json).status.tags
-	tags[0].each {
+	def tags = new groovy.json.JsonSlurper().parseText(json).status.tags[0]
+	println tags
+	tags.each {
 		if (it.tag.equals("latest")) {
 			def image = it.items[0].image
 			def matcher = image =~ /(sha256\:)(\w+)/
