@@ -39,5 +39,6 @@ node {
 			"    }\r\n" + 
 			"}\r\n" + 
 			"";
+			println json
 			slurper(json)
 }
