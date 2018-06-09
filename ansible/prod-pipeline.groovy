@@ -1,28 +1,42 @@
 @NonCPS
-def getDeploymentConfigs(dc) {
+def getDeploymentConfigs(dc, imageStreams) {
 	def count = 0
 	def configs = []
 	dc.split('\n').each { line ->
     if (count > 0) {
         def matcher = line =~ /(\w+\-\w+)(.*)/
-        configs << matcher[0][1]
+      	if (imageStreams.contains(matcher[0][1])) {
+      		configs << matcher[0][1]		
+      	}
     }
     count++
 	}
 	return configs
 }
 
+@NonCPS
+def getImageStreams(is) {
+	def count = 0
+	def imageStreams = []
+	dc.split('\n').each { line ->
+    if (count > 0) {
+        def matcher = line =~ /(\w+\-\w+)(.*)/
+        imageStreams << matcher[0][1]
+    }
+    count++
+	}
+	return imageStreams
+}
+
 node {
 	
-	def configs
-	
-	stage ('retrieve deployment configs') {
+	stage ('deploy each microservice') {
+		sh "oc get is -n prod > is.output"
+		def is = readFile('is.output')
+		def imageStreams = getImageStreams is
 		sh "oc get dc --selector product=microservices-scrum -n prod > dc.output"
 		def dc = readFile('dc.output')
-		configs = getDeploymentConfigs dc
-	}
-	
-	stage ('deploy each microservice') {
+		def configs = getDeploymentConfigs(dc:dc, imageStreams:imageStreams)
 		configs.each { microservice ->
 					println microservice
 	        openshiftDeploy namespace: "prod", depCfg: microservice
