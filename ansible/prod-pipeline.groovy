@@ -66,13 +66,13 @@ def getPod(microservice) {
 }
 
 def getPodImage(pod) {
-	sh "oc get -o json -n prod pod ${pod} > image.json"
+	sh "oc get pod/${pod} -o json -n prod > image.json"
 	def image = readFile('image.json')
 	return getImage(image)
 }
 
 def getLatestImage(microservice) {
-	sh "oc get  -o json -n prod is ${microservice} > latest.json"
+	sh "oc get is/${microservice} -o json -n prod > latest.json"
 	def latest = readFile('latest.json')
 	return getLatest(latest)
 }
