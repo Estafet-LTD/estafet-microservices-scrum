@@ -9,6 +9,7 @@
 
 - name: Create the microservice databases on PostgreSQL Pod
   shell: 'oc exec -n {{ project }} {{db_pod}} -- /bin/sh -i -c "createdb {{ item.name }}"'
+  when: "{{ item.db }}"
   with_items: "{{ microservices_scrum_projects }}"  
   register: command_result
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"

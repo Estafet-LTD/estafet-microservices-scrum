@@ -5,19 +5,27 @@ microservices_scrum_projects:
 #  - repo: estafet-microservices-scrum-gateway
   - name: project-api
     repo: estafet-microservices-scrum-api-project
+    db: true
   - name: project-burndown
     repo: estafet-microservices-scrum-api-project-burndown
+    db: true
   - name: sprint-api     
     repo: estafet-microservices-scrum-api-sprint
+    db: true
   - name: sprint-board
     repo: estafet-microservices-scrum-api-sprint-board
+    db: false
   - name: sprint-burndown
     repo: estafet-microservices-scrum-api-sprint-burndown
+    db: true
   - name: story-api
     repo: estafet-microservices-scrum-api-story
+    db: true
   - name: task-api
     repo: estafet-microservices-scrum-api-task
+    db: true
   - name: basic-ui
     repo: estafet-microservices-scrum-basic-ui
+    db: false 
    
     
