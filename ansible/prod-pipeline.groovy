@@ -58,7 +58,7 @@ def getPod(microservice) {
 	def pod = readFile('pod.output')
 	def lines = pod.split('\n')
 	if (lines.size() > 1) {
-		def matcher = lines[1] =~ /(.*)(\s+)(\d+\/+d+)(.*)/
+		def matcher = lines[1] =~ /(\w+\-\w+\-\d+\-\w+)(\s+)(.*)/
 		return matcher[0][1]
 	} else {
 		return null
@@ -66,6 +66,7 @@ def getPod(microservice) {
 }
 
 def getPodImage(pod) {
+	println pod
 	sh "oc get pod ${pod} -o json -n prod > image.json"
 	def image = readFile('image.json')
 	return getImage(image)
