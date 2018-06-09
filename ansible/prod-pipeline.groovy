@@ -66,7 +66,6 @@ def getPod(microservice) {
 }
 
 def getPodImage(pod) {
-	println pod
 	sh "oc get pod ${pod} -o json -n prod > image.json"
 	def image = readFile('image.json')
 	return getImage(image)
