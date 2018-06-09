@@ -54,7 +54,7 @@ def isLatestImageDeployed(microservice) {
 }
 
 def getPod(microservice) {
-	sh "oc get pods --selector app=${microservice} > pod.output"
+	sh "oc get pods --selector app=${microservice} -n prod > pod.output"
 	def pod = readFile('pod.output')
 	def lines = pod.split('\n')
 	if (lines.size() > 1) {
@@ -66,13 +66,13 @@ def getPod(microservice) {
 }
 
 def getPodImage(pod) {
-	sh "oc get pod ${pod} -o json > image.output"
+	sh "oc get pod ${pod} -n prod -o json > image.output"
 	def image = readFile('image.output')
 	return getImage(image)
 }
 
 def getLatestImage(microservice) {
-	sh "oc get is project-api -o json > latest.json"
+	sh "oc get is project-api -n prod -o json > latest.json"
 	def latest = readFile('latest.json')
 	return getLatest(latest)
 }
