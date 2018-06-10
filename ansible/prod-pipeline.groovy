@@ -50,6 +50,7 @@ def getLatest(json) {
 
 def isLatestImageDeployed(microservice) {
 	def pod = getPod microservice
+	if (pod == null) return false
 	def podImage = getPodImage pod
 	def latestImage = getLatestImage microservice
 	return podImage.equals(latestImage)
