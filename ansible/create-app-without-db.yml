@@ -1,0 +1,59 @@
+---
+
+- name: include the variables for this microservice      
+  include_vars:
+    file: "{{ workdir }}/{{ repo }}/microservice-vars.yml"   
+
+- include: "{{ workdir }}/{{ repo }}/service-envs-{{ project }}.yml"  
+
+- set_fact: branch="master"
+
+- set_fact: expose_service=true
+  when: "{{ test_environment }}"
+
+- name: fetch latest tag for this repo
+  shell: "git describe --abbrev=0 --tags"
+  args:
+    chdir: "{{ workdir }}/{{ repo }}"
+  when: "{{ test_environment }}"
+  register: command_result
+  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+  changed_when: "'exists' not in command_result.stderr"
+  tags:
+    - git  
+
+- set_fact: branch="{{ command_result.stdout }}"
+  when: "{{ test_environment }}"
+
+- name: Create the microservices application from the source to image builder for application
+  shell: 'oc new-app redhat-openjdk18-openshift:1.2~{{ github }}/{{ repo }}#{{ branch }} --name={{ microservice }} {{ service_envs }}'
+  register: command_result
+  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+  changed_when: "'exists' not in command_result.stderr"
+  tags:
+    - openshift         
+
+- name: Expose Service
+  shell: "oc expose service {{ microservice }}"
+  register: command_result
+  when: "{{ expose_service }}"    
+  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+  changed_when: "'exists' not in command_result.stderr"
+  tags:
+    - openshift  
+
+- name: Configure the resource limits for this microservice
+  shell: "oc set resources dc {{ microservice }} -c={{ microservice }} --limits=cpu={{ cpu_max }},memory={{ memory_max }} --requests=cpu={{ cpu_min }},memory={{ memory_min }}"
+  register: command_result
+  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+  changed_when: "'exists' not in command_result.stderr"
+  tags:
+    - openshift        
+    
+- name: Wait for the microservice to become available
+  shell : "oc rollout status dc/{{ microservice }}"
+  register: command_result
+  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+  changed_when: "'exists' not in command_result.stderr"
+  tags:
+    - openshift        
