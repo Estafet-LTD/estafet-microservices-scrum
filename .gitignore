@@ -3,3 +3,7 @@
 /.settings/
 /.classpath
 *.retry
+/.terraform/
+/inventory.cfg
+/terraform.tfstate
+/terraform.tfstate.backup
