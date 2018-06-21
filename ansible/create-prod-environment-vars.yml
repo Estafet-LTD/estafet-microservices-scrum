@@ -9,6 +9,8 @@ openshift: 10.0.75.2:8443
 username: developer
 password: developer
 
+admin_user: true
+
 # Uncomment the following line to adjust the SCC (not using CDK3/minishift)
 adjust_scc: false
 

@@ -17,21 +17,8 @@ data "template_file" "inventory" {
   }
 }
 
-data "template_file" "environments-inventory" {
-  template = "${file("${path.cwd}/environments-inventory.template.cfg")}"
-
-  vars {
-    master_hostname = "${aws_instance.master.private_dns}"
-  }
-}
-
 //  Create the inventory.
 resource "local_file" "inventory" {
   content  = "${data.template_file.inventory.rendered}"
   filename = "${path.cwd}/inventory.cfg"
-}
-
-resource "local_file" "environments-inventory" {
-  content  = "${data.template_file.environments-inventory.rendered}"
-  filename = "${path.cwd}/environments-inventory.cfg"
 }

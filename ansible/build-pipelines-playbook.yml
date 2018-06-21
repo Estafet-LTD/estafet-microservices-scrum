@@ -11,6 +11,11 @@
       tags:
         - openshift
 
+    - name: Define Openshift project
+      shell: "oc project cicd"
+      tags:
+        - openshift   
+
     - name: Execute the build pipeline for each microservice
       shell: "oc start-build ci-{{item.name }} --wait=true -n cicd"      
       with_items: "{{ microservices_scrum_projects }}"

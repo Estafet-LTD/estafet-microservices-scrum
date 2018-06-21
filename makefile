@@ -36,12 +36,6 @@ start-openshift:
 browse-openshift:
 	echo $$(terraform output master-url)
 
-# create the environments in openshift
-openshift-environments:
-	# Copy our inventory to the master and run the install script.
-	scp ./inventory.cfg ec2-user@$$(terraform output bastion-public_dns):~
-	cat create-environments.sh | ssh -tt -A ec2-user@$$(terraform output bastion-public_dns)
-
 # SSH onto the master.
 ssh-bastion:
 	ssh -t -A ec2-user@$$(terraform output bastion-public_dns)
