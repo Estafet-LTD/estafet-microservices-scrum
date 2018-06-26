@@ -1,12 +1,13 @@
 ---
 - name: Login in OpenShift as {{ username }}
   shell: "oc login --insecure-skip-tls-verify=true -u {{ username }} -p {{ password }} {{ openshift }}"
+  when: "not {{ aws_master }}"  
   tags:
     - openshift
 
 - name: Create a new Openshift project
   shell: "oc adm new-project {{ project }} --node-selector=region={{ project }} --display-name='{{ project_description }}'"
-  when: "{{ admin_user }}"
+  when: "{{ aws_master }}"
   register: command_result
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
   changed_when: "'exists' not in command_result.stderr"
@@ -15,7 +16,7 @@
         
 - name: Create a new Openshift project
   shell: "oc new-project {{ project }} --display-name='{{ project_description }}'"
-  when: "not {{ admin_user }}"
+  when: "not {{ aws_master }}"
   register: command_result
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
   changed_when: "'exists' not in command_result.stderr"

@@ -1,7 +1,7 @@
 ---
 - name: Login in OpenShift as Administrator
   shell: "oc login --insecure-skip-tls-verify=true -u system:admin {{ openshift }}"
-  when: "not {{ admin_user }}"  
+  when: "not {{ aws_master }}"  
   tags:
     - openshift
 

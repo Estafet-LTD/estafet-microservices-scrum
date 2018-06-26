@@ -32,9 +32,22 @@ stop-openshift:
 start-openshift:
 	aws ec2 start-instances --instance-ids $$(aws ec2 describe-instances --filters "Name=tag:Project,Values=openshift" --query "Reservations[].Instances[].[InstanceId]" --output text | tr '\n' ' ')
 
+# create the environments in openshift
+environments:
+	# Copy our inventory to the master and run the install script.
+	scp ./environments-inventory.cfg ec2-user@$$(terraform output bastion-public_dns):~
+	cat create-environments.sh | ssh -tt -A ec2-user@$$(terraform output bastion-public_dns)
+
 # Open the console.
 browse-openshift:
 	echo $$(terraform output master-url)
+
+ssh-update:
+	ssh-add ~/.ssh/id_rsa
+	ssh-keyscan -t rsa -H $$(terraform output bastion-public_dns) >> ~/.ssh/known_hosts
+	ssh -A ec2-user@$$(terraform output bastion-public_dns) "ssh-keyscan -t rsa -H master.openshift.local >> ~/.ssh/known_hosts"
+	ssh -A ec2-user@$$(terraform output bastion-public_dns) "ssh-keyscan -t rsa -H node1.openshift.local >> ~/.ssh/known_hosts"
+	ssh -A ec2-user@$$(terraform output bastion-public_dns) "ssh-keyscan -t rsa -H node2.openshift.local >> ~/.ssh/known_hosts"
 
 # SSH onto the master.
 ssh-bastion:

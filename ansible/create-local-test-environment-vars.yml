@@ -10,7 +10,7 @@ username: developer
 password: developer
 
 # if the user is an admin user then there is no need to log in using system:admin
-admin_user: false
+aws_master: false
 
 # Uncomment the following line to adjust the SCC (not using CDK3/minishift)
 adjust_scc: false

@@ -3,14 +3,14 @@
 workdir: "{{ ansible_env.HOME }}/.estafet"
 
 # UNCOMENT Define the OpenShift host:port address
-openshift: 18.130.88.201.xip.io:8443
+# openshift: 35.178.104.55.xip.io:8443
 
 # Your OpenShift credentials
 username: admin
 password: 123
 
 # if the user is an admin user then there is no need to log in using system:admin
-admin_user: true
+aws_master: true
 
 # Uncomment the following line to adjust the SCC (not using CDK3/minishift)
 adjust_scc: false
