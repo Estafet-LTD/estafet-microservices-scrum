@@ -1,32 +1,34 @@
 ---
 - name: Login in OpenShift as {{ username }}
   shell: "oc login --insecure-skip-tls-verify=true -u {{ username }} -p {{ password }} {{ openshift }}"
-  when: "not {{ aws_master }}"  
+  when: "not {{ aws_master }}"
   tags:
     - openshift
-        
+
 - name: Define Openshift project
   shell: "oc project {{ project }}"
   tags:
-    - openshift  
+    - openshift
 
 - include: amq-vars.yml
 - include: create-db.yml
 
 - name: Create the db based microservices applications using the source to image builder
-  include_tasks: "create-app-with-db.yml repo={{ item.repo }} microservice={{ item.name }}"
+  include_tasks: "create-app-with-db.yml"
+  vars:
+    repo: "{{ item.repo }}"
+    microservice: "{{ item.name }}"
   when: "{{ item.db }}"
   with_items: "{{ microservices_scrum_projects }}"
   tags:
-    - openshift   
+    - openshift
 
 - name: Create the non db based microservices applications using the source to image builder
-  include_tasks: "create-app-without-db.yml repo={{ item.repo }} microservice={{ item.name }}"
+  include_tasks: "create-app-without-db.yml"
+  vars:
+    repo: "{{ item.repo }}"
+    microservice: "{{ item.name }}"
   when: "not {{ item.db }}"
   with_items: "{{ microservices_scrum_projects }}"
   tags:
-    - openshift   
-  
-  
-
-    
+    - openshift
