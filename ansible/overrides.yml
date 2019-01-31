@@ -1,0 +1,2 @@
+---
+oc_env_cmd: 'oc set env'

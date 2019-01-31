@@ -1,25 +1,25 @@
 ---
-- name: Expose Service
+- name: Expose Service ({{ microservice }})
   shell: "oc expose service {{ microservice }}"
   register: command_result
-  when: "{{ expose_service }}"    
+  when: "{{ expose_service }}"
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
   changed_when: "'exists' not in command_result.stderr"
   tags:
-    - openshift  
+    - openshift
 
-- name: Configure the resource limits for this microservice
+- name: Configure the resource limits for microservice ({{ microservice }})
   shell: "oc set resources dc {{ microservice }} -c={{ microservice }} --limits=cpu={{ cpu_max }},memory={{ memory_max }} --requests=cpu={{ cpu_min }},memory={{ memory_min }}"
   register: command_result
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
   changed_when: "'exists' not in command_result.stderr"
   tags:
-    - openshift        
-    
-- name: Wait for the microservice to become available
+    - openshift
+
+- name: Wait for the microservice to become available ({{ microservice }})
   shell : "oc rollout status dc/{{ microservice }}"
   register: command_result
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
   changed_when: "'exists' not in command_result.stderr"
   tags:
-    - openshift    
+    - openshift

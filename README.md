@@ -86,12 +86,29 @@ git clone https://github.com/Estafet-LTD/estafet-microservices-scrum.git
 ##### Step #2
 Run the playbook. The playbook takes about 15 mins complete.
 
-> Note:- If you are using minishift, it might be advisible to tweak the resources available.
+> Note:- If you are using minishift, it might be advisible to tweak the resources available (see below).
 
 ```
 $ cd estafet-microservices-scrum/ansible
 $ ansible-playbook create-local-environment-playbook.yml
 ```
+
+###### Minishift specifics
+To remove your minshift installation in preparation to rebuild:
+
+```
+$ minishift delete && rm -rf ~/.minishift
+```
+
+To build minishift and get the scum demo up and running:
+
+```
+$ minishift start --memory 6GB && ansible-playbook create-local-environment-playbook.yml --extra-vars=@overrides.yml
+```
+
+> Note:- The default 4GB of ram is not sufficient to get all up and running, also the '--extra-vars=@overrides.yml' is required for versions of Openshift > 3.0 (this relates to the command for setting env vars only)
+
+The IP of the minishift instance is detected in the Ansible playbook 'create-local-environment-playbook.yml' if the 'openshift' variable is not provided. To override this, supply the 'openshift' variable.
 
 #### Reseting application data
 You can reset the application data by executing the following playbook. This will redeploy all of database dependent microservices so it takes about a 30 seconds to complete.
