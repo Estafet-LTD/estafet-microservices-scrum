@@ -100,7 +100,7 @@ To remove your minshift installation in preparation to rebuild:
 $ minishift delete && rm -rf ~/.minishift
 ```
 
-To build minishift and get the scum demo up and running:
+To build minishift and get the scrum demo up and running:
 
 ```
 $ minishift start --memory 6GB && ansible-playbook create-local-environment-playbook.yml --extra-vars=@overrides.yml
@@ -108,7 +108,7 @@ $ minishift start --memory 6GB && ansible-playbook create-local-environment-play
 
 > Note:- The default 4GB of ram is not sufficient to get all up and running, also the '--extra-vars=@overrides.yml' is required for versions of Openshift > 3.0 (this relates to the command for setting env vars only)
 
-The IP of the minishift instance is detected in the Ansible playbook 'create-local-environment-playbook.yml' if the 'openshift' variable is not provided. To override this, supply the 'openshift' variable.
+The IP of the minishift instance is detected in the Ansible playbook 'create-local-environment-playbook.yml' if the 'openshift' variable is not provided. To override this, supply the 'openshift' variable in file `create-local-environment-vars.yml` by uncommenting the 'openshift' variable definition line and supplying the correct ip address.
 
 #### Reseting application data
 You can reset the application data by executing the following playbook. This will redeploy all of database dependent microservices so it takes about a 30 seconds to complete.
