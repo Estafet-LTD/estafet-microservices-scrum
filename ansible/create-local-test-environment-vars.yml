@@ -3,7 +3,7 @@
 workdir: "{{ ansible_env.HOME }}/.estafet"
 
 # UNCOMENT Define the OpenShift host:port address
-openshift: 10.0.75.2:8443
+openshift: 192.168.99.100:8443
 
 # Your OpenShift credentials
 username: developer
