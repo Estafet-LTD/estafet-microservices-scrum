@@ -1,7 +1,6 @@
 ---
 - name: Login in OpenShift as Administrator
   shell: "oc login --insecure-skip-tls-verify=true -u system:admin {{ openshift }}"
-  when: "not {{ aws_master }}"  
   tags:
     - openshift
 
@@ -16,7 +15,6 @@
 
 - name: Login in OpenShift as {{ username }}
   shell: "oc login --insecure-skip-tls-verify=true -u {{ username }} -p {{ password }} {{ openshift }}"
-  when: "not {{ aws_master }}"  
   tags:
     - openshift
         

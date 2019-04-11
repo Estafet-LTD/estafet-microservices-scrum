@@ -1,6 +1,6 @@
 ---
 - name: Recreate the dev environments
-  hosts: localhost
+  hosts: all
   vars_files:
     - microservices-vars.yml
   tasks:  

@@ -1,10 +1,4 @@
 ---
-- name: Login in OpenShift as {{ username }}
-  shell: "oc login --insecure-skip-tls-verify=true -u {{ username }} -p {{ password }} {{ openshift }}"
-  when: "not {{ aws_master }}"
-  tags:
-    - openshift
-
 - name: Define Openshift project
   shell: "oc project {{ project }}"
   tags:

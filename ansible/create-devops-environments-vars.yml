@@ -2,15 +2,9 @@
 # the Absolute path where you want to checkout the sourcecode
 workdir: "{{ ansible_env.HOME }}/.estafet"
 
-# UNCOMENT Define the OpenShift host:port address
-# openshift: 35.178.104.55.xip.io:8443
-
 # Your OpenShift credentials
-username: admin
-password: 123
-
-# if the user is an admin user then there is no need to log in using system:admin
-aws_master: true
+username: developer
+password: developer
 
 # Uncomment the following line to adjust the SCC (not using CDK3/minishift)
 adjust_scc: false

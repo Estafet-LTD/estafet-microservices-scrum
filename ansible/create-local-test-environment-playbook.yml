@@ -1,6 +1,6 @@
 ---
 - name: Install Estafet Microservices Application in Openshift
-  hosts: localhost
+  hosts: all
   vars_files:
     - create-local-test-environment-vars.yml
     - microservices-vars.yml    

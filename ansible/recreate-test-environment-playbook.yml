@@ -1,6 +1,6 @@
 ---
 - name: Recreate the test environments
-  hosts: localhost
+  hosts: all
   vars_files:
     - microservices-vars.yml
     - create-environments-vars.yml    

@@ -1,6 +1,6 @@
 ---
 - name: Recreate the prod environment
-  hosts: localhost
+  hosts: all
   vars_files:
     - create-prod-environment-vars.yml
     - microservices-vars.yml 

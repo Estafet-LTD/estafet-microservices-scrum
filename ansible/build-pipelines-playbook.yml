@@ -1,6 +1,6 @@
 ---
 - name: Run the build pipelines and then the release pipelines
-  hosts: localhost
+  hosts: all
   vars_files:
     - microservices-vars.yml
     - pipelines-vars.yml

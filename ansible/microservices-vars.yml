@@ -1,8 +1,6 @@
 ---
 # Project definition - add new microservices here
 microservices_scrum_projects:
-#  - repo: estafet-microservices-scrum-api-discovery
-#  - repo: estafet-microservices-scrum-gateway
   - name: project-api
     repo: estafet-microservices-scrum-api-project
     db: true

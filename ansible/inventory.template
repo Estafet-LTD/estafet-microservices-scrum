@@ -1,0 +1,1 @@
+localhost ansible_connection=local openshift=10.0.75.2:8443

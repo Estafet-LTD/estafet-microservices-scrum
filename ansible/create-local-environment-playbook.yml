@@ -1,20 +1,10 @@
 ---
 - name: Install Estafet Microservices Application in Openshift
-  hosts: localhost
+  hosts: all
   vars_files:
     - create-local-environment-vars.yml
     - microservices-vars.yml
   tasks:
-    - name: discover minishift ip
-      shell: 'minishift ip'
-      register: minishift_ip_cmd_result
-      when: openshift is not defined
-
-    - name: Set minishift host and port details
-      set_fact:
-        openshift: "{{ minishift_ip_cmd_result.stdout }}:8443"
-      when: openshift is not defined
-
     - include: initial-setup.yml
     - include: environment-setup.yml
     - include: jaeger-setup.yml
