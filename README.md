@@ -33,6 +33,7 @@ One thing to note is that each microservice has its own git repository. Separate
 There are a couple of installation options for the demo application:
 
 * [Local Environment Setup](https://github.com/Estafet-LTD/estafet-microservices-scrum#local-environment-setup)
+* [Local Test Environment Setup](https://github.com/Estafet-LTD/estafet-microservices-scrum#test-environment-setup)
 * [DevOps Environment Setup](https://github.com/Estafet-LTD/estafet-microservices-scrum#devops-environment-setup)
 
 ### Prerequisites
@@ -155,7 +156,7 @@ tbc...
 ## Architecture
 The application consists of 9 microservices + the user interface. These are deployed to openshift as pods. The postgres pod instance contains 6 databases, each "owned" by a microservice. The A-MQ broker processes messages sent to topics and distributes these to microservices that have subscribedtothose topics.
 
-![alt tag](https://github.com/Estafet-LTD/estafet-microservices-scrum/blob/master/Estafet-Scrum-App-Gateway_V2.PNG)
+![alt tag](https://github.com/Estafet-LTD/estafet-microservices-scrum/blob/master/PodComponents.png)
 
 ### Domain Model
 Here's the overall business domain model.
