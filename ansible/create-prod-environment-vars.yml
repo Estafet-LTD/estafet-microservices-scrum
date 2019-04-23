@@ -6,6 +6,9 @@ workdir: "{{ ansible_env.HOME }}/.estafet"
 username: developer
 password: developer
 
+# Does the use an external db
+external_db: true
+
 # Uncomment the following line to adjust the SCC (not using CDK3/minishift)
 adjust_scc: false
 

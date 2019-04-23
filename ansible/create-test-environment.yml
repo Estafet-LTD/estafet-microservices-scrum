@@ -3,6 +3,7 @@
 - set_fact: project="test"
 - set_fact: project_description="Test Environment for Microservices Scrum"
 - set_fact: expose_basic_ui=true
+- set_fact: external_db=true
     
 - include: environment-setup.yml
 - include: jaeger-setup.yml

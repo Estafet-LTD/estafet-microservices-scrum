@@ -34,7 +34,7 @@ EOF
 
 # Download and run the AWS logs agent.
 curl https://s3.amazonaws.com/aws-cloudwatch/downloads/latest/awslogs-agent-setup.py -O
-python ./awslogs-agent-setup.py --non-interactive --region eu-west-2 -c ./awslogs.conf
+python ./awslogs-agent-setup.py --non-interactive --region us-east-1 -c ./awslogs.conf
 
 # Start the awslogs service, also start on reboot.
 # Note: Errors go to /var/log/awslogs.log

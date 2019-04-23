@@ -8,7 +8,7 @@
   set_fact: db_pod="{{list_of_db_pods.stdout|from_json|json_query('items[0].metadata.name')}}"
 
 - name: Create the microservice databases on PostgreSQL Pod
-  shell: 'oc exec -n {{ project }} {{db_pod}} -- /bin/sh -i -c "createdb {{ item.name }}"'
+  shell: 'oc exec -n {{ project }} {{db_pod}} -- /bin/sh -i -c "createdb {{ project }}-{{ item.name }}"'
   when: "{{ item.db }}"
   with_items: "{{ microservices_scrum_projects }}"  
   register: command_result
