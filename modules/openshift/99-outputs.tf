@@ -38,3 +38,14 @@ output "bastion-private_dns" {
 output "bastion-private_ip" {
   value = "${aws_instance.bastion.private_ip}"
 }
+output "aws_vpc_openshift" {
+  value = "${aws_vpc.openshift.id}"
+}
+output "aws_security_group_vpc" {
+  value = "${aws_security_group.openshift-vpc.id}"
+}
+output "aws_subnet_public_subnet" {
+  value = "${aws_subnet.public-subnet.id}"
+}
+
+

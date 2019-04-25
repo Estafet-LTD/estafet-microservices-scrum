@@ -42,15 +42,8 @@ ssh-node1:
 ssh-node2:
 	ssh -t -A ec2-user@$$(terraform output bastion-public_ip) ssh node2.openshift.local
 
-stop-openshift:
-	aws ec2 stop-instances --instance-ids $$(aws ec2 describe-instances --filters "Name=tag:Project,Values=openshift" --query "Reservations[].Instances[].[InstanceId]" --output text | tr '\n' ' ')
-
-start-openshift:
-	aws ec2 start-instances --instance-ids $$(aws ec2 describe-instances --filters "Name=tag:Project,Values=openshift" --query "Reservations[].Instances[].[InstanceId]" --output text | tr '\n' ' ')
-
-
-# Create microservice scrum application services.
-app:
+# Create sample services.
+deploy:
 	oc login $$(terraform output master-url) --insecure-skip-tls-verify=true -u=admin -p=123
 	oc new-project sample
 	oc process -f ./sample/counter-service.yml | oc create -f -
