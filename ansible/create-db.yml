@@ -1,15 +1,56 @@
 ---
-# Define the name and description of the OpenShift project
+- name: Install the PostgreSQL server
+  shell : "oc new-app postgresql-persistent --name postgresql"
+  when: "not {{ external_db }}"
+  register: command_result
+  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+  changed_when: "'exists' not in command_result.stderr"
+  tags:
+    - openshift
+    - postgres   
+
+- name: Wait for the postgresql server to become available
+  shell : "oc rollout status dc/postgresql"
+  when: "not {{ external_db }}"
+  register: command_result
+  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+  changed_when: "'exists' not in command_result.stderr"
+  tags:
+    - openshift
+    - postgres   
+
+- name: Set the db credentials
+  shell: "{{ oc_env_cmd | default ('oc env') }} dc postgresql -e POSTGRESQL_USER=postgres -e POSTGRESQL_PASSWORD=welcome1"
+  when: "not {{ external_db }}"
+  register: command_result
+  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+  changed_when: "'exists' not in command_result.stderr"
+  tags:
+    - openshift
+    - postgres   
+
+- name: Wait for the postgresql server to become available
+  shell : "oc rollout status dc/postgresql"
+  when: "not {{ external_db }}"
+  register: command_result
+  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+  changed_when: "'exists' not in command_result.stderr"
+  tags:
+   - openshift
+   - postgres   
+
 - name: Read the database pod list
   shell: "oc get pods --selector app=postgresql -o json"
+  when: "not {{ external_db }}"
   register: list_of_db_pods
     
 - name: Get the name of the PostgreSQL Pod
   set_fact: db_pod="{{list_of_db_pods.stdout|from_json|json_query('items[0].metadata.name')}}"
+  when: "not {{ external_db }}"
 
 - name: Create the microservice databases on PostgreSQL Pod
   shell: 'oc exec -n {{ project }} {{db_pod}} -- /bin/sh -i -c "createdb {{ project }}-{{ item.name }}"'
-  when: "{{ item.db }}"
+  when: "{{ item.db }} and not {{ external_db }}"
   with_items: "{{ microservices_scrum_projects }}"  
   register: command_result
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
@@ -17,3 +58,39 @@
   tags:
     - openshift
     - postgresql
+
+- name: copy the database service template to the working directory
+  copy:
+    src: "external-postgres-service.yml.template"
+    dest: "{{ workdir }}/external-postgres-service.yml"
+    force: true
+
+- name: Set Database Domain  
+  replace:
+    path: "{{ workdir }}/external-postgres-service.yml"
+    regexp: 'localhost'
+    replace: "{{ database }}"
+  when: "{{ external_db }}"
+  tags:
+    - db
+    - postgresql  
+    
+- name: Create the external database service 
+  shell: "oc create -f {{ workdir }}/external-postgres-service.yml"
+  when: "{{ external_db }}"
+  tags:
+    - db
+    - postgresql
+
+- postgresql_db:
+    db: "{{ project }}-{{ item.name }}"
+    login_host: "{{ database }}"
+    login_password: welcome1
+    state: present
+  when: "{{ item.db }} and {{ external_db }}"
+  with_items: "{{ microservices_scrum_projects }}"
+  tags:
+    - db
+    - postgresql
+
+    

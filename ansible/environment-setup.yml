@@ -29,43 +29,7 @@
   tags:
     - openshift
     - xpaas  
-
-- name: Install the PostgreSQL server
-  shell : "oc new-app postgresql-persistent --name postgresql"
-  register: command_result
-  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
-  changed_when: "'exists' not in command_result.stderr"
-  tags:
-    - openshift
-    - postgres   
-
-- name: Wait for the postgresql server to become available
-  shell : "oc rollout status dc/postgresql"
-  register: command_result
-  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
-  changed_when: "'exists' not in command_result.stderr"
-  tags:
-    - openshift
-    - postgres   
-
-- name: Set the db credentials
-  shell: "{{ oc_env_cmd | default ('oc env') }} dc postgresql -e POSTGRESQL_USER=postgres -e POSTGRESQL_PASSWORD=welcome1"
-  register: command_result
-  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
-  changed_when: "'exists' not in command_result.stderr"
-  tags:
-    - openshift
-    - postgres   
-
-- name: Wait for the postgresql server to become available
-  shell : "oc rollout status dc/postgresql"
-  register: command_result
-  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
-  changed_when: "'exists' not in command_result.stderr"
-  tags:
-   - openshift
-   - postgres   
-                
+              
 - name: Install the JBoss A-MQ Message Broker
   shell: "oc process amq63-basic -p IMAGE_STREAM_NAMESPACE={{ project }} -p MQ_USERNAME=amq -p MQ_PASSWORD=amq | oc create -f -"
   register: command_result

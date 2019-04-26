@@ -5,27 +5,7 @@
     - openshift
 
 - include: amq-vars.yml
-
-- name: Create the database depending on whether environment is aws
-  include_tasks: "create-db.yml"
-  when: "not {{ external_db }}"
-  tags:
-    - db
-    - postgresql
-
-- name: Create the external database service 
-  shell: "oc create -f external-postgres-service.yml"
-  when: "{{ external_db }}"
-  tags:
-    - db
-    - postgresql
-
-- name: Create the external database endpoint 
-  shell: "oc create -f external-postgres-endpoint.yml"
-  when: "{{ external_db }}"
-  tags:
-    - db
-    - postgresql
+- include: create-db.yml
 
 - name: Create the db based microservices applications using the source to image builder
   include_tasks: "create-app-with-db.yml"
