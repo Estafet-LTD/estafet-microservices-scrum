@@ -6,8 +6,10 @@ sudo -E su
 # Install dev tools.
 yum install -y "@Development Tools" python2-pip openssl-devel python-devel gcc libffi-devel
 
+yum install postgresql-devel
+pip install psycopg2
+
 pip install -I ansible==2.6.5
-pip install psycopg2-binary
 
 git clone https://github.com/Estafet-LTD/estafet-microservices-scrum
 

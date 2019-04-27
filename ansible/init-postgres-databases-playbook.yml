@@ -3,33 +3,36 @@
   hosts: all
   vars_files:
     - microservices-vars.yml
+  tasks:
+  - name: creating the dev database
+    postgresql_db:
+      db: "dev-{{ item.name }}"
+      login_host: "{{ database }}"
+      login_password: welcome1
+      state: present
+    with_items: "{{ microservices_scrum_projects }}"
+    tags:
+      - db
+      - postgresql
 
-- postgresql_db:
-    db: "dev-{{ item.name }}"
-    login_host: "{{ database }}"
-    login_password: welcome1
-    state: present
-  with_items: "{{ microservices_scrum_projects }}"
-  tags:
-    - db
-    - postgresql
+  - name: creating the test database
+    postgresql_db:
+      db: "test-{{ item.name }}"
+      login_host: "{{ database }}"
+      login_password: welcome1
+      state: present
+    with_items: "{{ microservices_scrum_projects }}"
+    tags:
+      - db
+      - postgresql
 
-- postgresql_db:
-    db: "test-{{ item.name }}"
-    login_host: "{{ database }}"
-    login_password: welcome1
-    state: present
-  with_items: "{{ microservices_scrum_projects }}"
-  tags:
-    - db
-    - postgresql
-
-- postgresql_db:
-    db: "prod-{{ item.name }}"
-    login_host: "{{ database }}"
-    login_password: welcome1
-    state: present
-  with_items: "{{ microservices_scrum_projects }}"
-  tags:
-    - db
-    - postgresql
+  - name: creating the prod database
+    postgresql_db:
+      db: "prod-{{ item.name }}"
+      login_host: "{{ database }}"
+      login_password: welcome1
+      state: present
+    with_items: "{{ microservices_scrum_projects }}"
+    tags:
+      - db
+      - postgresql
