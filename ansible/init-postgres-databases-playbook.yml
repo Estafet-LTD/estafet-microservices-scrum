@@ -4,8 +4,7 @@
   vars_files:
     - microservices-vars.yml
 
-- name: create databases for dev
-  postgresql_db:
+- postgresql_db:
     db: "dev-{{ item.name }}"
     login_host: "{{ database }}"
     login_password: welcome1
@@ -16,8 +15,7 @@
     - db
     - postgresql
 
-- name: create databases for test
-  postgresql_db:
+- postgresql_db:
     db: "test-{{ item.name }}"
     login_host: "{{ database }}"
     login_password: welcome1
@@ -28,8 +26,7 @@
     - db
     - postgresql
 
-- name: create databases for prod
-  postgresql_db:
+- postgresql_db:
     db: "prod-{{ item.name }}"
     login_host: "{{ database }}"
     login_password: welcome1
