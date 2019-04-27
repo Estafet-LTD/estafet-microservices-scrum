@@ -2,12 +2,41 @@
 - name: Create the databases for the RDS psotgres instance
   hosts: all
   vars_files:
-    - create-devops-environments-vars.yml
     - microservices-vars.yml
 
-- name: Create the databases for the RDS psotgres instance
-  include_tasks: "init-postgres-database.yml"
-  with_items: "{{ microservices_scrum_environments }}"
+- name: create databases for dev
+  postgresql_db:
+    db: "dev-{{ item.name }}"
+    login_host: "{{ database }}"
+    login_password: welcome1
+    state: present
+  when: "{{ item.db }}"
+  with_items: "{{ microservices_scrum_projects }}"
   tags:
+    - db
+    - postgresql
+
+- name: create databases for test
+  postgresql_db:
+    db: "test-{{ item.name }}"
+    login_host: "{{ database }}"
+    login_password: welcome1
+    state: present
+  when: "{{ item.db }}"
+  with_items: "{{ microservices_scrum_projects }}"
+  tags:
+    - db
+    - postgresql
+
+- name: create databases for prod
+  postgresql_db:
+    db: "prod-{{ item.name }}"
+    login_host: "{{ database }}"
+    login_password: welcome1
+    state: present
+  when: "{{ item.db }}"
+  with_items: "{{ microservices_scrum_projects }}"
+  tags:
+    - db
     - postgresql
     

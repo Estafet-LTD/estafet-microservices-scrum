@@ -29,8 +29,3 @@ amq_url: tcp://localhost:61616
 
 # test environment flag
 test_environment: false
-
-microservices_scrum_environments:
-  - name: dev
-  - name: test
-  - name: prod        

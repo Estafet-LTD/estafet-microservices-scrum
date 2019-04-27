@@ -14,7 +14,7 @@ openshift:
 
 	# Copy the rds inventory to the master and runs the database initialisation script.
 	scp ./rds-inventory.cfg ec2-user@$$(terraform output bastion-public_ip):~
-	cat create-postgres-databases.sh | ssh -o StrictHostKeyChecking=no -A ec2-user@$$(terraform output bastion-public_ip)
+	cat init-postgres-databases.sh | ssh -o StrictHostKeyChecking=no -A ec2-user@$$(terraform output bastion-public_ip)
 
 	# Copy our inventory to the master and run the install script.
 	scp ./inventory.cfg ec2-user@$$(terraform output bastion-public_ip):~

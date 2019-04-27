@@ -7,4 +7,4 @@
 /inventory.cfg
 /terraform.tfstate
 /terraform.tfstate.backup
-/environments-inventory.cfg
+/rds-inventory.cfg
