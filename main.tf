@@ -16,17 +16,6 @@ module "openshift" {
   cluster_id      = "openshift-cluster-${var.region}"
 }
 
-//  Output some useful variables for quick SSH access etc.
-output "master-url" {
-  value = "https://${module.openshift.master-public_ip}.xip.io:8443"
-}
-output "master-public_ip" {
-  value = "${module.openshift.master-public_ip}"
-}
-output "bastion-public_ip" {
-  value = "${module.openshift.bastion-public_ip}"
-}
-
 resource "aws_subnet" "db_subnet_a" {
   vpc_id                  = "${module.openshift.aws_vpc_openshift}"
   cidr_block              = "10.0.2.0/24"
@@ -98,6 +87,17 @@ module "db" {
 
   # Database Deletion Protection
   deletion_protection = false
+}
+
+//  Output some useful variables for quick SSH access etc.
+output "master-url" {
+  value = "https://${module.openshift.master-public_ip}.xip.io:8443"
+}
+output "master-public_ip" {
+  value = "${module.openshift.master-public_ip}"
+}
+output "bastion-public_ip" {
+  value = "${module.openshift.bastion-public_ip}"
 }
 
 

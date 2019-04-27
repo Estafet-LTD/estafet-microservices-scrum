@@ -1,0 +1,14 @@
+---
+- name: create databases for {{ project }}
+  postgresql_db:
+    db: "{{ project }}-{{ item.name }}"
+    login_host: "{{ database }}"
+    login_password: welcome1
+    state: present
+  when: "{{ item.db }}"
+  with_items: "{{ microservices_scrum_projects }}"
+  tags:
+    - db
+    - postgresql
+
+    

@@ -1,0 +1,13 @@
+---
+- name: Create the databases for the RDS psotgres instance
+  hosts: all
+  vars_files:
+    - create-devops-environments-vars.yml
+    - microservices-vars.yml
+
+- name: Create the databases for the RDS psotgres instance
+  include_tasks: "init-postgres-database.yml"
+  with_items: "{{ microservices_scrum_environments }}"
+  tags:
+    - postgresql
+    
