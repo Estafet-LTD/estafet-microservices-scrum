@@ -1,10 +1,10 @@
 ---
-- name: Reset the liquibase locks for the microservices in {{ project }}
+- name: "Reset the liquibase locks for the microservices in {{ project }}"
   hosts: all
   vars_files:
     - microservices-vars.yml
   tasks:
-  - name: reseting {{ project }} liqubase lock
+  - name: "reseting {{ project }} liqubase lock"
     postgresql_table:
       table: DATABASECHANGELOGLOCK
       state: absent
