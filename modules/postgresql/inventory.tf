@@ -3,7 +3,7 @@
 data "template_file" "inventory" {
   template = "${file("${path.cwd}/rds-inventory.template.cfg")}"
   vars {
-    database_hostname = "${module.db_instance.this_db_instance_endpoint}"
+    database_hostname = "${module.db_instance.this_db_instance_address}"
   }
 }
 
