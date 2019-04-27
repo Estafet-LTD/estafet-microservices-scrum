@@ -9,8 +9,8 @@
     login_host: "{{ database }}"
     login_password: welcome1
     state: present
-  when: "{{ item.db }}"
   with_items: "{{ microservices_scrum_projects }}"
+  when: "{{ item.db }}"  
   tags:
     - db
     - postgresql
@@ -20,8 +20,8 @@
     login_host: "{{ database }}"
     login_password: welcome1
     state: present
-  when: "{{ item.db }}"
   with_items: "{{ microservices_scrum_projects }}"
+  when: "{{ item.db }}"  
   tags:
     - db
     - postgresql
@@ -31,8 +31,8 @@
     login_host: "{{ database }}"
     login_password: welcome1
     state: present
-  when: "{{ item.db }}"
   with_items: "{{ microservices_scrum_projects }}"
+  when: "{{ item.db }}"  
   tags:
     - db
     - postgresql
