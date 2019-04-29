@@ -6,9 +6,6 @@ workdir: "{{ ansible_env.HOME }}/.estafet"
 username: developer
 password: developer
 
-# Is the openshift cluster local or cloud 
-cloud_openshift: false
-
 # Does the use an external db
 external_db: false
 

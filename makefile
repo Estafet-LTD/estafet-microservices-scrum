@@ -12,11 +12,8 @@ openshift:
 	ssh -A ec2-user@$$(terraform output bastion-public_ip) "ssh-keyscan -t rsa -H node1.openshift.local >> ~/.ssh/known_hosts"
 	ssh -A ec2-user@$$(terraform output bastion-public_ip) "ssh-keyscan -t rsa -H node2.openshift.local >> ~/.ssh/known_hosts"
 
-	# Copy the rds inventory to the master and runs the database initialisation script.
-	scp ./rds-inventory.cfg ec2-user@$$(terraform output bastion-public_ip):~
-	cat init-postgres-databases.sh | ssh -o StrictHostKeyChecking=no -A ec2-user@$$(terraform output bastion-public_ip)
-
 	# Copy our inventory to the master and run the install script.
+	scp ./rds-inventory.cfg ec2-user@$$(terraform output bastion-public_ip):~
 	scp ./inventory.cfg ec2-user@$$(terraform output bastion-public_ip):~
 	cat install-from-bastion.sh | ssh -o StrictHostKeyChecking=no -A ec2-user@$$(terraform output bastion-public_ip)
 

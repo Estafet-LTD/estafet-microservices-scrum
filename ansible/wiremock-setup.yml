@@ -1,10 +1,4 @@
 ---
-- name: Login in OpenShift as Administrator
-  shell: "oc login --insecure-skip-tls-verify=true -u system:admin {{ openshift }}"
-  when: "not {{ cloud_openshift }}"
-  tags:
-    - openshift
-
 - name: Create a persistent volume for wiremock mappings
   shell : "oc create -f wiremock-volume.json -n {{ project }}"
   register: command_result

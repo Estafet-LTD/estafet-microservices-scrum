@@ -1,0 +1,1 @@
+localhost ansible_connection=local openshift=${openshift_endpoint} database=${database_hostname}

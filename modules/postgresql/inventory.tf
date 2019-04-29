@@ -7,8 +7,10 @@ data "template_file" "inventory" {
   }
 }
 
-//  Create the inventory.
+//  Create the remote aws rds inventory.
 resource "local_file" "inventory" {
   content     = "${data.template_file.inventory.rendered}"
   filename = "${path.cwd}/rds-inventory.cfg"
 }
+
+

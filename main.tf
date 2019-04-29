@@ -101,4 +101,3 @@ output "bastion-public_ip" {
 }
 
 
-
