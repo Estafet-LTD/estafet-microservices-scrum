@@ -5,8 +5,24 @@
 - set_fact: expose_basic_ui=false
 
 - include: environment-setup.yml
-- include: wiremock-setup.yml    
-- include: microservices-setup.yml
+
+- name: Build and Deploy wiremock 
+  shell: "oc new-app rodolpheche/wiremock~https://github.com/rodolpheche/wiremock-docker.git --strategy=docker -n {{ project }}"
+  register: command_result
+  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+  changed_when: "'exists' not in command_result.stderr"
+  tags:
+    - openshift
+    - wiremock
+    
+- name: Wait for the wiremock server to become available
+  shell : "oc rollout status dc/wiremock-docker -n {{ project }}"
+  register: command_result
+  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+  changed_when: "'exists' not in command_result.stderr"
+  tags:
+    - openshift
+    - wiremock    
 
 - name: Allows jenkins to access the dev environment
   shell: "oc policy add-role-to-user edit system:serviceaccount:cicd:jenkins -n dev"
@@ -17,5 +33,5 @@
     - openshift
     - jenkins   
 
-
+- include: microservices-setup.yml
   

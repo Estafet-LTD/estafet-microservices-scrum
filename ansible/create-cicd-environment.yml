@@ -25,7 +25,7 @@
     - openshift  
 
 - name: Install the Jenkins master server
-  shell: "oc new-app jenkins-persistent"
+  shell: "oc new-app jenkins-persistent -p VOLUME_CAPACITY=20Gi"
   register: command_result
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
   changed_when: "'exists' not in command_result.stderr"
@@ -139,7 +139,7 @@
     - nexus      
 
 - name: Configure the persistent storage for nexus
-  shell: " oc volumes dc/nexus --add --name 'nexus-volume-1' --type 'pvc' --mount-path '/sonatype-work/' --claim-name 'nexus-pv' --claim-size '1G' --overwrite"
+  shell: " oc volumes dc/nexus --add --name 'nexus-volume-1' --type 'pvc' --mount-path '/sonatype-work/' --claim-name 'nexus-pv' --claim-size '2G' --overwrite"
   register: command_result
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
   changed_when: "'exists' not in command_result.stderr"
