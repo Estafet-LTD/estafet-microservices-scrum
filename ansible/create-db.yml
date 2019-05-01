@@ -1,6 +1,6 @@
 ---
 - name: Install the PostgreSQL server
-  shell : "oc new-app postgresql-persistent --name postgresql"
+  shell : "oc new-app postgresql-persistent --name postgresql -p POSTGRESQL_USER=postgres -p POSTGRESQL_PASSWORD=welcome1"
   when: "not {{ external_db }}"
   register: command_result
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
@@ -18,26 +18,6 @@
   tags:
     - openshift
     - postgres   
-
-- name: Set the db credentials
-  shell: "{{ oc_env_cmd | default ('oc env') }} dc postgresql -e POSTGRESQL_USER=postgres -e POSTGRESQL_PASSWORD=welcome1"
-  when: "not {{ external_db }}"
-  register: command_result
-  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
-  changed_when: "'exists' not in command_result.stderr"
-  tags:
-    - openshift
-    - postgres   
-
-- name: Wait for the postgresql server to become available
-  shell : "oc rollout status dc/postgresql"
-  when: "not {{ external_db }}"
-  register: command_result
-  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
-  changed_when: "'exists' not in command_result.stderr"
-  tags:
-   - openshift
-   - postgres   
 
 - name: Read the database pod list
   shell: "oc get pods --selector app=postgresql -o json"
