@@ -2,6 +2,9 @@
 # the Absolute path where you want to checkout the sourcecode
 workdir: "{{ ansible_env.HOME }}/.estafet"
 
+# The openshift connection details
+openshift: https://ip-10-0-1-224.eu-west-2.compute.internal:8443
+
 # Your OpenShift credentials
 username: admin
 password: 123
@@ -13,10 +16,10 @@ external_db: true
 adjust_scc: false
 
 # defines the location of the estafet github (change this if you have forked and want to use another github)
-github: https://github.com/Estafet-LTD
+github: git://ems-github:stericbro
 
 # specify whether to remove the readiness probe for amq - this is a workaround for an issue with oc cluster up on windows
-remove_amq_readiness: true
+remove_amq_readiness: false
 
 # enable readiness probe
 readiness_probe: true

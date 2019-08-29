@@ -1,8 +1,13 @@
 ---
-- name: Verify if variables are set
+- name: Verify workdir is set
   fail:
-    msg: "[Target directory] and/or [OpenShift host] is not defined. Please edit vars.yml"
-  when: (workdir is undefined) or (openshift is undefined)
+    msg: " workdir is not defined. Please add '-e workdir <directory>' to the Ansible command line"
+  when: (workdir is undefined)
+
+- name: Verify openshift is set
+  fail:
+    msg: "openshift is not defined.  Please add '-e openshift <OpenShift web console URL>' to the Ansible command line""
+  when: (openshift is undefined)
 
 - name: Login in OpenShift as {{ username }}
   shell: "oc login --insecure-skip-tls-verify=true -u {{ username }} -p {{ password }} {{ openshift }}"
@@ -34,7 +39,4 @@
     version: openshift-ansible-3.9.27-1
     update: yes
   tags:
-    - git  
-
-
-    
+    - git
