@@ -13,7 +13,7 @@ spec:
   runPolicy: Serial
   source:
     git:
-      uri: "https://github.com/Estafet-LTD/estafet-microservices-scrum"
+      uri: "https://github.com/stericbro/estafet-microservices-scrum"
   strategy:
     jenkinsPipelineStrategy:
       jenkinsfilePath: ansible/setup-pipeline.groovy
