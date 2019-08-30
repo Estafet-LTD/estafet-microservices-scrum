@@ -20,10 +20,10 @@ openshift:
 	# Now the installer is done, run the postinstall steps on each host.
 	# Note: these scripts cause a restart, so we use a hyphen to ignore the ssh
 	# connection termination.
-	- cat ./scripts/postinstall-master.sh | ssh -A ec2-user@$$(terraform output bastion-public_ip) ssh master.openshift.local
-	- cat ./scripts/postinstall-node.sh | ssh -A ec2-user@$$(terraform output bastion-public_ip) ssh node1.openshift.local
-	- cat ./scripts/postinstall-node.sh | ssh -A ec2-user@$$(terraform output bastion-public_ip) ssh node2.openshift.local
-	echo "Complete! Wait a minute for hosts to restart, then run 'make browse-openshift' to login."
+	# - cat ./scripts/postinstall-master.sh | ssh -A ec2-user@$$(terraform output bastion-public_ip) ssh master.openshift.local
+	# - cat ./scripts/postinstall-node.sh | ssh -A ec2-user@$$(terraform output bastion-public_ip) ssh node1.openshift.local
+	# - cat ./scripts/postinstall-node.sh | ssh -A ec2-user@$$(terraform output bastion-public_ip) ssh node2.openshift.local
+	#echo "Complete! Wait a minute for hosts to restart, then run 'make browse-openshift' to login."
 
 # Destroy the infrastructure.
 destroy:
