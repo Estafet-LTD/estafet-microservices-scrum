@@ -10,7 +10,7 @@
     update: yes
   tags:
     - git
-        
+
 - name: Create a new Openshift project
   shell: "oc new-project {{ project }} --display-name='{{ project_description }}'"
   register: command_result
@@ -18,11 +18,11 @@
   changed_when: "'exists' not in command_result.stderr"
   tags:
     - openshift
-        
+
 - name: Define Openshift project
   shell: "oc project {{ project }}"
   tags:
-    - openshift  
+    - openshift
 
 - name: Install the Jenkins master server
   shell: "oc new-app jenkins-persistent -p VOLUME_CAPACITY=20Gi"
@@ -31,7 +31,7 @@
   changed_when: "'exists' not in command_result.stderr"
   tags:
     - openshift
-    - jenkins   
+    - jenkins
 
 - name: Wait for the jenkins master server to become available
   shell: "oc rollout status dc/jenkins"
@@ -40,119 +40,118 @@
   changed_when: "'exists' not in command_result.stderr"
   tags:
     - openshift
-    - jenkins  
-    
+    - jenkins
+
 - name: Create the ci pipeline for each of the microservices
   shell: "oc create -n cicd -f {{ workdir }}/{{ item.repo }}/pipelines/ci-pipeline.yaml"
   register: command_result
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
-  changed_when: "'exists' not in command_result.stderr"  
+  changed_when: "'exists' not in command_result.stderr"
   with_items: "{{ microservices_scrum_projects }}"
   tags:
-    - openshift       
+    - openshift
 
 - name: Create the release pipeline for each of the microservices
   shell: "oc create -n cicd -f {{ workdir }}/{{ item.repo }}/pipelines/release-pipeline.yaml"
   register: command_result
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
-  changed_when: "'exists' not in command_result.stderr"  
+  changed_when: "'exists' not in command_result.stderr"
   with_items: "{{ microservices_scrum_projects }}"
   tags:
-    - openshift   
+    - openshift
 
-- name: Create the qa pipeline 
+- name: Create the qa pipeline
   shell: "oc create -n cicd -f {{ workdir }}/estafet-microservices-scrum-qa/qa-pipeline.yaml"
   register: command_result
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
-  changed_when: "'exists' not in command_result.stderr"  
+  changed_when: "'exists' not in command_result.stderr"
   tags:
-    - openshift      
+    - openshift
 
-- name: Create the prod deploy pipeline 
+- name: Create the prod deploy pipeline
   shell: "oc create -n cicd -f prod-pipeline.yaml"
   register: command_result
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
-  changed_when: "'exists' not in command_result.stderr"  
-  tags:
-    - openshift      
-
-- name: Create the setup pipeline 
-  shell: "oc create -n cicd -f setup-pipeline.yaml"
-  register: command_result
-  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
-  changed_when: "'exists' not in command_result.stderr"  
-  tags:
-    - openshift     
-
-- name: Install the Nexus repository server
-  shell: "oc new-app sonatype/nexus"
-  register: command_result
-  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
   changed_when: "'exists' not in command_result.stderr"
   tags:
     - openshift
-    - nexus  
-    
-- name: Wait for the nexus server to become available
-  shell: "oc rollout status dc/nexus"
-  register: command_result
-  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
-  changed_when: "'exists' not in command_result.stderr"
-  tags:
-    - openshift
-    - nexus  
 
-- name: Expose the nexus service
-  shell: "oc expose svc/nexus --path='/nexus'"
-  register: command_result
-  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
-  changed_when: "'exists' not in command_result.stderr"
-  tags:
-    - openshift
-    - nexus  
-
-- name: Configure the liveness probe
-  shell: "oc set probe dc/nexus --liveness --failure-threshold 3 --initial-delay-seconds 30 -- echo ok"
-  register: command_result
-  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
-  changed_when: "'exists' not in command_result.stderr"
-  tags:
-    - openshift
-    - nexus  
-
-- name: Configure the readiness probe
-  shell: "oc set probe dc/nexus --readiness --failure-threshold 3 --initial-delay-seconds 30 --get-url=http://:8081/nexus/content/groups/public"
-  register: command_result
-  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
-  changed_when: "'exists' not in command_result.stderr"
-  tags:
-    - openshift
-    - nexus  
-
-- name: Wait for the nexus server to become available
-  shell: "oc rollout status dc/nexus"
-  register: command_result
-  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
-  changed_when: "'exists' not in command_result.stderr"
-  tags:
-    - openshift
-    - nexus      
-
-- name: Configure the persistent storage for nexus
-  shell: " oc volumes dc/nexus --add --name 'nexus-volume-1' --type 'pvc' --mount-path '/sonatype-work/' --claim-name 'nexus-pv' --claim-size '2G' --overwrite"
-  register: command_result
-  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
-  changed_when: "'exists' not in command_result.stderr"
-  tags:
-    - openshift
-    - nexus  
-
-- name: Wait for the nexus server to become available
-  shell: "oc rollout status dc/nexus"
-  register: command_result
-  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
-  changed_when: "'exists' not in command_result.stderr"
-  tags:
-    - openshift
-    - nexus  
-    
+#- name: Create the setup pipeline
+#  shell: "oc create -n cicd -f setup-pipeline.yaml"
+#  register: command_result
+#  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+#  changed_when: "'exists' not in command_result.stderr"
+#  tags:
+#    - openshift
+#
+#- name: Install the Nexus repository server
+#  shell: "oc new-app sonatype/nexus"
+#  register: command_result
+#  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+#  changed_when: "'exists' not in command_result.stderr"
+#  tags:
+#    - openshift
+#    - nexus
+#
+#- name: Wait for the nexus server to become available
+#  shell: "oc rollout status dc/nexus"
+#  register: command_result
+#  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+#  changed_when: "'exists' not in command_result.stderr"
+#  tags:
+#    - openshift
+#    - nexus
+#
+#- name: Expose the nexus service
+#  shell: "oc expose svc/nexus --path='/nexus'"
+#  register: command_result
+#  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+#  changed_when: "'exists' not in command_result.stderr"
+#  tags:
+#    - openshift
+#    - nexus
+#
+#- name: Configure the liveness probe
+#  shell: "oc set probe dc/nexus --liveness --failure-threshold 3 --initial-delay-seconds 30 -- echo ok"
+#  register: command_result
+#  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+#  changed_when: "'exists' not in command_result.stderr"
+#  tags:
+#    - openshift
+#    - nexus
+#
+#- name: Configure the readiness probe
+#  shell: "oc set probe dc/nexus --readiness --failure-threshold 3 --initial-delay-seconds 30 --get-url=http://:8081/nexus/content/groups/public"
+#  register: command_result
+#  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+#  changed_when: "'exists' not in command_result.stderr"
+#  tags:
+#    - openshift
+#    - nexus
+#
+#- name: Wait for the nexus server to become available
+#  shell: "oc rollout status dc/nexus"
+#  register: command_result
+#  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+#  changed_when: "'exists' not in command_result.stderr"
+#  tags:
+#    - openshift
+#    - nexus
+#
+#- name: Configure the persistent storage for nexus
+#  shell: " oc volumes dc/nexus --add --name 'nexus-volume-1' --type 'pvc' --mount-path '/sonatype-work/' --claim-name 'nexus-pv' --claim-size '2G' --overwrite"
+#  register: command_result
+#  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+#  changed_when: "'exists' not in command_result.stderr"
+#  tags:
+#    - openshift
+#    - nexus
+#
+#- name: Wait for the nexus server to become available
+#  shell: "oc rollout status dc/nexus"
+#  register: command_result
+#  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+#  changed_when: "'exists' not in command_result.stderr"
+#  tags:
+#    - openshift
+#    - nexus

@@ -67,15 +67,15 @@ data "template_file" "setup-node" {
 }
 
 // Create Elastic IP for the nodes
-resource "aws_eip" "node1_eip" {
-  instance = "${aws_instance.node1.id}"
-  vpc      = true
-}
+//resource "aws_eip" "node1_eip" {
+//  instance = "${aws_instance.node1.id}"
+//  vpc      = true
+//}
 
-resource "aws_eip" "node2_eip" {
-  instance = "${aws_instance.node2.id}"
-  vpc      = true
-}
+//resource "aws_eip" "node2_eip" {
+//  instance = "${aws_instance.node2.id}"
+//  vpc      = true
+//}
 
 //  Create the two nodes. This would be better as a Launch Configuration and
 //  autoscaling group, but I'm keeping it simple...

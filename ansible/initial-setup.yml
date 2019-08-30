@@ -6,7 +6,7 @@
 
 - name: Verify openshift is set
   fail:
-    msg: "openshift is not defined.  Please add '-e openshift <OpenShift web console URL>' to the Ansible command line""
+    msg: "openshift is not defined.  Please add '-e openshift <OpenShift web console URL>' to the Ansible command line"
   when: (openshift is undefined)
 
 - name: Login in OpenShift as {{ username }}

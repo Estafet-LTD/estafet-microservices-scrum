@@ -11,7 +11,7 @@ pip install -I ansible==2.6.5
 pip install psycopg2
 
 # Get the microservices scrum playbooks
-git clone https://github.com/Estafet-LTD/estafet-microservices-scrum
+git clone https://github.com/stericbro/estafet-microservices-scrum
 
 # Run the playbook.
 ANSIBLE_HOST_KEY_CHECKING=False /usr/local/bin/ansible-playbook -i ./rds-inventory.cfg ./estafet-microservices-scrum/ansible/init-postgres-databases-playbook.yml
