@@ -1,4 +1,7 @@
 ---
+- debug:
+    msg: Creating the microservices scrum database ...
+
 - name: Install the PostgreSQL server
   shell : "oc new-app postgresql-persistent --name postgresql -p POSTGRESQL_USER=postgres -p POSTGRESQL_PASSWORD=welcome1"
   when: "not {{ external_db }}"
@@ -61,4 +64,6 @@
   tags:
     - db
     - postgresql
-    
+
+- debug:
+    msg: Created the microservices scrum database.

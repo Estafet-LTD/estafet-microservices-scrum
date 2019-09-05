@@ -4,7 +4,10 @@
 - set_fact: project_description="Test Environment for Microservices Scrum"
 - set_fact: expose_basic_ui=true
 - set_fact: external_db=true
-    
+
+- debug:
+    msg: Creating the test environment ...
+
 - include: environment-setup.yml
 - include: jaeger-setup.yml
 - include: create-db.yml
@@ -18,3 +21,5 @@
     - openshift
     - jenkins   
 
+- debug:
+    msg: Created the test environment.

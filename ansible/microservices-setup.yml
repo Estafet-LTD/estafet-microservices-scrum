@@ -1,4 +1,7 @@
 ---
+- debug:
+    msg: Executing microservices setup ...
+
 - name: Define Openshift project
   shell: "oc project {{ project }}"
   tags:
@@ -26,3 +29,6 @@
   with_items: "{{ microservices_scrum_projects }}"
   tags:
     - openshift
+
+- debug:
+    msg: Executed microservices setup.

@@ -1,4 +1,7 @@
 ---
+- debug:
+    msg: Executing common environment setup ...
+
 - name: Create a new Openshift project
   shell: "oc new-project {{ project }} --display-name='{{ project_description }}'"
   register: command_result
@@ -57,5 +60,7 @@
   tags:
     - openshift
     - a-mq   
-   
+
+- debug:
+    msg: Executed common environment setup.
 

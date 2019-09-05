@@ -3,7 +3,10 @@
 - set_fact: project="prod"
 - set_fact: project_description="Production/Demo Environment for Microservices Scrum"
 - set_fact: expose_basic_ui=true
-    
+
+- debug:
+    msg: Creating the production environment ...
+
 - include: environment-setup.yml
 - include: jaeger-setup.yml
 - include: create-db.yml
@@ -42,4 +45,7 @@
   changed_when: "'exists' not in command_result.stderr"  
   with_items: "{{ microservices_scrum_projects }}"
   tags:
-    - openshift 
+    - openshift
+
+- debug:
+    msg: Created the production environment.

@@ -4,6 +4,9 @@
 - set_fact: project_description="Development Environment for Microservices Scrum"
 - set_fact: expose_basic_ui=false
 
+- debug:
+    msg: Creating the development environment ...
+
 - include: environment-setup.yml
 
 - name: Build and Deploy wiremock 
@@ -34,4 +37,6 @@
     - jenkins   
 
 - include: microservices-setup.yml
-  
+
+- debug:
+    msg: Created the development environment.

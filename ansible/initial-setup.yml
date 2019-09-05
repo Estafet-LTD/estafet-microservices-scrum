@@ -1,4 +1,8 @@
 ---
+
+- debug:
+    msg: Executing initial setup ...
+
 - name: Verify workdir is set
   fail:
     msg: " workdir is not defined. Please add '-e workdir <directory>' to the Ansible command line"
@@ -40,3 +44,6 @@
     update: yes
   tags:
     - git
+
+- debug:
+    msg: Executed initial setup.

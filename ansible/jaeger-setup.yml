@@ -1,4 +1,7 @@
 ---
+- debug:
+    msg: Installing Jaeger ...
+
 - name: Install Jaeger
   shell: "oc process -f https://raw.githubusercontent.com/jaegertracing/jaeger-openshift/master/all-in-one/jaeger-all-in-one-template.yml | oc create -f -"
   register: command_result
@@ -9,5 +12,7 @@
     - opentracing
     - jaeger             
   
+- debug:
+    msg: Installed Jaeger.
 
     
