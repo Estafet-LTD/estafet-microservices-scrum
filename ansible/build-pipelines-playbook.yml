@@ -4,18 +4,18 @@
   vars_files:
     - microservices-vars.yml
     - pipelines-vars.yml
-    
-  tasks:  
+
+  tasks:
     - name: Login in OpenShift as {{ username }}
       shell: "oc login --insecure-skip-tls-verify=true -u {{ username }} -p {{ password }} {{ openshift }}"
       tags:
         - openshift
 
     - name: Execute the build pipeline for each microservice
-      shell: "oc start-build ci-{{item.name }} --wait=true -n cicd"      
+      shell: "oc start-build ci-{{item.name }} --wait=true -n cicd"
       with_items: "{{ microservices_scrum_projects }}"
       register: command_result
       failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
-      changed_when: "'exists' not in command_result.stderr"      
+      changed_when: "'exists' not in command_result.stderr"
       tags:
         - openshift

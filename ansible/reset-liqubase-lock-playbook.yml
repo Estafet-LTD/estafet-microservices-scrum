@@ -7,7 +7,7 @@
   - postgresql_table:
       db: "{{ project }}-{{ item.name }}"
       login_host: "{{ database }}"
-      login_password: welcome1    
+      login_password: welcome1
       name: DATABASECHANGELOGLOCK
       state: absent
     with_items: "{{ microservices_scrum_projects }}"

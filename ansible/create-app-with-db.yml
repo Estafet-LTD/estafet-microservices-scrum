@@ -1,9 +1,9 @@
 ---
-- name: include the variables for this microservice      
+- name: include the variables for this microservice
   include_vars:
-    file: "{{ workdir }}/{{ repo }}/ansible/microservice-vars.yml"  
+    file: "{{ workdir }}/{{ repo }}/ansible/microservice-vars.yml"
 
-- include: "{{ workdir }}/{{ repo }}/ansible/service-envs-{{ project }}-vars.yml"  
+- include: "{{ workdir }}/{{ repo }}/ansible/service-envs-{{ project }}-vars.yml"
 
 - include: pre-create-app.yml
 
@@ -13,7 +13,6 @@
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
   changed_when: "'exists' not in command_result.stderr"
   tags:
-    - openshift         
+    - openshift
 
 - include: post-create-app.yml
-         

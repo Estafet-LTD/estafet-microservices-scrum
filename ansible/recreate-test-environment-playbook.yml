@@ -3,7 +3,7 @@
   hosts: all
   vars_files:
     - microservices-vars.yml
-    - create-environments-vars.yml    
-  tasks:  
+    - create-environments-vars.yml
+  tasks:
     - include: initial-setup.yml
     - include: create-test-environment.yml

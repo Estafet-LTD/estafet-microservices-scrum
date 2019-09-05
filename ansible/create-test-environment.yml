@@ -19,7 +19,7 @@
   changed_when: "'exists' not in command_result.stderr"
   tags:
     - openshift
-    - jenkins   
+    - jenkins
 
 - debug:
     msg: Created the test environment.

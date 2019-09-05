@@ -10,9 +10,8 @@
   tags:
     - openshift
     - opentracing
-    - jaeger             
-  
+    - jaeger
+
 - debug:
     msg: Installed Jaeger.
 
-    

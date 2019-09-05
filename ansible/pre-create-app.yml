@@ -13,7 +13,7 @@
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
   changed_when: "'exists' not in command_result.stderr"
   tags:
-    - git  
+    - git
 
 - set_fact: branch="{{ command_result.stdout }}"
   when: "{{ test_environment }}"

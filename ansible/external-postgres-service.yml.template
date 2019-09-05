@@ -4,5 +4,5 @@ metadata:
   name: "postgresql"
 spec:
   type: ExternalName
-  externalName: "localhost" 
+  externalName: "localhost"
 selector: {}

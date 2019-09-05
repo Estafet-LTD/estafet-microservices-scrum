@@ -12,7 +12,7 @@ The application is designed to be deployed within an Openshift cluster and provi
 * [Distributed Monitoring](https://github.com/Estafet-LTD/estafet-microservices-scrum#distributed-monitoring)
 
 ## Project Structure
-One thing to note is that each microservice has its own git repository. Separate repositories means that each service be released independently. 
+One thing to note is that each microservice has its own git repository. Separate repositories means that each service be released independently.
 
 | Repository        | Description |
 | ----------------- |-------------|
@@ -48,7 +48,7 @@ Windows users will need to install ansible using Windows Subsytem for Linux (WSL
 https://www.jeffgeerling.com/blog/2017/using-ansible-through-windows-10s-subsystem-linux
 
 ##### MAC OS X Users
-Mac users can easily install ansible provided homebrew isinstalled. For a comprehensive description, please consult this article. 
+Mac users can easily install ansible provided homebrew isinstalled. For a comprehensive description, please consult this article.
 
 https://hvops.com/articles/ansible-mac-osx/
 
@@ -144,7 +144,7 @@ $ ansible-playbook create-devops-environments-playbook.yml
 ```
 
 ##### Step #3
-Jenkins setup 
+Jenkins setup
 tbc...
 
 ##### Setting Up Maven Locally to Use Nexus

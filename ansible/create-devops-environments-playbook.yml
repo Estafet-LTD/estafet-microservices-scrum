@@ -3,7 +3,7 @@
   hosts: all
   vars_files:
     - microservices-vars.yml
-    - create-devops-environments-vars.yml    
+    - create-devops-environments-vars.yml
   tasks:
     - debug:
         msg: Creating Environments for the complete Software Development Lifecycle ...
