@@ -11,4 +11,5 @@
 /rds-inventory.cfg
 ansible/ems-template
 *.idea
+*.log
 
