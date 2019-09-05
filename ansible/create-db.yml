@@ -58,9 +58,20 @@
     - db
     - postgresql
 
+- name: Check if the external database exists
+  shell: 'oc get service postgresql --output json'
+  when: "{{ external_db }}"
+  register: external_database_result
+  ignore_errors: yes
+  tags:
+    - db
+    - postgresql
+
 - name: Create the external database service
   shell: "oc create -f {{ workdir }}/external-postgres-service.yml"
-  when: "{{ external_db }}"
+  when:
+    - "{{ external_db }}"
+    - external_database_result.rc != 0
   tags:
     - db
     - postgresql
