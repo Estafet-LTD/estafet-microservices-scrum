@@ -66,10 +66,7 @@
 
 - name: Set dc resource changes needed flag for {{ microservice }}.
   set_fact:
-    - resource_changes_needed = "{{ (existing_cpu_limit != cpu_max) or \
-                                    (existing_memory_limit != memory_max) or \
-                                    (existing_cpu_request != cpu_min) or \
-                                    (existing_memory_request != memory_min) }}"
+    - resource_changes_needed = "{{ (existing_cpu_limit != cpu_max) or (existing_memory_limit != memory_max) or (existing_cpu_request != cpu_min) or (existing_memory_request != memory_min) }}"
 
 - name: Print dc resource changes needed flag for {{ microservice }}.
   debug:
