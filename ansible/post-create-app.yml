@@ -1,5 +1,4 @@
 ---
-
 - name: Expose Service ({{ microservice }})
   shell: "oc expose service {{ microservice }}"
   register: command_result
@@ -17,7 +16,7 @@
   tags:
     - openshift
 
-- name: "Set existing CPU limit for {{ microservice  }}."
+- name: Set existing CPU limit for {{ microservice  }}.
   set_fact: existing_cpu_limit={{ existing_cpu_limit_result.stdout }}
 
 - name: Check Existing Memory Limit for {{ microservice }}
@@ -28,7 +27,7 @@
   tags:
     - openshift
 
-- name: "Set existing Memory limit for {{ microservice  }}."
+- name: Set existing Memory limit for {{ microservice  }}.
   set_fact: existing_memory_limit={{ existing_memory_limit_result.stdout }}
 
 - name: Check Existing CPU Request for {{ microservice }}
@@ -39,7 +38,7 @@
   tags:
     - openshift
 
-- name: "Set existing CPU Request for {{ microservice  }}."
+- name: Set existing CPU Request for {{ microservice  }}.
   set_fact: existing_cpu_request={{ existing_cpu_request_result.stdout }}
 
 - name: Check Existing Memory Request for {{ microservice }}
@@ -50,7 +49,7 @@
   tags:
     - openshift
 
-- name: "Set existing Memory Request for {{ microservice  }}."
+- name: Set existing Memory Request for {{ microservice  }}.
   set_fact: existing_memory_request={{ existing_memory_request_result.stdout }}
 
 - name: Print limit and request facts for {{ microservice }}.
@@ -65,7 +64,7 @@
       - existing_cpu_request
       - existing_memory_request
 
-- name: "Set dc resource changes needed flag for {{ microservice  }}."
+- name: Set dc resource changes needed flag for {{ microservice  }}.
   set_fact:
     - resource_changes_needed = {{ (existing_cpu_limit != cpu_max) or
                                    (existing_memory_limit != memory_max) or
