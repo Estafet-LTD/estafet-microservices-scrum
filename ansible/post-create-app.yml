@@ -54,15 +54,7 @@
 
 - name: Print limit and request facts for {{ microservice }}.
   debug:
-    var:
-      - existing_cpu_limit_result
-      - existing_memory_limit_result
-      - existing_cpu_request_result
-      - existing_memory_request_result
-      - existing_cpu_limit
-      - existing_memory_limit
-      - existing_cpu_request
-      - existing_memory_request
+    - var: existing_cpu_limit_result
 
 - name: Set dc resource changes needed flag for {{ microservice }}.
   set_fact:
