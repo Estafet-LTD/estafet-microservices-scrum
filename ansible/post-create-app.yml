@@ -53,6 +53,26 @@
   set_fact: existing_memory_request={{ existing_memory_request_result.stdout }}
   changed_when: false
 
+- name: Verify new CPU limit is set for {{ microservice }}.
+  debug:
+    msg: "ERROR: cpu_max is node fined for {{ microservice }}."
+  when: cpu_max is not defined
+
+- name: Verify new Memory limit is set for {{ microservice }}.
+  debug:
+    msg: "ERROR: memory_max is node fined for {{ microservice }}."
+  when: memory_max is not defined
+
+- name: Verify new CPU request is set for {{ microservice }}.
+  debug:
+    msg: "ERROR: cpu_min is node fined for {{ microservice }}."
+  when: cpu_min is not defined
+
+- name: Verify new Memory request is set for {{ microservice }}.
+  debug:
+    msg: "ERROR: memory_min is node fined for {{ microservice }}."
+  when: memory_min is not defined
+
 - name: Print existing CPU limit result for {{ microservice }}.
   debug:
     var: existing_cpu_limit_result
@@ -78,19 +98,39 @@
     var: existing_cpu_limit
   tags: debug_existing_cpu_limit
 
+- name: Print new CPU limit for {{ microservice }}.
+  debug:
+    var: cpu_max
+  tags: debug_new_cpu_limit
+
 - name: Print existing memory limit for {{ microservice }}.
   debug:
     var: existing_memory_limit
   tags: debug_existing_memory_limit
+
+- name: Print new memory limit for {{ microservice }}.
+  debug:
+    var: memory_max
+  tags: debug_new_memory_limit
 
 - name: Print existing CPU request for {{ microservice }}.
   debug:
     var: existing_cpu_request
   tags: debug_existing_cpu_request
 
+- name: Print new CPU request for {{ microservice }}.
+  debug:
+    var: cpu_min
+  tags: debug_new_cpu_request
+
 - name: Print existing memory request for {{ microservice }}.
   debug:
     var: existing_memory_request
+  tags: debug_existing_memory_request
+
+- name: Print new memory request for {{ microservice }}.
+  debug:
+    var: memory_min
   tags: debug_existing_memory_request
 
 - name: Set dc resource changes needed flag for {{ microservice }}.
