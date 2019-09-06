@@ -1,16 +1,61 @@
 ---
+
 - name: Expose Service ({{ microservice }})
   shell: "oc expose service {{ microservice }}"
   register: command_result
-  when: "{{ expose_service }}"
+  when: expose_service
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
   changed_when: "'exists' not in command_result.stderr"
   tags:
     - openshift
 
+- name: Check Existing CPU Limit for {{ microservice }}
+  shell: "oc get dc {{ microservice }} -o jsonpath='{.spec.template.spec.containers[0].resources.limits.cpu}'"
+  ignore_errors: yes
+  register: existing_cpu_limit_result
+  changed_when: false
+  tags:
+    - openshift
+
+- set_fact: existing_cpu_limit={{ existing_cpu_limit_result.stdout }}
+
+- name: Check Existing Memory Limit for {{ microservice }}
+  shell: "oc get dc {{ microservice }} -o jsonpath='{.spec.template.spec.containers[0].resources.limits.memory}'"
+  ignore_errors: yes
+  register: existing_memory_limit_result
+  changed_when: false
+  tags:
+    - openshift
+
+- set_fact: existing_memory_limit={{ existing_memory_limit_result.stdout }}
+
+- name: Check Existing CPU Request for {{ microservice }}
+  shell: "oc get dc {{ microservice }} -o jsonpath='{.spec.template.spec.containers[0].resources.requests.cpu}'"
+  ignore_errors: yes
+  register: existing_cpu_request_result
+  changed_when: false
+  tags:
+    - openshift
+
+- set_fact: existing_cpu_request={{ existing_cpu_request_result.stdout }}
+
+- name: Check Existing Memory Request for {{ microservice }}
+  shell: "oc get dc {{ microservice }} -o jsonpath='{.spec.template.spec.containers[0].resources.requests.memory}'"
+  ignore_errors: yes
+  register: existing_memory_request_result
+  changed_when: false
+  tags:
+    - openshift
+
+- set_fact: existing_memory_request={{ existing_memory_request_result.stdout }}
+
 - name: Configure the resource limits for microservice ({{ microservice }})
   shell: "oc set resources dc {{ microservice }} -c={{ microservice }} --limits=cpu={{ cpu_max }},memory={{ memory_max }} --requests=cpu={{ cpu_min }},memory={{ memory_min }}"
   register: command_result
+  when: (existing_cpu_limit != cpu_max) or
+        (existing_memory_limit != memory_max) or
+        (existing_cpu_request != cpu_min) or
+        (existing_memory_request != memory_min)
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
   changed_when: "'exists' not in command_result.stderr"
   tags:

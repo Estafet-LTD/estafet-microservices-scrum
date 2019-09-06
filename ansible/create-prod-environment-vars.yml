@@ -7,7 +7,7 @@ username: admin
 password: 123
 
 # Does the use an external db
-external_db: false
+#external_db: false
 
 # Does the use an external db
 external_db: true

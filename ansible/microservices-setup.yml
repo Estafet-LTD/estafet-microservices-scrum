@@ -15,7 +15,7 @@
   vars:
     repo: "{{ item.repo }}"
     microservice: "{{ item.name }}"
-  when: "{{ item.db }}"
+  when: item.db
   with_items: "{{ microservices_scrum_projects }}"
   tags:
     - openshift
@@ -25,7 +25,7 @@
   vars:
     repo: "{{ item.repo }}"
     microservice: "{{ item.name }}"
-  when: "not {{ item.db }}"
+  when: not item.db
   with_items: "{{ microservices_scrum_projects }}"
   tags:
     - openshift
