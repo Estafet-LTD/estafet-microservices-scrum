@@ -1,6 +1,9 @@
 ---
 - debug:
-    msg: Executing microservices setup for {{ project }} ...
+    msg: Executing microservices setup for {{ project }} . projects are ...
+
+- debug:
+    msg: Environment {{ project }} projects are {{ microservices_scrum_projects }} ...
 
 - name: Define Openshift project
   shell: "oc project {{ project }}"
@@ -31,4 +34,4 @@
     - openshift
 
 - debug:
-    msg: Executed microservices setup.
+    msg: Executed microservices setup for {{ project }}.

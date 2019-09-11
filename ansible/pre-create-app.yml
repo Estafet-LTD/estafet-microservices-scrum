@@ -1,4 +1,7 @@
 ---
+- debug:
+    msg: pre-create-app for {{ repo }} in {{ project }}. Test environment is {{ test_environment }}.
+
 - set_fact: branch="master"
 
 - set_fact: expose_service=true

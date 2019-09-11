@@ -1,4 +1,7 @@
 ---
+- debug:
+    msg: post-create-app for {{ microservice }} in {{ project }}..
+
 - name: Expose Service ({{ microservice }}).
   shell: "oc expose service {{ microservice }}"
   register: command_result
@@ -181,7 +184,6 @@
 - name: Wait for the microservice to become available ({{ microservice }})
   shell : "oc rollout status dc/{{ microservice }}"
   register: command_result
-  when: resource_changes_needed
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
   changed_when: "'exists' not in command_result.stderr"
   tags:
