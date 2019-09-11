@@ -5,3 +5,6 @@
 .project
 .classpath
 .settings/
+/create-devops-environment.log.1
+/create-devops-environment.log.2
+/create-devops-environment.log.3

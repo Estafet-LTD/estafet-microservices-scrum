@@ -14,3 +14,4 @@ ansible/ems-template
 *.log
 **/*.pyc
 **/.pydevproject
+**/*.log*
