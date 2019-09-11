@@ -1,6 +1,6 @@
 ---
 - debug:
-    msg: Executing microservices setup ...
+    msg: Executing microservices setup for {{ project }} ...
 
 - name: Define Openshift project
   shell: "oc project {{ project }}"
