@@ -7,7 +7,7 @@
 
 - include: pre-create-app.yml
 
-- name: Create the microservices application from the source to image builder for application
+- name: Create the microservices application from the source to image builder for application  (( project }} {{ repo }}
   shell: 'oc new-app redhat-openjdk18-openshift:1.2~{{ github }}/{{ repo }}#{{ branch }} --name={{ microservice }} {{ service_envs }}'
   register: command_result
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
