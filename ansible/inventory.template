@@ -1,4 +1,1 @@
-localhost
-ansible_connection=local
-openshift=10.0.75.2:8443
-database=some_dbhost.amw.com
+localhost ansible_connection=local openshift=10.0.75.2:8443 database=some_dbhost.amw.com

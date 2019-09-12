@@ -1,5 +1,5 @@
 ---
-- name: include the variables for this microservice
+- name: include the variables for this microservice ({{ project }} {{ repo }})
   include_vars:
     file: "{{ workdir }}/{{ repo }}/ansible/microservice-vars.yml"
 
@@ -7,7 +7,7 @@
 
 - include: pre-create-app.yml
 
-- name: Create the microservices application from the source to image builder for db application (( project }} {{ repo }}
+- name: Create the {{ project }} {{ repo }} microservices application from the source to image builder for db application (( project }} {{ repo }}
   shell: 'oc new-app redhat-openjdk18-openshift:1.2~{{ github }}/{{ repo }}#{{ branch }} --name={{ microservice }} -e {{ db_url_env }}=jdbc:postgresql://postgresql.{{ project }}.svc:5432/{{ project }}-{{ microservice }} -e {{ db_user_env }}=postgres -e {{ db_db_env }}=welcome1 -e JBOSS_A_MQ_BROKER_URL={{ amq_url }} -e JBOSS_A_MQ_BROKER_USER={{ broker_pod_user }} -e JBOSS_A_MQ_BROKER_PASSWORD={{ broker_pod_password }} {{ service_envs }}'
   register: command_result
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
@@ -16,9 +16,9 @@
     - openshift
 
 - debug:
-    msg: "Command result for {{ project }} {{ repo }} is:" 
+    msg: "Command result for creating {{ project }} {{ repo }} is:"
 
 - debug:
     var: command_result
-     
+
 - include: post-create-app.yml

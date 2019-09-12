@@ -84,7 +84,7 @@ If the play book returns an error like this:
     fatal: [localhost]: FAILED! => {}
 
     MSG:
-    
+
     template error while templating string: no filter named 'cpu_not_equivalent'. ... omitted ...
 
 The cause is likely to be a syntax error in this code.
@@ -147,11 +147,11 @@ class FilterModule(object):
             existing_value, new_value = self._split_values(values)
 
             if not new_value:
-                raise ValueError("The new CPU value cannot be empty or None.")            
-            
+                raise ValueError("The new CPU value cannot be empty or None.")
+
             if not existing_value:
                 return True
-            
+
             if existing_value == new_value:
                 return False
 
@@ -177,11 +177,11 @@ class FilterModule(object):
             existing_value, new_value = self._split_values(values)
 
             if not new_value:
-                raise ValueError("The new memory value cannot be empty or None.")            
-            
+                raise ValueError("The new memory value cannot be empty or None.")
+
             if not existing_value:
                 return True
-            
+
             if existing_value == new_value:
                 return False
 
@@ -347,7 +347,7 @@ class FilterModule(object):
             raise ValueError("\"%s\" is not a valid Memory quantity." % value)
 
         quantity = matches.group(1)
-        
+
         # Will be None if there is no suffix
         suffix = matches.group(2)
 
@@ -385,10 +385,10 @@ class FilterModule(object):
 
 
         """
-        
+
         if suffix:
             multiplier = FilterModule._SUFFIX_TO_MULTIPLIER[suffix]
-    
+
             quantity = value * multiplier
             return quantity
         return value

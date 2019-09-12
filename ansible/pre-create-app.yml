@@ -5,13 +5,13 @@
 - set_fact: branch="master"
 
 - set_fact: expose_service=true
-  when: test_environment
+  when: "{{ test_environment }}"
 
 - name: fetch latest tag for this repo
   shell: "git describe --abbrev=0 --tags"
   args:
     chdir: "{{ workdir }}/{{ repo }}"
-  when: test_environment
+  when: "{{ test_environment }}"
   register: command_result
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
   changed_when: "'exists' not in command_result.stderr"
@@ -19,4 +19,4 @@
     - git
 
 - set_fact: branch="{{ command_result.stdout }}"
-  when: test_environment
+  when: "{{ test_environment }}"

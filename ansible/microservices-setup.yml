@@ -1,9 +1,6 @@
 ---
 - debug:
-    msg: Executing microservices setup for {{ project }} . projects are ...
-
-- debug:
-    msg: Environment {{ project }} projects are {{ microservices_scrum_projects }} ...
+    msg: Executing microservices setup for {{ project }} . projects are {{ microservices_scrum_projects }} ...
 
 - name: Define Openshift project
   shell: "oc project {{ project }}"
@@ -18,7 +15,7 @@
   vars:
     repo: "{{ item.repo }}"
     microservice: "{{ item.name }}"
-  when: item.db
+  when: "{{ item.db }}"
   with_items: "{{ microservices_scrum_projects }}"
   tags:
     - openshift
@@ -28,7 +25,7 @@
   vars:
     repo: "{{ item.repo }}"
     microservice: "{{ item.name }}"
-  when: not item.db
+  when: "not {{ item.db }}"
   with_items: "{{ microservices_scrum_projects }}"
   tags:
     - openshift

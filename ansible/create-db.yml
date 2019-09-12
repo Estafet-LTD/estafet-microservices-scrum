@@ -4,7 +4,7 @@
 
 - name: Install the PostgreSQL server
   shell : "oc new-app postgresql-persistent --name postgresql -p POSTGRESQL_USER=postgres -p POSTGRESQL_PASSWORD=welcome1"
-  when: not external_db
+  when: "not {{ external_db }}"
   register: command_result
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
   changed_when: "'exists' not in command_result.stderr"
@@ -14,7 +14,7 @@
 
 - name: Wait for the postgresql server to become available
   shell : "oc rollout status dc/postgresql"
-  when: not external_db
+  when: "not {{ external_db }}"
   register: command_result
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
   changed_when: "'exists' not in command_result.stderr"
@@ -24,16 +24,16 @@
 
 - name: Read the database pod list
   shell: "oc get pods --selector app=postgresql -o json"
-  when: not external_db
+  when: "not {{ external_db }}"
   register: list_of_db_pods
 
 - name: Get the name of the PostgreSQL Pod
   set_fact: db_pod="{{list_of_db_pods.stdout|from_json|json_query('items[0].metadata.name')}}"
-  when: not external_db
+  when: "not {{ external_db }}"
 
 - name: Create the microservice databases on PostgreSQL Pod
   shell: 'oc exec -n {{ project }} {{db_pod}} -- /bin/sh -i -c "createdb {{ project }}-{{ item.name }}"'
-  when: item.db and not external_db
+  when: "{{ item.db }} and not {{ external_db }}"
   with_items: "{{ microservices_scrum_projects }}"
   register: command_result
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
@@ -53,25 +53,14 @@
     path: "{{ workdir }}/external-postgres-service.yml"
     regexp: 'localhost'
     replace: "{{ database }}"
-  when: external_db
-  tags:
-    - db
-    - postgresql
-
-- name: Check if the external database exists
-  shell: 'oc get service postgresql --output json'
-  when: external_db
-  register: external_database_result
-  ignore_errors: yes
+  when: "{{ external_db }}"
   tags:
     - db
     - postgresql
 
 - name: Create the external database service
   shell: "oc create -f {{ workdir }}/external-postgres-service.yml"
-  when:
-    - external_db
-    - external_database_result.rc != 0
+  when: "{{ external_db }}"
   tags:
     - db
     - postgresql

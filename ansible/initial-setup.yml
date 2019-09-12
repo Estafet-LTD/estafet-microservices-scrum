@@ -22,12 +22,12 @@
   shell: "oc patch scc restricted -p '{\"runAsUser\":{\"type\":\"RunAsAny\"}}'"
   when: adjust_scc
 
-- name: Create Workdir
+- name: Create Workdir {{ workdir }}
   file:
     path: "{{ workdir }}"
     state: directory
 
-- name: Checkout source code from Github
+- name: Checkout source code ({{ item.repo }}) from Github
   git:
     repo: "{{ github }}/{{ item.repo }}"
     dest: "{{ workdir }}/{{ item.repo }}"
@@ -36,7 +36,7 @@
   tags:
     - git
 
-- name: Checkout xpaas image stream from Github
+- name: Checkout xpaas image stream (openshift-ansible) from Github
   git:
     repo: "https://github.com/openshift/openshift-ansible.git"
     dest: "{{ workdir }}/openshift-ansible"
