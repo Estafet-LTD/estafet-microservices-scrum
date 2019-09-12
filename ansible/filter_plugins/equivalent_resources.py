@@ -94,7 +94,7 @@ author: "Steve Brown, Estafet Ltd."
 
 import re
 import traceback
-from __builtin__ import True
+from __builtin__ import True, False
 
 class FilterModule(object):
 
@@ -144,12 +144,18 @@ class FilterModule(object):
             True if the values are not equivalent. False otherwise.
         """
         try:
-            value1, value2 = self._split_values(values)
+            existing_value, new_value = self._split_values(values)
+
+            if not new_value:
+                raise ValueError("The new CPU value cannot be empty or None.")            
             
-            if value1 == value2:
+            if not existing_value:
+                return True
+            
+            if existing_value == new_value:
                 return False
 
-            return self._cpu_not_equivalent(value1, value2)
+            return self._cpu_not_equivalent(existing_value, new_value)
         except Exception as e:
             traceback.print_exc()
             print("ERROR: %s" % str(e))
@@ -168,12 +174,18 @@ class FilterModule(object):
             True if the values are not equivalent. False otherwise.
         """
         try:
-            value1, value2 = self._split_values(values)
+            existing_value, new_value = self._split_values(values)
+
+            if not new_value:
+                raise ValueError("The new memory value cannot be empty or None.")            
             
-            if value1 == value2:
+            if not existing_value:
+                return True
+            
+            if existing_value == new_value:
                 return False
 
-            return self._memory_not_equivalent(value1, value2)
+            return self._memory_not_equivalent(existing_value, new_value)
         except Exception as e:
             traceback.print_exc()
             print("ERROR: %s" % str(e))
@@ -196,10 +208,10 @@ class FilterModule(object):
         if len(_values) != 2:
             raise ValueError("There must be exactly two values in \"%s\"." % values)
 
-        value1, value2 = _values
-        return value1, value2
+        existing_value, new_value = _values
+        return existing_value, new_value
 
-    def _cpu_not_equivalent(self, value1, value2):
+    def _cpu_not_equivalent(self, existing_value, new_value):
         """
         Determine whether or not two CPU resource quantities are not equivalent.
 
@@ -212,8 +224,8 @@ class FilterModule(object):
 
 
         """
-        cpu1_millicores = self._to_millicores(value1)
-        cpu2_millicores = self._to_millicores(value2)
+        cpu1_millicores = self._to_millicores(existing_value)
+        cpu2_millicores = self._to_millicores(new_value)
         return cpu1_millicores != cpu2_millicores
 
     def _to_millicores(self, value):
@@ -310,10 +322,10 @@ class FilterModule(object):
 
 
         """
-        suffix1, value1 = self.get_suffix_and_value(memory1)
-        suffix2, value2 = self.get_suffix_and_value(memory2)
-        memory1_bytes = self.to_bytes(value1, suffix1)
-        memory2_bytes = self.to_bytes(value2, suffix2)
+        suffix1, existing_value = self.get_suffix_and_value(memory1)
+        suffix2, new_value = self.get_suffix_and_value(memory2)
+        memory1_bytes = self.to_bytes(existing_value, suffix1)
+        memory2_bytes = self.to_bytes(new_value, suffix2)
         return memory1_bytes != memory2_bytes
 
     def get_suffix_and_value(self, value):
