@@ -5,12 +5,8 @@ DEBUG=false
 function delete_project() {
 
     local name"=$1"
-    project_exists "${name}" || {
-    	echo "INFO The ${name} project does not exist."
-    	return 0
-	}
 
-    echo "Deleting project ${project} (will wait up to 60s) ..."
+    echo "Deleting project ${name} (will wait up to 60s) ..."
     local result=
 
     result="$(oc delete project --grace-period 60 "${name}" 2>&1)"
@@ -71,13 +67,6 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" || {
     exit 1
 }
 
-# Get the script name.
-NAME=
-NAME="$(basename "${BASH_SOURCE[0]}")" || {
-    printError "Failed to get filename for \"${BASH_SOURCE[0]}\"."
-    exit 1
-}
-
 declare projects="prod test dev cicd"
 
 login || exit 1
@@ -85,13 +74,18 @@ login || exit 1
 echo "INFO: Resetting Estafet Microservice Scrum ..."
 
 for project in ${projects}; do
-    delete_project "${project}"
-
-    wait_for_delete "${project}"
+	
+    if project_exists "${project}"; then
+        if delete_project "${project}"; then
+            wait_for_delete "${project}"
+        fi
+    else
+        echo "INFO: ${project} does not exist."
+    fi
 done
 
 oc logout
 
 echo "INFO: Reset Estafet Microservice Scrum OK."
 
-${DIR}/drop_application_databases.sh
+"${DIR}"/drop_application_databases.sh
