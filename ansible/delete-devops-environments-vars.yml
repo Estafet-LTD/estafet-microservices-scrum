@@ -1,0 +1,7 @@
+---
+# the Absolute path where the source code has been checked out into
+workdir: "{{ ansible_env.HOME }}/.estafet"
+
+# Your OpenShift credentials
+username: admin
+password: 123

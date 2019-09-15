@@ -1,0 +1,29 @@
+---
+
+- debug:
+    msg: Executing initial setup for deleting environments ...
+
+- name: Verify workdir is set
+  fail:
+    msg: "Workdir is not defined. Please add '-e workdir <directory>' to the Ansible command line"
+  when: workdir is undefined
+
+- name: Verify openshift is set
+  fail:
+    msg: "openshift is not defined.  Please add '-e openshift <OpenShift web console URL>' to the Ansible command line"
+  when: openshift is undefined
+
+- name: Login in to OpenShift as {{ username }} on {{ openshift }}.
+  shell: "oc login --insecure-skip-tls-verify=true -u {{ username }} -p {{ password }} {{ openshift }}"
+  tags:
+    - openshift
+
+- name: Delete Workdir {{ workdir }}.
+  file:
+    path: "{{ workdir }}"
+    state: absent
+    changed_when: false
+    failed when: false
+
+- debug:
+    msg: Executed initial delete environment setup.

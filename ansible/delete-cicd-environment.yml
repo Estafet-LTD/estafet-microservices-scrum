@@ -1,0 +1,5 @@
+---
+# Define the name of the OpenShift project
+- set_fact: project="test"
+
+- include: environment-delete.yml
