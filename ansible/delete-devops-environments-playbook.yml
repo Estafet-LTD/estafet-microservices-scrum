@@ -5,11 +5,11 @@
     - delete-devops-environments-vars.yml
   tasks:
     - debug:
-        msg: Deleting all environments ...
+        msg: "Deleting all environments ..."
     - include: delete-environments-setup.yml
     - include: delete-cicd-environment.yml
     - include: delete-dev-environment.yml
     - include: delete-test-environment.yml
     - include: delete-prod-environment.yml
     - debug:
-        msg: Deleted All environments OK.
+        msg: "Deleted All environments OK."

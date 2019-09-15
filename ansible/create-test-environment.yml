@@ -6,7 +6,7 @@
 - set_fact: external_db=true
 
 - debug:
-    msg: Creating the test environment ...
+    msg: "Creating the test environment ..."
 
 - include: environment-setup.yml
 - include: jaeger-setup.yml
@@ -22,4 +22,4 @@
     - jenkins
 
 - debug:
-    msg: Created the test environment.
+    msg: "Created the test environment."

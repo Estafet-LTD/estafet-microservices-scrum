@@ -6,11 +6,11 @@
     - create-devops-environments-vars.yml
   tasks:
     - debug:
-        msg: Creating Environments for the complete Software Development Lifecycle ...
+        msg: "Creating Environments for the complete Software Development Lifecycle ..."
     - include: initial-setup.yml
     - include: create-cicd-environment.yml
     - include: create-dev-environment.yml
     - include: create-test-environment.yml
     - include: create-prod-environment.yml
     - debug:
-        msg: Created Environments for the complete Software Development Lifecycle.
+        msg: "Created Environments for the complete Software Development Lifecycle."

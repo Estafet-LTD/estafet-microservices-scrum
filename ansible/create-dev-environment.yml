@@ -5,7 +5,7 @@
 - set_fact: expose_basic_ui=false
 
 - debug:
-    msg: Creating the development environment ...
+    msg: "Creating the development environment ..."
 
 - include: environment-setup.yml
 
@@ -39,4 +39,4 @@
 - include: microservices-setup.yml
 
 - debug:
-    msg: Created the development environment.
+    msg: "Created the development environment."

@@ -1,7 +1,7 @@
 ---
 
 - debug:
-    msg: Executing initial setup for deleting environments ...
+    msg: "Executing initial setup for deleting environments ..."
 
 - name: Verify workdir is set
   fail:
@@ -26,4 +26,4 @@
     failed when: false
 
 - debug:
-    msg: Executed initial delete environment setup.
+    msg: "Executed initial delete environment setup."

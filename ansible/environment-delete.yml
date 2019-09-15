@@ -1,6 +1,6 @@
 ---
 - debug:
-    msg: Deleting the {{ project }} environment ...
+    msg: "Deleting the {{ project }} environment ..."
 
 - name: Check the dev environment exists.
   shell: "oc get project {{ project }} -o jsonpath=-o jsonpath='{.metadata.name}'"
@@ -17,12 +17,12 @@
     - openshift
 
 - name: Display delete {{ project }} message.
-  dbg:
+  debug:
     msg: "The {{ project }} environment exists and will be deleted."
     when: environment_exists
 
 - name: Display {{ project }} does not exist message.
-  dbg:
+  debug:
     msg: "The {{ project }} environment does not exist."
     when: not environment_exists
 
@@ -36,5 +36,5 @@
     - openshift
 
 - debug:
-    msg: Deleted the {{ project }} environment.
+    msg: "Deleted the {{ project }} environment."
     when: environment_exists

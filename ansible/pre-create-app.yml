@@ -1,6 +1,6 @@
 ---
 - debug:
-    msg: pre-create-app for {{ repo }} in {{ project }}. Test environment is {{ test_environment }}.
+    msg: "pre-create-app for {{ repo }} in {{ project }}. Test environment is {{ test_environment }}."
 
 - set_fact: branch="master"
 
@@ -21,3 +21,6 @@
 
 - set_fact: branch="{{ command_result.stdout }}"
   when: test_environment
+
+- debug:
+    msg: "pre-create-app for {{ repo }} in {{ project }}. OK."

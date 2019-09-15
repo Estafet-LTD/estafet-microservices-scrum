@@ -1,7 +1,7 @@
 ---
 
 - debug:
-    msg: Executing initial setup ...
+    msg: "Executing initial  createb environments setup ..."
 
 - name: Verify workdir is set
   fail:
@@ -46,4 +46,4 @@
     - git
 
 - debug:
-    msg: Executed initial setup.
+    msg: "Executed initial create environments setup."

@@ -5,7 +5,7 @@
 - set_fact: expose_basic_ui=true
 
 - debug:
-    msg: Creating the production environment ...
+    msg: "Creating the production environment ..."
 
 - include: environment-setup.yml
 - include: jaeger-setup.yml
@@ -49,4 +49,4 @@
 #    - openshift
 
 - debug:
-    msg: Created the production environment.
+    msg: "Created the production environment."

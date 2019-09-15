@@ -4,7 +4,7 @@
 - set_fact: project_description="CI/CD Jenkins for Microservices Scrum"
 
 - debug:
-    msg: Creating the CI/CD environment ...
+    msg: "Creating the CI/CD environment ..."
 
 - name: Checkout qa from Github to access pipeline
   git:
@@ -161,4 +161,4 @@
     - nexus
 
 - debug:
-    msg: Created the CI/CD environment.
+    msg: "Created the CI/CD environment."
