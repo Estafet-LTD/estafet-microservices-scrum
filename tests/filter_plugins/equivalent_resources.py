@@ -79,7 +79,7 @@ examples:
 
 If the play book returns an error like this:
 
-    TASK [Set max cpu resource changes needed flag for project-api.] 
+    TASK [Set max cpu resource changes needed flag for project-api.]
     task path: ... omitted ...
     fatal: [localhost]: FAILED! => {}
 

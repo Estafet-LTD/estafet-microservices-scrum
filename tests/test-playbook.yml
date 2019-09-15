@@ -1,0 +1,125 @@
+---
+- name: Test playbook
+  hosts: all
+  become: no
+  vars:
+    microservice: "project-api"
+    cpu_max: "1"
+    cpu_min: "50m"
+    memory_max: "400Mi"
+    memory_min: "50Mi"
+  tasks:
+    - name: Check Existing CPU Limit for {{ microservice }}.
+      shell: "oc get dc {{ microservice }} -o jsonpath='{.spec.template.spec.containers[0].resources.limits.cpu}'"
+      ignore_errors: yes
+      register: existing_cpu_limit_result
+      changed_when: false
+      tags:
+        - openshift
+
+    - name: Set existing CPU limit for {{ microservice }}.
+      set_fact: existing_cpu_limit={{ existing_cpu_limit_result.stdout }}
+
+    - name: Check Existing Memory Limit for {{ microservice }}
+      shell: "oc get dc {{ microservice }} -o jsonpath='{.spec.template.spec.containers[0].resources.limits.memory}'"
+      ignore_errors: yes
+      register: existing_memory_limit_result
+      changed_when: false
+      tags:
+        - openshift
+
+    - name: Set existing Memory limit for {{ microservice }}.
+      set_fact: existing_memory_limit={{ existing_memory_limit_result.stdout }}
+
+    - name: Check Existing CPU Request for {{ microservice }}.
+      shell: "oc get dc {{ microservice }} -o jsonpath='{.spec.template.spec.containers[0].resources.requests.cpu}'"
+      ignore_errors: yes
+      register: existing_cpu_request_result
+      changed_when: false
+      tags:
+        - openshift
+
+    - name: Set existing CPU Request for {{ microservice }}.
+      set_fact: existing_cpu_request={{ existing_cpu_request_result.stdout }}
+      changed_when: false
+
+    - name: Check Existing Memory Request for {{ microservice }}.
+      shell: "oc get dc {{ microservice }} -o jsonpath='{.spec.template.spec.containers[0].resources.requests.memory}'"
+      ignore_errors: yes
+      register: existing_memory_request_result
+      changed_when: false
+      tags:
+        - openshift
+
+    - name: Set existing Memory Request for {{ microservice }}.
+      set_fact: existing_memory_request={{ existing_memory_request_result.stdout }}
+      changed_when: false
+
+    - name: Print existing CPU limit result for {{ microservice }}.
+      debug:
+        var: existing_cpu_limit_result
+      tags: debug_existing_cpu_limit_result
+
+    - name: Print existing memory limit result for {{ microservice }}.
+      debug:
+        var: existing_memory_limit_result
+      tags: debug_existing_memory_limit_result
+
+    - name: Print existing CPU request result for {{ microservice }}.
+      debug:
+        var: existing_cpu_request_result
+      tags: debug_existing_cpu_request_result
+
+    - name: Print existing memory request result for {{ microservice }}.
+      debug:
+        var: existing_memory_request_result
+      tags: debug_existing_memory_request_result
+
+    - name: Print existing CPU limit for {{ microservice }}.
+      debug:
+        var: existing_cpu_limit
+      tags: debug_existing_cpu_limit
+
+    - name: Print existing memory limit for {{ microservice }}.
+      debug:
+        var: existing_memory_limit
+      tags: debug_existing_memory_limit
+
+    - name: Print existing CPU request for {{ microservice }}.
+      debug:
+        var: existing_cpu_request
+      tags: debug_existing_cpu_request
+
+    - name: Print existing memory request for {{ microservice }}.
+      debug:
+        var: existing_memory_request
+      tags: debug_existing_memory_request
+
+    - name: Set dc resource changes needed flag for {{ microservice }}.
+      set_fact:
+        resource_changes_needed: "{{ existing_cpu_limit != cpu_max or \
+          existing_memory_limit != memory_max or \
+          existing_cpu_request != cpu_min or \
+          existing_memory_request != memory_min }}"
+
+    - name: Print resource changes needed for {{ microservice }}.
+      debug:
+        var: resource_changes_needed
+
+    - name: Configure the resource limits for microservice ({{ microservice }})
+      shell: "oc set resources dc {{ microservice }} -c={{ microservice }} --limits=cpu={{ cpu_max }},memory={{ memory_max }} --requests=cpu={{ cpu_min }},memory={{ memory_min }}"
+      register: command_result
+      when: resource_changes_needed
+      failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+      changed_when: "'exists' not in command_result.stderr"
+      tags:
+        - openshift
+
+    - name: Wait for the microservice to become available ({{ microservice }})
+      shell : "oc rollout status dc/{{ microservice }}"
+      register: command_result
+      when: resource_changes_needed
+      failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+      changed_when: "'exists' not in command_result.stderr"
+      tags:
+        - openshift

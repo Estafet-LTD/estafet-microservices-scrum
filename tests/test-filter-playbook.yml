@@ -1,0 +1,61 @@
+---
+- name: Test filter playbook
+  hosts: all
+  become: no
+  vars:
+    microservice: "project-api"
+    cpu_max: "1000m"
+    cpu_min: ".05"
+    memory_max: "1073741824"
+    memory_min: "50Mi"
+  tasks:
+
+    - name: Set existing CPU limit for {{ microservice }}.
+      set_fact: existing_cpu_limit=""
+
+    - name: Set existing Memory limit for {{ microservice }}.
+      set_fact: existing_memory_limit=""
+
+    - name: Set existing CPU Request for {{ microservice }}.
+      set_fact: existing_cpu_request="50m"
+      changed_when: false
+
+    - name: Set existing Memory Request for {{ microservice }}.
+      set_fact: existing_memory_request="50Mi"
+      changed_when: false
+
+    - name: Set max cpu filter variable for {{ microservice }}.
+      set_fact:
+        max_cpu_filter: "{{existing_cpu_limit}}, {{cpu_max}}"
+
+    - name: Set max cpu resource changes needed flag for {{ microservice }}.
+      set_fact:
+        resource_changes_needed: "{{ max_cpu_filter | cpu_not_equivalent }}"
+
+    - name: Set min cpu filter variable for {{ microservice }}.
+      set_fact:
+        min_cpu_filter: "{{existing_cpu_request}}, {{cpu_min}}"
+
+    - name: Set min cpu resource changes needed flag for {{ microservice }}.
+      set_fact:
+        resource_changes_needed: "{{ resource_changes_needed or (min_cpu_filter | cpu_not_equivalent) }}"
+
+    - name: Set max memory filter variable for {{ microservice }}.
+      set_fact:
+        max_memory_filter: "{{existing_memory_limit}}, {{memory_max}}"
+
+    - name: Set max memory resource changes needed flag for {{ microservice }}.
+      set_fact:
+        resource_changes_needed: "{{ resource_changes_needed or (max_memory_filter | memory_not_equivalent) }}"
+
+    - name: Set min memory filter variable for {{ microservice }}.
+      set_fact:
+        min_memory_filter: "{{existing_memory_request}}, {{memory_min}}"
+
+    - name: Set min memory resource changes needed flag for {{ microservice }}.
+      set_fact:
+        resource_changes_needed: "{{resource_changes_needed or (min_memory_filter | memory_not_equivalent)}}"
+
+    - name: Print resource changes needed for {{ microservice }}.
+      debug:
+        var: resource_changes_needed

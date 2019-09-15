@@ -1,10 +1,10 @@
 ---
 - debug:
-    msg: Creating the microservices scrum database ...
+    msg: Creating the microservices scrum databases (external_db is {{ external_db }}) ...
 
 - name: Install the PostgreSQL server
   shell : "oc new-app postgresql-persistent --name postgresql -p POSTGRESQL_USER=postgres -p POSTGRESQL_PASSWORD=welcome1"
-  when: "not {{ external_db }}"
+  when: not external_db
   register: command_result
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
   changed_when: "'exists' not in command_result.stderr"
@@ -12,9 +12,9 @@
     - openshift
     - postgres
 
-- name: Wait for the postgresql server to become available
+- name: Wait for the postgresql server to become available (external_db is {{ external_db }}) ...
   shell : "oc rollout status dc/postgresql"
-  when: "not {{ external_db }}"
+  when: not external_db
   register: command_result
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
   changed_when: "'exists' not in command_result.stderr"
@@ -22,18 +22,18 @@
     - openshift
     - postgres
 
-- name: Read the database pod list
+- name: Read the database pod list (external_db is {{ external_db }})
   shell: "oc get pods --selector app=postgresql -o json"
-  when: "not {{ external_db }}"
+  when: not external_db
   register: list_of_db_pods
 
-- name: Get the name of the PostgreSQL Pod
+- name: Get the name of the PostgreSQL Pod (external_db is {{ external_db }})
   set_fact: db_pod="{{list_of_db_pods.stdout|from_json|json_query('items[0].metadata.name')}}"
-  when: "not {{ external_db }}"
+  when: not external_db
 
-- name: Create the microservice databases on PostgreSQL Pod
+- name: Create the microservice databases on PostgreSQL Pod (external_db is {{ external_db }}) ...
   shell: 'oc exec -n {{ project }} {{db_pod}} -- /bin/sh -i -c "createdb {{ project }}-{{ item.name }}"'
-  when: "{{ item.db }} and not {{ external_db }}"
+  when: item.db and not external_db
   with_items: "{{ microservices_scrum_projects }}"
   register: command_result
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
@@ -42,28 +42,28 @@
     - openshift
     - postgresql
 
-- name: copy the database service template to the working directory
+- name: copy the database service template to the working directory (external_db is {{ external_db }})
   copy:
     src: "external-postgres-service.yml.template"
     dest: "{{ workdir }}/external-postgres-service.yml"
     force: true
 
-- name: Set Database Domain
+- name: Set Database Domain (external_db is {{ external_db }})
   replace:
     path: "{{ workdir }}/external-postgres-service.yml"
     regexp: 'localhost'
     replace: "{{ database }}"
-  when: "{{ external_db }}"
+  when: external_db
   tags:
     - db
     - postgresql
 
-- name: Create the external database service
+- name: Create the external database service (external_db is {{ external_db }})
   shell: "oc create -f {{ workdir }}/external-postgres-service.yml"
-  when: "{{ external_db }}"
+  when: external_db
   tags:
     - db
     - postgresql
 
 - debug:
-    msg: Created the microservices scrum database.
+    msg: Created the microservices scrum databases.
