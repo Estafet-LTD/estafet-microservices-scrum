@@ -98,7 +98,7 @@ fi
 
 echo "INFO: Dropping Estafet Microservice Scrum application databases ..."
 ansible-playbook -vv drop-postgres-databases-playbook.yml || {
-	echo "ERROR: Failed to drop the application databases.
+	echo "ERROR: Failed to drop the application databases."
 	exit 1
 }
 
