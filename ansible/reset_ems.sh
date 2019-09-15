@@ -35,7 +35,7 @@ ansible-playbook -vv drop-postgres-databases-playbook.yml || {
 }
 
 echo "INFO: Creating Estafet Microservice Scrum application databases ..."
-ansible-playbook -vv init-postgres-databases-playbook.yml || {
+ansible-playbook -vv create-postgres-databases-playbook.yml || {
 	echo "ERROR: Failed to initalise the application databases."
 	exit 1
 }
