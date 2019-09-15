@@ -38,7 +38,7 @@ function should_drop_database() {
 	[[ "${name#cicd-}" != "${name}" ]] && return 0
 	[[ "${name#test-}" != "${name}" ]] && return 0
 	[[ "${name#prod-}" != "${name}" ]] && return 0
-	[[ "${name}" == "scrum" ]] && return 0
+	[[ "${name}" == "scrumdb" ]] && return 0
 
 	return 1	
 }
@@ -92,12 +92,17 @@ function drop_database() {
     local -a psql=()
     psql+=("psql -h \"${db_host}\" -p ${db_port} -U \"${db_user}\"")
     psql+=("-t -w -c")
-    psql+=("\"drop database if exists ${database};\"")
+    psql+=("'DROP DATABASE IF EXISTS")
+
+    # The database name must be enclosed in double quotes. Otherwise, psql raises an error.
+    psql+=("\"${database}\";'")
     psql+=("postgres")
 
     local psql_command="${psql[*]}"
 
     ${DEBUG} && echo -e "Database: ${database}: The PSQL command is\n${psql_command}"
+
+    echo "Dropping ${database} ..."
 
     local result=
     result="$(eval "${psql_command}")" || {

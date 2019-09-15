@@ -1,9 +1,14 @@
 #!/bin/bash
 
+DEBUG=false
+
 function delete_project() {
 
     local name"=$1"
-    project_exists "${name}" || return 0
+    project_exists "${name}" || {
+    	echo "INFO The ${name} project does not exist."
+    	return 0
+	}
 
     echo "Deleting project ${project} (will wait up to 60s) ..."
     local result=
@@ -11,7 +16,7 @@ function delete_project() {
     result="$(oc delete project --grace-period 60 "${name}" 2>&1)"
     local -i status=$?
 
-    echo "${result}"
+    ${DEBUG} && echo "${result}"
     if [ ${status} -eq 0 ]; then
         echo "Marked ${name} project for deletion."
     else
@@ -28,6 +33,8 @@ function project_exists() {
     result="$(oc get project "${name}" 2>&1)"
     local -i status=$?
 
+    ${DEBUG} && echo "${result}"
+
     return ${status}
 }
 
@@ -40,8 +47,11 @@ function wait_for_delete() {
     while [ ${limit} -gt 0 ]
     do
         sleep ${interval}
-        project_exists "${name}" || return 0
-        ((limit-=interval))
+        project_exists "${name}" || {
+        	echo "INFO: The ${name} project has been deleted."
+        	return 0
+    	}
+    	((limit-=interval))
     done
     echo "ERROR: project ${name} exists after 300s."
     return 1
