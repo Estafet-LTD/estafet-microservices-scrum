@@ -1,7 +1,5 @@
 #!/bin/bash
 
-DEBUG=false
-
 function login() {
     oc login -u admin -p 123 --insecure-skip-tls-verify=true https://ip-10-0-1-105.eu-west-2.compute.internal:8443 || {
 	    echo "ERROR: Failed to login as admin."
@@ -16,7 +14,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" || {
     exit 1
 }
 
-pushd "${DIR} >/dev/null 2>&1 || {
+pushd "${DIR}" >/dev/null 2>&1 || {
 	echo "ERROR: failed to pushd $DIR}."
 	exit 1
 }
