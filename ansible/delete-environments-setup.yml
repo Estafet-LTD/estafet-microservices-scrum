@@ -22,8 +22,6 @@
   file:
     path: "{{ workdir }}"
     state: absent
-    changed_when: false
-    failed when: false
 
 - debug:
     msg: "Executed initial delete environment setup."

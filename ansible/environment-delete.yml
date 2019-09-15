@@ -2,8 +2,8 @@
 - debug:
     msg: "Deleting the {{ project }} environment ..."
 
-- name: Check the dev environment exists.
-  shell: "oc get project {{ project }} -o jsonpath=-o jsonpath='{.metadata.name}'"
+- name: Check the environment exists.
+  shell: "oc get project {{ project }} -o jsonpath='{.metadata.name}'"
   register: get_project_result
   ignore_errors: yes
   changed_when: false
@@ -11,30 +11,24 @@
     - openshift
 
 - name: Set {{ project }} evironment exists fact.
-  set-fact: environment_exists={{ get_project_result.rc == 0 }}
+  set_fact:
+    environment_exists: "{{ get_project_result.rc == 0 }}"
   changed_when: false
   tags:
     - openshift
 
-- name: Display delete {{ project }} message.
+- name: Display delete {{ project }} flag.
   debug:
-    msg: "The {{ project }} environment exists and will be deleted."
-    when: environment_exists
-
-- name: Display {{ project }} does not exist message.
-  debug:
-    msg: "The {{ project }} environment does not exist."
-    when: not environment_exists
+    var: environment_exists
 
 - name: Delete the {{ project }} environment.
   shell: "oc delete project --grace-period 60 ${{ project }}"
   register: delete_project_result
   when: environment_exists
-  failed_when: "command_result.rc != 0"
+  failed_when: "delete_project_result.rc != 0"
   changed_when: false
   tags:
     - openshift
 
 - debug:
     msg: "Deleted the {{ project }} environment."
-    when: environment_exists
