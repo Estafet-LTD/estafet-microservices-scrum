@@ -17,12 +17,12 @@
   tags:
     - openshift
 
-- name: Display delete {{ project }} flag.
+- name: Display environment exists flag.
   debug:
     var: environment_exists
 
 - name: Delete the {{ project }} environment.
-  shell: "oc delete project --grace-period 60 ${{ project }}"
+  shell: "oc delete project --grace-period 60 {{ project }}"
   register: delete_project_result
   when: environment_exists
   failed_when: "delete_project_result.rc != 0"
