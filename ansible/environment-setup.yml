@@ -15,7 +15,7 @@
   tags:
     - openshift
 
-- name: Install xpaas image streams
+- name: Install xpaas image streams for {{ project }}
   shell: "oc create -f {{ workdir }}/openshift-ansible/roles/openshift_examples/files/examples/v3.9/xpaas-streams/jboss-image-streams.json -n {{ project }}"
   register: command_result
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
@@ -24,7 +24,7 @@
     - openshift
     - xpaas
 
-- name: Install xpaas source to image templates
+- name: Install xpaas source to image templates for {{ project }}
   shell: "oc create -f {{ workdir }}/openshift-ansible/roles/openshift_examples/files/examples/v3.9/xpaas-templates -n {{ project }}"
   register: command_result
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
@@ -33,7 +33,7 @@
     - openshift
     - xpaas
 
-- name: Install the JBoss A-MQ Message Broker
+- name: Install the JBoss A-MQ Message Broker for {{ project }}
   shell: "oc process amq63-basic -p IMAGE_STREAM_NAMESPACE={{ project }} -p MQ_USERNAME=amq -p MQ_PASSWORD=amq | oc create -f -"
   register: command_result
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
@@ -42,7 +42,7 @@
     - openshift
     - a-mq
 
-- name: Remove the readiness probe as some OS implements with ipv4 only stop this from working correctly
+- name: Remove the readiness probe as some OS implements with ipv4 only stop this from working correctly (for {{ project }})
   shell: "oc set probe dc/broker-amq --readiness --remove"
   when: remove_amq_readiness
   register: command_result
@@ -52,7 +52,7 @@
     - openshift
     - a-mq
 
-- name: Wait for the a-mq to become available
+- name: Wait for the a-mq to become available in {{ project }}
   shell : "oc rollout status dc/broker-amq"
   register: command_result
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"

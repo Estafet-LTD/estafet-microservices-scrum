@@ -71,13 +71,16 @@ declare projects="prod test dev cicd"
 
 login || exit 1
 
-echo "INFO: Resetting Estafet Microservice Scrum ..."
-
+echo "INFO: Resetting Estafet Microservice Scrum applications ..."
+((errors=0))
 for project in ${projects}; do
 	
     if project_exists "${project}"; then
         if delete_project "${project}"; then
-            wait_for_delete "${project}"
+            wait_for_delete "${project}" || {
+            	echo "WARNING: Failed to delete the ${project} project."
+            	(( ++errors))
+            }
         fi
     else
         echo "INFO: ${project} does not exist."
@@ -86,6 +89,23 @@ done
 
 oc logout
 
-echo "INFO: Reset Estafet Microservice Scrum OK."
+if [[ ${errors} -eq 0 ]]; then
+    echo "INFO: Reset the Estafet Microservice Scrum applications OK."
+else
+    echo "INFO: Failed to reset all the Estafet Microservice Scrum applications."
+   	exit 1
+fi
 
-"${DIR}"/drop_application_databases.sh
+echo "INFO: Dropping Estafet Microservice Scrum application databases ..."
+ansible-playbook -vv drop-postgres-databases-playbook.yml || {
+	echo "ERROR: Failed to drop the application databases.
+	exit 1
+}
+
+echo "INFO: Creating Estafet Microservice Scrum application databases ..."
+ansible-playbook -vv init-postgres-databases-playbook.yml || {
+	echo "ERROR: Failed to initalise the application databases."
+	exit 1
+}
+
+echo "INFO: Reset the Estafet Microservices Scrum applications and databases OK."

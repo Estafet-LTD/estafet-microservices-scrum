@@ -1,37 +1,37 @@
 ---
-- name: Create the databases for the RDS postgres instance
+- name: Drop the databases for the RDS postgres instance
   hosts: all
   vars_files:
     - microservices-vars.yml
   tasks:
-  - name: creating the dev databases
+  - name: Dropping the dev databases
     postgresql_db:
       db: "dev-{{ item.name }}"
       login_host: "{{ database }}"
       login_password: welcome1
-      state: present
+      state: absent
     with_items: "{{ microservices_scrum_projects }}"
     tags:
       - db
       - postgresql
 
-  - name: creating the test databases
+  - name: Dropping the test databases
     postgresql_db:
       db: "test-{{ item.name }}"
       login_host: "{{ database }}"
       login_password: welcome1
-      state: present
+      state: absent
     with_items: "{{ microservices_scrum_projects }}"
     tags:
       - db
       - postgresql
 
-  - name: creating the prod databases
+  - name: Dropping the prod databases
     postgresql_db:
       db: "prod-{{ item.name }}"
       login_host: "{{ database }}"
       login_password: welcome1
-      state: present
+      state: absent
     with_items: "{{ microservices_scrum_projects }}"
     tags:
       - db
