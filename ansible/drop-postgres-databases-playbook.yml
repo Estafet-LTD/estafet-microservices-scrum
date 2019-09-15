@@ -1,5 +1,5 @@
 ---
-- name: Drop the databases for the RDS postgres instance
+- name: Drop all the application databases for the RDS postgres instance.
   hosts: all
   vars_files:
     - microservices-vars.yml
