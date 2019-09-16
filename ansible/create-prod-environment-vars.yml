@@ -22,7 +22,7 @@ project: prod
 project_description: "Production Environment for Microservices Scrum"
 
 # defines the location of the estafet github (change this if you have forked and want to use another github)
-github: https://github.com/Estafet-LTD
+github: https://github.com/stericbro
 
 # specify whether to remove the readiness probe for amq - this is a workaround for an issue with oc cluster up on windows
 remove_amq_readiness: true

@@ -22,7 +22,7 @@ pushd "${DIR}" >/dev/null 2>&1 || {
 trap 'popd >/dev/null 2>&1' 0
 trap "exit 2" 1 2 3 13 15
 
-echo "INFO: Deleting all environements an their contents ..."
+echo "INFO: Deleting all environements and their contents ..."
 ansible-playbook -vv delete-devops-environments-playbook.yml || {
 	echo "ERROR: Failed to delete all environments."
 	exit 1
