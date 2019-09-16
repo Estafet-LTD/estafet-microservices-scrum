@@ -1,4 +1,5 @@
 ---
+# This playbook requires Ansible 2.8.0+
 - name: Reset the liquibase locks for the microservices
   hosts: all
   vars_files:
