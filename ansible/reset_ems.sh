@@ -27,21 +27,22 @@ ansible-playbook -vv delete-devops-environments-playbook.yml || {
 	echo "ERROR: Failed to delete all environments."
 	exit 1
 }
-
+echo -e "\nINFO: OpenShift services =================================================================================\n"
 oc get services --all-namespaces
 
+echo -e "\nINFO: OpenShift pods =====================================================================================\n"
 oc get pods --all-namespaces
 
-echo "INFO: Dropping Estafet Microservice Scrum application databases ..."
+echo -e "\nINFO: Dropping Estafet Microservice Scrum application databases ..."
 ansible-playbook -vv drop-postgres-databases-playbook.yml || {
 	echo "ERROR: Failed to drop the application databases."
 	exit 1
 }
 
-echo "INFO: Creating Estafet Microservice Scrum application databases ..."
+echo -e "\nINFO: Creating Estafet Microservice Scrum application databases ..."
 ansible-playbook -vv create-postgres-databases-playbook.yml || {
 	echo "ERROR: Failed to initalise the application databases."
 	exit 1
 }
 
-echo "INFO: Reset the Estafet Microservices Scrum applications and databases OK."
+echo -e "\nINFO: Reset the Estafet Microservices Scrum applications and databases OK."
