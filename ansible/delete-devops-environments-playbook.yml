@@ -12,4 +12,4 @@
     - include: delete-test-environment.yml
     - include: delete-prod-environment.yml
     - debug:
-        msg: "Deleted All environments OK."    
+        msg: "Deleted All environments OK."
