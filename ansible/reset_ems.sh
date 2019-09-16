@@ -28,6 +28,10 @@ ansible-playbook -vv delete-devops-environments-playbook.yml || {
 	exit 1
 }
 
+oc get services --all-namespaces
+
+oc get pods --all-namespaces
+
 echo "INFO: Dropping Estafet Microservice Scrum application databases ..."
 ansible-playbook -vv drop-postgres-databases-playbook.yml || {
 	echo "ERROR: Failed to drop the application databases."
