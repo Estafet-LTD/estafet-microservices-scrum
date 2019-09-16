@@ -27,6 +27,7 @@ ansible-playbook -vv delete-devops-environments-playbook.yml || {
 	echo "ERROR: Failed to delete all environments."
 	exit 1
 }
+
 echo -e "\nINFO: OpenShift services =================================================================================\n"
 oc get services --all-namespaces
 
