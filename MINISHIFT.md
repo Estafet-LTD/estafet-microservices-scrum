@@ -113,7 +113,7 @@ $ mv ~/tools/minishift-1.34.1-linux-amd64 ~/tools/minishift-1.34.1
 $
 ```
 
-## <a name="Configuration"></a>Configuration
+## <a name="configuration"></a>Configuration
 
 Set up the user's bash profile:
 

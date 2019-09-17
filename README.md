@@ -47,7 +47,7 @@ Please review the prerequisites below before continuing with the deployment step
 
 There are three ways of installing OpenShift on a laptop for development:
 
-* Use Minishift (See The [Minishft Readme](./MINISHIT.md)).
+* Use Minishift (See The [Minishift Readme](https://github.com/stericbro/estafet-microservices-scrum/blob/master/MINISHIFT.md)).
 * "oc cluster up (See this [Medium article](https://medium.com/@fabiojose/working-with-oc-cluster-up-a052339ea219 "Medium article"))
 * Install OKD on your laptop (see this [YouTube video](https://youtu.be/ZkFIozGY0IA) "YouTube video")
 
@@ -85,7 +85,7 @@ The ansible playbook assumes that you have installed Openshift on your local dev
 #### Minishift
 
 The local environment can be run on [Minishift](https://docs.okd.io/latest/minishift/index.html "Minishift Homepage"). To install and configure
-Minishift, please see the [Minishift ReadMe](./MINISHIFT.md "Minishift Readme") file.
+Minishift, please see the [Minishift ReadMe](https://github.com/stericbro/estafet-microservices-scrum/blob/master/MINISHIFT.md "Minishift Readme") file.
 
 #### Openshift CLI (oc)
 The playbook also assumes that the Openshift CLI `oc` is installed on the same machine that you have installed Ansible on. If this is not the case, you will need to amend the Ansible `microservices-scrum.yml` file and modify the `hosts: localhost` directive.
@@ -125,7 +125,7 @@ $ vi iniventory
 localhost ansible_connection=local openshift=192.168.42.34:8443
 ```
 
-If you are using Minishift, the `openshift` value is taken from the output of starting minishift (see the [Minishift README](./MINISHIFT.md)):
+If you are using Minishift, the `openshift` value is taken from the output of starting minishift (see the [Minishift README](https://github.com/stericbro/estafet-microservices-scrum/blob/master/MINISHIFT.md)):
 
 ```
 OpenShift server started.
@@ -140,7 +140,7 @@ Otherwise, the value is the public IP or DNS address of the Master OpenShift nod
 #### Step 3
 Run the playbook. The playbook takes about 15 mins complete.
 
-> Note:- If you are using Minishift, you set the Minishift configuration to specify the resources available. (see the [Minishift README](./MINISHIFT.md)).
+> Note:- If you are using Minishift, you set the Minishift configuration to specify the resources available. (see the [Minishift README](https://github.com/stericbro/estafet-microservices-scrum/blob/master/MINISHIFT.md#configuration)).
 
 ```
 $ cd estafet-microservices-scrum/ansible
