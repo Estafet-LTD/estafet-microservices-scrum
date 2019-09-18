@@ -27,7 +27,7 @@
     path: "{{ workdir }}"
     state: directory
 
-- name: Checkout source code ({{ item.repo }}) from Github
+- name: Checkout source code for the microservices from Github into the {{ project }} environment.
   git:
     repo: "{{ github }}/{{ item.repo }}"
     dest: "{{ workdir }}/{{ item.repo }}"
