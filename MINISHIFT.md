@@ -14,6 +14,7 @@ VMWare supports nested virtualisation for Intel processors, but there are licens
 ## Contents
 
 * [Prerequisites](#Prerequisites)
+* [Nested Virtualization with Intel](#nested-virtualization)
 * [Installation](#Installation)
 * [Configuration](#Configuration)
 * [Running Minishift](#running-minishift)
@@ -83,6 +84,17 @@ $ sudo curl -L https://github.com/dhiltgen/docker-machine-kvm/releases/download/
 -o /usr/local/bin/docker-machine-driver-kvm
 $ sudo chmod +x /usr/local/bin/docker-machine-driver-kvm
 ```
+## <a name="nested-virtualization"></a>Nested Virtualization with Intel
+
+Nested virtualization should only be used if you are running a host Windows OS laptop with a guest Linux development machine in a VM. It is not required if your host OS laptop is Linux. As you may expect it is very resource intensive running a (Minishift) VM within a (Linux) VM.
+
+Currently Oracle VirtualBox does not support nested virtualization on Intel processors but VMWare does.
+
+The necessary steps to run Minishift nested in a Linux VM are as follows:
+
+* Create the host VM with the Virtualization engine 'Virtualize Intel VT-x/EPT or AMD-V/RVI' box checked under the Processors tab
+* Follow the instructions at https://docs.fedoraproject.org/en-US/quick-docs/using-nested-virtualization-in-kvm/
+
 
 ## <a name="Installation"></a>Installation
 
