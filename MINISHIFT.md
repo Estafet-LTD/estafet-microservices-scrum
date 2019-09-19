@@ -94,7 +94,7 @@ The necessary steps to run Minishift nested in a Linux VM are as follows:
 
 * Create the host VM with the Virtualization engine 'Virtualize Intel VT-x/EPT or AMD-V/RVI' box checked under the Processors tab
 * Follow the instructions at https://docs.fedoraproject.org/en-US/quick-docs/using-nested-virtualization-in-kvm/
-```
+
 ## <a name="Installation"></a>Installation
 
 To install Minishift, the steps are:
