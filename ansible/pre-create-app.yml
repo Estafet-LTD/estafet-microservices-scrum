@@ -1,6 +1,6 @@
 ---
 - debug:
-    msg: "pre-create-app for {{ repo }} in {{ project }}. Test environment is {{ test_environment }}."
+    msg: "Get the source code for {{ repo }}. Test environment is {{ test_environment }}."
 
 - set_fact: branch="master"
 
@@ -8,7 +8,7 @@
   set_fact: expose_service=true
   when: test_environment
 
-- name: fetch latest tag for the {{ repo }} repo
+- name: Fetch the latest Git tag for the {{ repo }} repo
   shell: "git describe --abbrev=0 --tags"
   args:
     chdir: "{{ workdir }}/{{ repo }}"
