@@ -23,61 +23,9 @@ Installing and configuring gogs is outside the scope of this document.
 
 Point a browser at Jenkins running on the OpenShift Cluster:
 
-![alt text](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/jenkins_main.png)
+![alt text](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/jenkins_main_menu.png)
 
-Set up the user's bash profile:
-
-Edit the user's BASH profile (`~/.bash_profile`) as follows:
-
-```
-#!/bin/bash
-# .bash_profile
-
-# Get the aliases and functions
-if [ -f ~/.bashrc ]; then
-    source ~/.bashrc
-fi
-
-# User specific environment and startup programs
-
-TOOLS_HOME="${HOME}/tools"
-
-export MINISHIFT_VERSION=1.34.1
-export OKD_VERSION=3.11.0
-export MINISHIFT_HOME=${TOOLS_HOME}/minishift-${MINISHIFT_VERSION}
-
-OLD_PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:${HOME}/.local/bin:${HOME}/bin
-
-PATH=${MINISHIFT_HOME}:\
-${MINISHIFT_HOME}/cache/oc/v${OKD_VERSION}/linux/:\
-${OLD_PATH}
-export PATH
-
-```
-
-Source the updated BASH profile:
-
-```
-$ source ~/.bash_profile
-$
-```
-Configure Minishift:
-
-These are suggested values:
-
-| Settings         | Value         |
-| -------------    |:--------------|
-| Virtualization   | `KVM`         |
-| Memory           | `8Gb`         | 
-| Number of CPUs   | `4`           |
-| Disk Space       | `100Gb`       |
-
-```
-$  minishift config set vm-driver kvm
-$  minishift config set memory 8G
-$  minishift config set cpus 4
-$  minishift config set disk-size 100G
-
+Then choose "Jenkins", "Manage Jenkins", then "Configure System"
 ```
 ## <a name="running-minishift"></a>Running Minishift
 
