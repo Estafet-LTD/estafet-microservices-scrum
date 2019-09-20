@@ -209,12 +209,12 @@ tbc...
 ## Architecture
 The application consists of 9 microservices + the user interface. These are deployed to openshift as pods. The postgres pod instance contains 6 databases, each "owned" by a microservice. The A-MQ broker processes messages sent to topics and distributes these to microservices that have subscribedtothose topics.
 
-![alt tag](https://github.com/stericbro/estafet-microservices-scrum/blob/master/PodComponents.png)
+![alt tag](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/readme/PodComponents.png)
 
 ### Domain Model
 Here's the overall business domain model.
 
-![alt tag](https://github.com/stericbro/estafet-microservices-scrum/blob/master/UnboundedDomainModel.png)
+![alt tag](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/readme/UnboundedDomainModel.png)
 
 ## Distributed Monitoring
 Here's a short summary of the Opentracing and Jaeger with microservices.
