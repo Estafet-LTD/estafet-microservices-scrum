@@ -31,4 +31,20 @@ Scroll down to the `GitHub` section:
 
 ![GitHub Configuration](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/jenkins_github_configuration.png)
 
-Enter "Public GitHub" in the GitHub Server `Name` field, then click on the 
+Enter "Public GitHub" in the GitHub Server `Name` field, then click on the `Advanced` button:
+
+![Advanced GitHub Configuration](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/jenkins_github_configuration_advanced.png)
+
+Choose "`Convert login and password to token`" from the "`Manage addtional GitHub actions" dropdown list:
+
+![Convert login and password to token](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/jenkins_github_convert_login_password.png)
+
+Select "`From login and password`":
+
+![From login and password](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/jenkins_github_from_login_password.png)
+
+Enter your GitHub Login username and password, then click on "`Create token credentials`"
+
+![GitHub credential](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/jenkins_github_credential.png)
+
+
