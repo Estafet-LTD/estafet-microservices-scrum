@@ -13,11 +13,11 @@ VMWare supports nested virtualisation for Intel processors, but there are licens
 
 ## Contents
 
-* [Prerequisites](#Prerequisites)
-* [Nested Virtualization with Intel](#nested-virtualization)
-* [Installation](#Installation)
-* [Configuration](#Configuration)
-* [Running Minishift](#running-minishift)
+* [Prerequisites](https://github.com/stericbro/estafet-microservices-scrum/blob/master/MINISHIFT.md#Prerequisites)
+* [Nested Virtualization with Intel](https://github.com/stericbro/estafet-microservices-scrum/blob/master/MINISHIFT.md#nested-virtualization)
+* [Installation](https://github.com/stericbro/estafet-microservices-scrum/blob/master/MINISHIFT.md#Installation)
+* [Configuration](https://github.com/stericbro/estafet-microservices-scrum/blob/master/MINISHIFT.md#Configuration)
+* [Running Minishift](https://github.com/stericbro/estafet-microservices-scrum/blob/master/MINISHIFT.md#running-minishift)
 
 ## <a name="Prerequisites"></a>Prerequisites
 
@@ -84,19 +84,30 @@ $ sudo curl -L https://github.com/dhiltgen/docker-machine-kvm/releases/download/
 -o /usr/local/bin/docker-machine-driver-kvm
 $ sudo chmod +x /usr/local/bin/docker-machine-driver-kvm
 ```
-## <a name="nested-virtualization"></a>Nested Virtualization with Intel
+### <a name="nested-virtualization"></a>KVM Nested Virtualization with Intel
 
-Nested virtualization should only be used if you are running a host Windows OS laptop with a guest Linux development machine in a VM. It is not required if your host OS laptop is Linux. As you may expect it is very resource intensive running a (Minishift) VM within a (Linux) VM.
+Nested virtualization should only be used when your VM host is Windows and one of these situations applies:
 
-Currently Oracle VirtualBox does not support nested virtualization on Intel processors but VMWare does.
+  1. You cannot get Minishift to run under Windows
+  2. You don't have [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/about "Windows Subsystem for Linux") (WSL) installed
+  3. You cannot get Minishift to work with WSL.
+ 
+Nested Virtualisation is not required if your VM host is running Linux.
+ 
+As you may expect, it is very resource intensive running (slow) a Minishift VM
+within a Linux VM hostsed on Windows.
+
+Currently (September, 2019), Oracle VirtualBox does not support nested virtualization on Intel processors, but VMWare does.
 
 The necessary steps to run Minishift nested in a Linux VM are as follows:
 
-* Create the host VM with the Virtualization engine 'Virtualize Intel VT-x/EPT or AMD-V/RVI' box checked under the Processors tab
-* Follow the instructions at https://docs.fedoraproject.org/en-US/quick-docs/using-nested-virtualization-in-kvm/
+* Make sure your BIOS settings allow Virtual Machines
+* Download and install the [VMWare Workstation Player](https://www.vmware.com/uk/products/workstation-player.html "VMWare Workstation PLayer")
+* Run the VMWare Player and create a Linux VM with the Virtualization engine '`Virtualize Intel VT-x/EPT or AMD-V/RVI`' box checked under the Processors tab
+* Follow [these instructions](https://docs.fedoraproject.org/en-US/quick-docs/using-nested-virtualization-in-kvm/ "nested virtualization") on the Fedora website.
+* [Install Minishift](https://github.com/stericbro/estafet-microservices-scrum/blob/master/MINISHIFT.md#Installation) in the Linix VM you just created.
 
-
-## <a name="Installation"></a>Installation
+## <a name="Installation"></a>Install Minishift
 
 To install Minishift, the steps are:
 
@@ -328,4 +339,3 @@ To login as administrator:
 Started Minishift OK.
 
 ```
-
