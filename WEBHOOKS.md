@@ -5,14 +5,14 @@ This document describes how to set up GitHub Webhooks so that Jenkins automatica
 
 * [Prerequisites](https://github.com/stericbro/estafet-microservices-scrum/blob/master/WEBHOOKS.md#Prerequisites)
 * [Configuring Jenkins](https://github.com/stericbro/estafet-microservices-scrum/blob/master/WEBHOOKS.md#configuring-jenkins)
-* [Installation](https://github.com/stericbro/estafet-microservices-scrum/blob/master/WEBHOOKS.md#Installation)
+* [Configuring GitHub](https://github.com/stericbro/estafet-microservices-scrum/blob/master/WEBHOOKS.md#Iconfiguring github)
 * [Configuration](https://github.com/stericbro/estafet-microservices-scrum/blob/master/WEBHOOKS.md#Configuration)
 * [Running Minishift](https://github.com/stericbro/estafet-microservices-scrum/blob/master/WEBHOOKS.md#running-minishift)
 
 ## <a name="Prerequisites"></a>Prerequisites
 
 You must have a GitHub account that can push to the GitHub repository (in this case, the GitHub repository for
-[estafet-microservices-scrum-basic-ui](https://github.com/stericbro/estafet-microservices-scrum-basic-ui "basic-ui GitHub repository").)
+estafet-microservices-scrum-basic-ui: `https://github.com/your-github-username/estafet-microservices-scrum-basic-ui`.)
 If the repsoitory is provate, you must be set up as a contributor to the GitHub repository.
 
 The Jenkins application on OpenShift must have an IP address and (optionally) DNS name that is accessible from GitHub.
@@ -35,7 +35,7 @@ Enter "Public GitHub" in the GitHub Server `Name` field, then click on the `Adva
 
 ![Advanced GitHub Configuration](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/jenkins_github_configuration_advanced.png)
 
-Choose "`Convert login and password to token`" from the "`Manage addtional GitHub actions" dropdown list:
+Choose "`Convert login and password to token`" from the "`Manage addtional GitHub actions`" dropdown list:
 
 ![Convert login and password to token](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/jenkins_github_convert_login_password.png)
 
@@ -46,5 +46,23 @@ Select "`From login and password`":
 Enter your GitHub Login username and password, then click on "`Create token credentials`"
 
 ![GitHub credential](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/jenkins_github_credential.png)
+
+Click the "Save button", then scroll up to:
+
+![GitHub set credential and test](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/jenkins_github_set_credential_and_test.png)
+
+Select the creedential you just created from the "`Credentials`" dropdown list and then choose "`Test connection`":
+
+![GitHub credential test result](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/jenkins_github_credential_test_result.png)
+
+## <a name="configuring-github"></a>Configuring GitHub
+
+Point a browser at the GitHub for the repository, in this case `estafet-microservices-scrum-basic-ui`:
+
+![GitHub repository page](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/github_repo_page.png)
+
+
+ 
+
 
 
