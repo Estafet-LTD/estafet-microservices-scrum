@@ -51,9 +51,22 @@ Click the "Save button", then scroll up to:
 
 ![GitHub set credential and test](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/jenkins_github_set_credential_and_test.png)
 
-Select the creedential you just created from the "`Credentials`" dropdown list and then choose "`Test connection`":
+Select the credential you just created from the "`Credentials`" dropdown list and then choose "`Test connection`":
 
 ![GitHub credential test result](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/jenkins_github_credential_test_result.png)
+
+Click on `Advanced`:
+
+![GitHub Advanced Settings](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/jenkins_github_advanced_settings_2.png)
+
+Check `Specify another hook URL for GitHib configuration`:
+
+![GitHub Override Hook URL](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/jenkins_github_override_hook_url.png)
+
+Ignore the error message `Failed to test a connection to ...`.  Copy the highlighted  Webhook URL and save it.
+
+1. Uncheck `Specify another hook URL for GitHib configuration`
+1. Click on `Save`.
 
 ## <a name="configuring-github"></a>Configuring GitHub
 
@@ -61,6 +74,17 @@ Point a browser at the GitHub for the repository, in this case `estafet-microser
 
 ![GitHub repository page](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/github_repo_page.png)
 
+Choose Settings:
+
+![GitHub repository settings page](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/github_repo_settings_page.png)
+
+Choose `WebHooks`: 
+
+![GitHub repository settings page](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/github_repo_webhooks_page.png)
+
+Choose 'Add webhook':
+
+![GitHub repository settings page](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/github_repo_add_webhook_page.png)
 
  
 
