@@ -47,3 +47,11 @@ ansible-playbook -vv create-postgres-databases-playbook.yml || {
 }
 
 echo -e "\nINFO: Reset the Estafet Microservices Scrum applications and databases OK."
+
+echo "INFO: Creatingt all environements and their contents ..."
+ansible-playbook -vv create-devops-environments-playbook.yml || {
+	echo "ERROR: Failed to create all environments."
+	exit 1
+}
+
+echo -e "\nINFO: Recreated the Estafet Microservices Scrum devops environment OK."

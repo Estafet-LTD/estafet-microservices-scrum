@@ -145,12 +145,55 @@ You will be prompted to enter you GitHiub password for verification.
 
 ## <a name="validation"> Validation
 
-The best way to verify that the Webhook works is make an insignificant change, e.g add a comment to file, then commit and push
+The best way to verify that the Webhook works is to make an insignificant change, e.g add a comment to file, then commit and push
 that change to GitHub. If the Webhook is working, you should see a build triggered in Jenkins.
 
-This is the state of the `ci-basic-ui` build pipeline for the `estafe-microservices-scrum-basic-ui` microservice before validating the Webhook:
+This is the state of the `ci-basic-ui` build pipeline for the `estafet-microservices-scrum-basic-ui` microservice before validating the Webhook:
 
 ![Build pipeline before validation](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/jenkins_basic_ui_before_push.png)
 
-
- 
+1. Add a class comment to `AcceptanceCriteriaController.java`:
+    
+    ```
+    package com.estafet.microservices.scrum.basic.ui.controllers;
+    
+    /**
+    * @author Dennis Williams, Estafet Ltd.
+    *
+    */
+    @Controller
+    public class AcceptanceCriteriaController {
+    
+    ```
+    
+    The imports and the rest of the class have been omitted for brevity.
+ 1. Commit and push the changes:
+     ```
+     [stevebrown@6r4nm12 estafet-microservices-scrum-basic-ui]$ git status
+    On branch master
+    Your branch is up to date with 'origin/master'.
+    
+    Changes not staged for commit:
+      (use "git add <file>..." to update what will be committed)
+      (use "git checkout -- <file>..." to discard changes in working directory)
+    
+        modified:   src/main/java/com/estafet/microservices/scrum/basic/ui/controllers/AcceptanceCriteriaController.java
+    
+    no changes added to commit (use "git add" and/or "git commit -a")
+    [stevebrown@6r4nm12 estafet-microservices-scrum-basic-ui]$ git add src/main/java/com/estafet/microservices/scrum/basic/ui/controllers/AcceptanceCriteriaController.java
+    [stevebrown@6r4nm12 estafet-microservices-scrum-basic-ui]$ git commit -m "Add class comment to ^C
+    [stevebrown@6r4nm12 estafet-microservices-scrum-basic-ui]$ git commit -m "Add class comment to AcceptanceCriteriaController.java."
+    [master 147db68] Add class comment to AcceptanceCriteriaController.java.
+     1 file changed, 9 insertions(+), 5 deletions(-)
+    [stevebrown@6r4nm12 estafet-microservices-scrum-basic-ui]$ git push
+    Enumerating objects: 25, done.
+    Counting objects: 100% (25/25), done.
+    Delta compression using up to 8 threads
+    Compressing objects: 100% (7/7), done.
+    Writing objects: 100% (13/13), 952 bytes | 952.00 KiB/s, done.
+    Total 13 (delta 4), reused 0 (delta 0)
+    remote: Resolving deltas: 100% (4/4), completed with 4 local objects.
+    To github.com:stericbro/estafet-microservices-scrum-basic-ui.git
+       94dcfd5..147db68  master -> master
+    [stevebrown@6r4nm12 estafet-microservices-scrum-basic-ui]$ 
+    ```
