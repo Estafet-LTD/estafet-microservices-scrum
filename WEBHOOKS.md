@@ -5,7 +5,7 @@ This document describes how to set up GitHub Webhooks so that Jenkins automatica
 
 * [Prerequisites](https://github.com/stericbro/estafet-microservices-scrum/blob/master/WEBHOOKS.md#Prerequisites)
 * [Configuring Jenkins](https://github.com/stericbro/estafet-microservices-scrum/blob/master/WEBHOOKS.md#configuring-jenkins)
-* [Configuring GitHub](https://github.com/stericbro/estafet-microservices-scrum/blob/master/WEBHOOKS.md#Iconfiguring github)
+* [Configuring GitHub](https://github.com/stericbro/estafet-microservices-scrum/blob/master/WEBHOOKS.md#configuring github)
 * [Configuration](https://github.com/stericbro/estafet-microservices-scrum/blob/master/WEBHOOKS.md#Configuration)
 * [Running Minishift](https://github.com/stericbro/estafet-microservices-scrum/blob/master/WEBHOOKS.md#running-minishift)
 
@@ -63,7 +63,7 @@ Check `Specify another hook URL for GitHib configuration`:
 
 ![GitHub Override Hook URL](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/jenkins_github_override_hook_url.png)
 
-Ignore the error message `Failed to test a connection to ...`.  Copy the highlighted  Webhook URL and save it.
+<a name="save-hook-url"></a>Ignore the error message `Failed to test a connection to ...`.  Copy the highlighted  Webhook URL and save it.
 
 1. Uncheck `Specify another hook URL for GitHib configuration`
 1. Click on `Save`.
@@ -86,7 +86,7 @@ Choose 'Add webhook':
 
 ![GitHub repository settings page](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/github_repo_add_webhook_page.png)
 
- 
+Copy the Jenkins hook URL from [save hook url](https://github.com/stericbro/estafet-microservices-scrum/blob/master/WEBHOOKS.md#save-hook-url)
 
 
 
