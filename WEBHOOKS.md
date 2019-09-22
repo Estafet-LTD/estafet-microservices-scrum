@@ -3,22 +3,69 @@ This document describes how to set up GitHub Webhooks so that Jenkins automatica
 
 ## Contents
 
-* [Prerequisites](https://github.com/stericbro/estafet-microservices-scrum/blob/master/WEBHOOKS.md#Prerequisites)
-* [Configuring Jenkins](https://github.com/stericbro/estafet-microservices-scrum/blob/master/WEBHOOKS.md#configuring-jenkins)
-* [Configuring GitHub](https://github.com/stericbro/estafet-microservices-scrum/blob/master/WEBHOOKS.md#configuring github)
-* [Configuration](https://github.com/stericbro/estafet-microservices-scrum/blob/master/WEBHOOKS.md#Configuration)
-* [Running Minishift](https://github.com/stericbro/estafet-microservices-scrum/blob/master/WEBHOOKS.md#running-minishift)
+1. [Prerequisites](https://github.com/stericbro/estafet-microservices-scrum/blob/master/WEBHOOKS.md#prerequisites)
+1. [Get the Build Pipeline secret](https://github.com/stericbro/estafet-microservices-scrum/blob/master/WEBHOOKS.md#get-build-pipline-secret)
+1. [Configuring Jenkins](https://github.com/stericbro/estafet-microservices-scrum/blob/master/WEBHOOKS.md#configuring-jenkins)
+1. [Configuring GitHub](https://github.com/stericbro/estafet-microservices-scrum/blob/master/WEBHOOKS.md#configuring-github)
+1. [Validation](https://github.com/stericbro/estafet-microservices-scrum/blob/master/WEBHOOKS.md#validation)
 
-## <a name="Prerequisites"></a>Prerequisites
+## <a name="prerequisites"></a>Prerequisites
 
 You must have a GitHub account that can push to the GitHub repository (in this case, the GitHub repository for
-estafet-microservices-scrum-basic-ui: `https://github.com/your-github-username/estafet-microservices-scrum-basic-ui`.)
-If the repsoitory is provate, you must be set up as a contributor to the GitHub repository.
+estafet-microservices-scrum-basic-ui: `https://github.com/owner/estafet-microservices-scrum-basic-ui`.)
+If the repository is private and you are not the owner, you must be set up as a collaborator to the GitHub repository.
 
 The Jenkins application on OpenShift must have an IP address and (optionally) DNS name that is accessible from GitHub.
 If you are using Minishift or OKD on your local evironments, you can consider using [gogs](https://gogs.io/ "gogs").
 Installing and configuring gogs is outside the scope of this document.
 
+## <a name="#get-build-pipline-secret"/>Get Build Pipeline Secret
+
+1. Login to openshift as admin:
+
+    ```
+    [ec2-user@ip-10-0-1-136 estafet-microservices-scrum]$ oc login --insecure-skip-tls-verify=true -u admin -p 123 https://ip-10-0-1-105.eu-west-2.compute.internal:8443
+    Login successful.
+    
+    You have access to the following projects and can switch between them with 'oc project <projectname>':
+    
+      * cicd
+        default
+        dev
+        kube-public
+        kube-service-catalog
+        kube-system
+        management-infra
+        openshift
+        openshift-ansible-service-broker
+        openshift-console
+        openshift-infra
+        openshift-logging
+        openshift-monitoring
+        openshift-node
+        openshift-sdn
+        openshift-template-service-broker
+        openshift-web-console
+        prod
+        test
+    
+    Using project "cicd".
+    [ec2-user@ip-10-0-1-136 estafet-microservices-scrum]$ 
+    
+    ```
+1. Make sure you are using the `cicd` project:
+
+    ```
+    [ec2-user@ip-10-0-1-136 estafet-microservices-scrum]$ oc project cicd
+    Now using project "cicd" on server "https://ip-10-0-1-105.eu-west-2.compute.internal:8443".
+    [ec2-user@ip-10-0-1-136 estafet-microservices-scrum]$ 
+   ``` 
+ 1. <a name="extract-build-config-secret"/>Extract the secret with this jsonpath expression:
+     ```
+    [ec2-user@ip-10-0-1-136 estafet-microservices-scrum]$ oc get bc ci-basic-ui -o jsonpath="{.spec.triggers[?(@.type=='GitHub')].github.secret}";echo ""
+    secret101
+    [ec2-user@ip-10-0-1-136 estafet-microservices-scrum]$ 
+    ```  
 ## <a name="configuring-jenkins"></a>Configuring Jenkins
 
 Point a browser at Jenkins running on the OpenShift Cluster:
@@ -86,7 +133,24 @@ Choose 'Add webhook':
 
 ![GitHub repository settings page](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/github_repo_add_webhook_page.png)
 
-Copy the Jenkins hook URL from [save hook url](https://github.com/stericbro/estafet-microservices-scrum/blob/master/WEBHOOKS.md#save-hook-url)
+1. Copy the Jenkins hook URL from [save hook url](https://github.com/stericbro/estafet-microservices-scrum/blob/master/WEBHOOKS.md#save-hook-url)
+into the `Payload URL` field.
+1. Change the `Content type` to `application/json` 
+1. Set the `Secret` field to the secret value from [Get Build Pipeline Secret](https://github.com/stericbro/estafet-microservices-scrum/blob/master/WEBHOOKS.md#extract-build-config-secret)
+1. Under `SSL verification`, disable SSL verification because, in the AWS environment, Jenkins uses self-signed certificates. 
+1. Cick on `Add webhook`
+
+You will be prompted to enter you GitHiub password for verification.
 
 
+## <a name="validation"> Validation
 
+The best way to verify that the Webhook works is make an insignificant change, e.g add a comment to file, then commit and push
+that change to GitHub. If the Webhook is working, you should see a build triggered in Jenkins.
+
+This is the state of the `ci-basic-ui` build pipeline for the `estafe-microservices-scrum-basic-ui` microservice before validating the Webhook:
+
+![Build pipeline before validation](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/jenkins_basic_ui_before_push.png)
+
+
+ 
