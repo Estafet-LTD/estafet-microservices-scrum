@@ -19,7 +19,7 @@ The Jenkins application on OpenShift must have an IP address and (optionally) DN
 If you are using Minishift or OKD on your local evironments, you can consider using [gogs](https://gogs.io/ "gogs").
 Installing and configuring gogs is outside the scope of this document.
 
-## <a name="#get-build-pipline-secret"/>Get Build Pipeline Secret
+## <a name="get-build-pipline-secret"/>Get Build Pipeline Secret
 
 1. Login to openshift as admin:
 
