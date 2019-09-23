@@ -60,12 +60,11 @@ There is also a PostgreSQL database, implemented on AWS [RDS](https://aws.amazon
    Terraform and the Openshift Client Tools are shipped as executables. Uncompress the downloaded files and put the
    executables in `/usr/local/bin'`
 
-1. Your AWS 
 1. You must have cloned [the original GitHub repository](https://github.com/Estafet-Ltd/estafet-microservices-scrum "The original GitHub repository"), made
 a GitHub fork of it, or cloned a GitHub fork of it.
 
     > Note:-  If you have forked the original GitHub repository, you must fork all the sub modules and make sure that your fork
-    > cannot update [the original GitHub repository](https://github.com/Estafet-Ltd/estafet-microservices-scrum "The original GitHub repository")
+    > cannot update [the original GitHub repository](https://github.com/Estafet-Ltd/estafet-microservices-scrum "The original GitHub repository") __or any of its submodules__
 
 ## <a name="forking-the-github-repositories"/>Forking the GitHub Repositories
 
