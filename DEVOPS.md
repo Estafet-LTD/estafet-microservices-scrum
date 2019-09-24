@@ -368,3 +368,5 @@ Leave the `Kind` and `Scope` fields as shown.
 ![Jenkins GitHub Credential page](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/devops/jenkins_github_credentials_page.png)
 
 ### <a name="configure-github-webhooks"/> Configure GitHub Webhooks
+
+Please see [WEBHOOKS.md](https://github.com/stericbro/estafet-microservices-scrum/blob/master/WEBHOOKS.md)
