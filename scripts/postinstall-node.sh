@@ -2,17 +2,14 @@
 
 # This script updates the docker configuration to allow OKD's local insecure registry.
 #
-# This script must be run as the root user.
-#
-# This script must not be run on the master server use postinstall-master.sh for that.
+# This script must not be run on master nodes. Use postinstall-master.sh on master nodes.
 #
 # Note: This script runs after the Ansible install; use it to make configuration
 # changes which would otherwise be overwritten by Ansible.
 #
 # Also:
 #     * Use json-file for logging, so our Splunk forwarder can eat the container logs.
-#     * User json-file for logging
-#     * Limit the number of log file to 3.
+#     * Limit the number of log files to 3.
 #
 # The docker config file looks like this:
 #
@@ -103,13 +100,14 @@ function update_docker_options() {
 # $updated_docker_options contains the updated docker optons.
 # $docker_config_file is the path to the docker configuration file
 function update_docker_configuration() {
+    echo "INFO: Updating the Docker configuration in ${docker_config_file} ..."
     # sed command to replace line containing "OPTIONS="
     local sed_command="/${options_key}=.*/c\\\\${updated_docker_options}"
     sed -i "${sed_command}" "${docker_config_file}" || {
-        echo "ERROR: Failed to update ${docker_config_file}."
+        echo "ERROR: Failed to update the Docker configuration in ${docker_config_file}."
         return 1
     }
-    echo "Docker configuration in ${docker_config_file} updated OK."
+    echo "INFO: Updated the Docker configuration in ${docker_config_file} OK."
 }
 
 # Stop the named service using the service command.
@@ -118,23 +116,23 @@ function update_docker_configuration() {
 function stop_service() {
     local the_service="$1"
 
-    echo "Stopping the ${the_service} service ..."
+    echo "INFO: Stopping the ${the_service} service ..."
 
     chkconfig "${the_service}" || {
-        echo "The ${the_service} service does not exist."
+        echo "INFO: The ${the_service} service does not exist."
         return 0
     }
 
     service status "${the_service}" | grep -qc "running" || {
-        echo "The ${the_service} service is not running."
+        echo "INFO: The ${the_service} service is not running."
         return 0
     }
 
     service stop "${the_service}" || {
-        echo "The ${the_service} service did not stop."
+        echo "ERROR: The ${the_service} service did not stop."
         return 1
     }
-    echo "Stopped the ${the_service} service OK."
+    echo "INFO: Stopped the ${the_service} service OK."
 }
 
 # Start the named service using the service command.
@@ -143,23 +141,23 @@ function stop_service() {
 function start_service() {
     local the_service="$1"
 
-    echo "Starting the ${the_service} service ..."
+    echo "INFO: Starting the ${the_service} service ..."
 
     chkconfig "${the_service}" || {
-        echo "The ${the_service} service does not exist."
+        echo "INFO: The ${the_service} service does not exist."
         return 0
     }
 
     service status "${the_service}" | grep -qc "running" && {
-        echo "The ${the_service} service is already running."
+        echo "INFO: The ${the_service} service is already running."
         return 0
     }
 
     service start "${the_service}" || {
-        echo "The ${the_service} service did not start."
+        echo "ERROR: The ${the_service} service did not start."
         return 1
     }
-    echo "Started the ${the_service} service OK."
+    echo "INFO: Started the ${the_service} service OK."
 }
 
 # Stop the named service using the systemctl command.
@@ -168,28 +166,28 @@ function start_service() {
 function stop_service_systemctl() {
     local the_service="${1}.service"
 
-    echo "Stopping the $1 service ..."
+    echo "INFO: Stopping the $1 service ..."
 
     systemctl list-unit-files | grep -qc "${the_service}" || {
-        echo "The $1 service does not exist."
+        echo "INFO: The $1 service does not exist."
         return 0
     }
 
     declare status=
     status="$(systemctl is-active "${the_service}")"
 
-    echo "The status of the $1 service is \"${status}\"."
+    echo "INFO: The status of the $1 service is \"${status}\"."
 
     if [[ "${status}" != "active" ]]; then
-        echo "The $1 service is not running."
+        echo "INFO: The $1 service is not running."
         return 0
     fi
 
     systemctl stop "${the_service}" || {
-        echo "The $1 service did not stop."
+        echo "ERROR: The $1 service did not stop."
         return 1
     }
-    echo "Stopped the $1 service OK."
+    echo "INFO: Stopped the $1 service OK."
 }
 
 # Start the named service using the systemctl command.
@@ -198,7 +196,7 @@ function stop_service_systemctl() {
 function start_service_systemctl() {
     local the_service="${1}.service"
 
-    echo "Starting the $1 service ..."
+    echo "INFO: Starting the $1 service ..."
 
     systemctl list-unit-files | grep -qc "${the_service}" || {
         echo "The $1 service does not exist."
@@ -208,23 +206,23 @@ function start_service_systemctl() {
     declare status=
     status="$(systemctl is-active "${the_service}")"
 
-    echo "The status of the $1 service is \"${status}\"."
+    echo "INFO: The status of the $1 service is \"${status}\"."
 
     if [[ "${status}" == "active" ]]; then
-        echo "The $1 service is already running."
+        echo "INFO: The $1 service is already running."
         return 0
     fi
 
     systemctl start "${the_service}" || {
-        echo "The $1 service did not start."
+        echo "ERROR: The $1 service did not start."
         return 1
     }
-    echo "Started the $1 service OK."
+    echo "INFO: Started the $1 service OK."
 }
 
 function stop_services() {
-    echo "Stopping services ..."
-    declare -i errors=0
+    echo "INFO: Stopping services ..."
+    ((errors=0))
 
     stop_service "api" || ((++errors))
     stop_service "controllers" || ((++errors))
@@ -234,12 +232,12 @@ function stop_services() {
         echo "ERROR: Some services failed to stop."
         return 1
     }
-    echo "Stopped services OK."
+    echo "INFO: Stopped services OK."
 }
 
 function stop_services_systemctl() {
-    echo "Stopping services ..."
-    declare -i errors=0
+    echo "INFO: Stopping services ..."
+    ((errors=0))
 
     stop_service_systemctl "api" || ((++errors))
     stop_service_systemctl "controllers" || ((++errors))
@@ -249,12 +247,12 @@ function stop_services_systemctl() {
         echo "ERROR: Some services failed to stop."
         return 1
     }
-    echo "Stopped services OK."
+    echo "INFO: Stopped services OK."
 }
 
 function start_services() {
-    echo "Starting services ..."
-    declare -i errors=0
+    echo "INFO: Starting services ..."
+    ((errors=0))
 
     start_service "docker" || ((++errors))
     start_service "api" || ((++errors))
@@ -264,12 +262,12 @@ function start_services() {
         echo "ERROR: Some services failed to start."
         return 1
     }
-    echo "Started services OK."
+    echo "INFO: Started services OK."
 }
 
 function start_services_systemctl() {
-    echo "Starting services ..."
-    declare -i errors=0
+    echo "INFO: Starting services ..."
+    ((errors=0))
 
     start_service_systemctl "docker" || ((++errors))
     start_service_systemctl "api" || ((++errors))
@@ -279,17 +277,29 @@ function start_services_systemctl() {
         echo "ERROR: Some services failed to start."
         return 1
     }
-    echo "Started services OK."
+    echo "INFO: Started services OK."
 }
 
 docker_config_file="/etc/sysconfig/docker"
 options_key="OPTIONS"
 
-if [ "$EUID" -ne 0 ]; then
-  echo "This script must run  as root."
-  exit 1
-fi
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+NAME="$(basename "${BASH_SOURCE[0]}")"
+HOSTNAME="$(hostname -f)"
 
+echo "INFO: Running ${DIR}/${NAME} on ${HOSTNAME} ..."
+
+# Elevate privileges and retain the ec2-user's environment.
+#
+# This only works when the script is run via ssh:
+#
+# e.g.:
+#
+#    - cat ./scripts/postinstall-master.sh | ssh -A ec2-user@ems-bastion.openshift.local ssh master.openshift.local
+#
+sudo -E su
+
+echo "INFO: Getting the current docker options ..."
 current_docker_options=
 current_docker_options="$(getCurrentDockerOptions)" || {
     echo "ERROR: Failed to get the current docker options."
@@ -309,6 +319,7 @@ additional_array+=("--log-opt max-size=1M")
 additional_array+=("--log-opt max-file=3")
 
 # Merge the additional docker options with the current options.
+echo "INFO: Updating docker options ..."
 updated_docker_options=
 updated_docker_options="$(update_docker_options "current_array" "additional_array")" || {
     echo "ERROR: Failed to update docker options."
@@ -318,6 +329,7 @@ updated_docker_options="$(update_docker_options "current_array" "additional_arra
 # Update the docker configuration file.
 update_docker_configuration || exit 1
 
+echo "INFO: Restarting services ..."
 systemctl >/dev/null 2>&1; declare -i status=$?
 
 if [[ ${status} -eq 127 ]]; then
@@ -329,3 +341,4 @@ else
     stop_services_systemctl || exit 1
     start_services_systemctl || exit 1
 fi
+echo "INFO: Restarted services OK."
