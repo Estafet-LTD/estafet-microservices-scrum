@@ -98,23 +98,23 @@ To fork the GitHub repositories:
 
 1. Clone your new fork of [the original GitHub repository](https://github.com/Estafet-Ltd/estafet-microservices-scrum "The original GitHub repository"):
 
-    ```
+   ```
     $ git clone --recurse-submodules git@github.com:newowner/estafet-microservices-scrum.git estafet-microservices-scrum-newowner
-    ```
+   ```
     or
-    ```
+   ```
     $ git clone https://github.com/newowner/estafet-microservices-scrum.git estafet-microservices-scrum-newowner
-    ```
+   ```
     then:
-    ```
+   ```
     $ cd estafet-microservices-scrum-newowner
-    ```
+   ```
 
 1. Make sure you are on the master branch:
 
-    ```
+   ```
     $ git checkout master
-    ```
+   ```
 1. Edit the .gitmodules file:
 
    Change all occurrences of "`Estafet-LTD`" to your GitHub login name, e.g. for the `estafet-microservices-scrum-api`
@@ -126,23 +126,23 @@ To fork the GitHub repositories:
     url = git@github.com:newowner/estafet-microservices-scrum-api-project.git
 
    The rest of the file has been omitted for brevity.
-    ```
+   ```
 1. Synchronise Git to use your forks, rather than the original repositories:
 
-    ```
+   ```
     $ git submodule sync
-    ```
+   ```
 1.  Commit and push this change:
 
-    ```
+   ```
     $ git commit .gitmodules -m "Switch to my forks."
     $ git push
-    ```
+   ```
 1. Ensure all the submodules are on the master branch:
 
-    ```
+   ```
     $ git submodule foreach 'git checkout master || :'
-    ```
+   ```
 1. Ensure that there are no hardcoded references to `Estafet-LTD` in any of your repositories:
 
     Change all occurrences of `Estafet-LTD` to your GitHub login name in all instances of these files:
@@ -154,17 +154,17 @@ To fork the GitHub repositories:
 
 1. Commit and push all submodule changes:
 
-    ```
+   ```
     $ git submodule foreach git 'commit -a -m "Switch hard-coded GitHub references to my forks." || :'
     $ git submodule foreach 'git push || :'
-    ```
+   ```
 
 1. Commit and push all changes to the main repository:
 
-    ```
+   ```
     $ git commit -a -m "Switch hard-coded GitHub references to my forks."
     $ git push
-    ```
+   ```
 
 Your GitHub repositories are now completely separated from the original repositories and you cannot inadvertently make changes
 to any of the original repositories.
@@ -173,19 +173,19 @@ to any of the original repositories.
 
 To create the AWS EC2 instances and the AWS RDS database servers:
 
-    ```
+   ```
     $ cd  estafet-microservices-scrum-newowner
     $ make infrastructure
-    ```
+   ```
  The makefile takes about 30 minutes to run.
 
  ## <a name="deploying-openshift"/>Deploying OpenShift
 
 To deploy OpenShift to the infrastructure you just created:
 
-    ```
+   ```
     $ make openshift
-    ```
+   ```
  The makefile takes about 30 minutes to run. The makefile deploys OpenShift to the infrastructure created in the
  previous step. It also runs the `scripts/postinstall-master.sh` and `scripts/postinstall-node.sh` scripts.
 
@@ -240,7 +240,7 @@ To deploy OpenShift to the infrastructure you just created:
     https://aws.amazon.com/amazon-linux-ami/2018.03-release-notes/
 
     [ec2-user@ip-10-0-1-136 ~]$
-    ```
+   ```
     The Ansible script to create the DevOps environments on AWS is `ansible/create-devops-environments-playbook.yml`
 
 1. Create the inventory file from the template:
