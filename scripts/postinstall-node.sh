@@ -299,6 +299,10 @@ echo "INFO: Running ${DIR}/${NAME} on ${HOSTNAME} ..."
 #
 sudo -E su
 
+echo "INFO: Updating packages ..."
+
+yum -y update
+
 echo "INFO: Getting the current docker options ..."
 current_docker_options=
 current_docker_options="$(getCurrentDockerOptions)" || {

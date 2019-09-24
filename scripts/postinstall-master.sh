@@ -321,6 +321,10 @@ echo "INFO: Running ${DIR}/${NAME} on ${HOSTNAME} ..."
 #
 sudo -E su
 
+echo "INFO: Updating packages ..."
+
+yum -y update
+
 createAdminUser || exit 1
 
 give_cluster_admin_role_to_admin || exit 1
