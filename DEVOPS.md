@@ -365,6 +365,6 @@ Leave the `Kind` and `Scope` fields as shown.
 1. Enter `GitHub username and password` in the `Description` field.
 1. Click on `OK` button:
 
-![Jenkins Add Credential page](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/devops/jenkins_github_credentials_page)
+![Jenkins GitHub Credential page](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/devops/jenkins_github_credentials_page.png)
 
 ### <a name="configure-github-webhooks"/> Configure GitHub Webhooks
