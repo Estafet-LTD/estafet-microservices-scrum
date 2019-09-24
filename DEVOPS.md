@@ -6,8 +6,8 @@
 * [Forking the GitHub Repositories](https://github.com/stericbro/estafet-microservices-scrum#forking-the-github-repositories)
 * [Creating the Infrastructure](https://github.com/stericbro/estafet-microservices-scrum#creating-the-infrastructure)
 * [Deploying OpenShift](https://github.com/stericbro/estafet-microservices-scrum#deploying-openshift)
-* [Creating the Devops Environments](https://github.com/stericbro/estafet-microservices-scrum#procedure)
-* [Getting Started](https://github.com/stericbro/estafet-microservices-scrum#getting-started)
+* [Creating the Devops Environments](https://github.com/stericbro/estafet-microservices-scrum#creating-the-devops-environments)
+* [Configuring Jenkins](https://github.com/stericbro/estafet-microservices-scrum#configuring-jenkins)
 * [Environments](https://github.com/stericbro/estafet-microservices-scrum#environments)
 * [Architecture](https://github.com/stericbro/estafet-microservices-scrum#architecture)
 * [Distributed Monitoring](https://github.com/stericbro/estafet-microservices-scrum#distributed-monitoring)
@@ -39,9 +39,9 @@ There is also a PostgreSQL database, implemented on AWS [RDS](https://aws.amazon
    ![AWS settings menu](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/devops/aws_settings_menu.png)
 
    Choose `My Security Credentials` and follow the instructions. You only need to configure your IAM security credentials.
-   
+
    You must create the `~/.aws/credential` file:
-   
+
    ```
    [default]
    aws_access_key_id = <your AWS access key>
@@ -51,7 +51,7 @@ There is also a PostgreSQL database, implemented on AWS [RDS](https://aws.amazon
 1. You must have Ansible, Terraform and the Openshift client installed on your laptop:
 
    | Package          | Version       | Details |
-   | -------------    |:--------------|:--------|  
+   | -------------    |:--------------|:--------|
    | Ansible          | `2.8.4`       | [Ansible Documentation](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#latest-release-via-dnf-or-yum)
    | Terraform        | `v0.11.14`    | [Terraform download page](https://releases.hashicorp.com/terraform/0.11.14/terraform_0.11.14_linux_amd64.zip)
    | Openshift Client | `v3.11`       | [OKD GitHub Releases page](https://github.com/openshift/origin/releases/download/v3.11.0/openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit.tar.gz)
@@ -95,36 +95,36 @@ To fork the GitHub repositories:
     | [estafet-microservices-scrum-basic-ui](https://github.com/Estafet-LTD/estafet-microservices-scrum-basic-ui) | Basic User Interface that uses the scrum microservices. |
     | [estafet-microservices-scrum-lib](https://github.com/Estafet-LTD/estafet-microservices-scrum-lib) | Shared Libraries |
     | [estafet-microservices-scrum-qa](https://github.com/Estafet-LTD/estafet-microservices-scrum-qa) | Cross cutting Quality Assurance tests. |
-      
+
 1. Clone your new fork of [the original GitHub repository](https://github.com/Estafet-Ltd/estafet-microservices-scrum "The original GitHub repository"):
 
     ```
     $ git clone --recurse-submodules git@github.com:newowner/estafet-microservices-scrum.git estafet-microservices-scrum-newowner
     ```
-    or 
+    or
     ```
     $ git clone https://github.com/newowner/estafet-microservices-scrum.git estafet-microservices-scrum-newowner
-    ``` 
+    ```
     then:
     ```
     $ cd estafet-microservices-scrum-newowner
-    ``` 
-    
+    ```
+
 1. Make sure you are on the master branch:
 
     ```
     $ git checkout master
-    ``` 
+    ```
 1. Edit the .gitmodules file:
 
-   Change all occurrences of "`Estafet-LTD`" to your GitHub login name, e.g. for the `estafet-microservices-scrum-api` 
+   Change all occurrences of "`Estafet-LTD`" to your GitHub login name, e.g. for the `estafet-microservices-scrum-api`
    submodule:
-   
+
    ```
    [submodule "estafet-microservices-scrum-api-project"]
     path = estafet-microservices-scrum-api-project
     url = git@github.com:newowner/estafet-microservices-scrum-api-project.git
-   
+
    The rest of the file has been omitted for brevity.
     ```
 1. Synchronise Git to use your forks, rather than the original repositories:
@@ -142,11 +142,11 @@ To fork the GitHub repositories:
 
     ```
     $ git submodule foreach 'git checkout master || :'
-    ``` 
+    ```
 1. Ensure that there are no hardcoded references to `Estafet-LTD` in any of your repositories:
 
     Change all occurrences of `Estafet-LTD` to your GitHub login name in all instances of these files:
-    
+
     * pom.xml
     * *.groovy
     * *.yml
@@ -178,7 +178,7 @@ To create the AWS EC2 instances and the AWS RDS database servers:
     $ make infrastructure
     ```
  The makefile takes about 30 minutes to run.
- 
+
  ## <a name="deploying-openshift"/>Deploying OpenShift
 
 To deploy OpenShift to the infrastructure you just created:
@@ -187,9 +187,130 @@ To deploy OpenShift to the infrastructure you just created:
     $ make openshift
     ```
  The makefile takes about 30 minutes to run. The makefile deploys OpenShift to the infrastructure created in the
- previous step.
- 
+ previous step. It also runs the `scripts/postinstall-master.sh` and `scripts/postinstall-node.sh` scripts.
+
  This will install OpenShift on the AWS nodes.
- 
- 
- 
+
+ ## <a name="creating-the-devops-environments"/> Creating the Devops Environments
+
+ The DevOps environments must be created from the bastion server. This is because the compute nodes have no static public
+ IP addresses or DNS names. The private IP addresses and DNS names of AWS EC2 instances are static.
+
+1. Get the OKD console URL:
+
+   ```
+   [stevebrown@6r4nm12 estafet-microservices-scrum-stericbro]$ make master-url
+   echo $(terraform output master-url)
+   https://3.9.50.47.xip.io:8443
+   [stevebrown@6r4nm12 estafet-microservices-scrum-stericbro]$
+
+   ```
+1. Get the RDS database DNS name:
+
+   ```
+   (vaws) [stevebrown@6r4nm12 estafet-microservices-scrum-stericbro]$ aws rds describe-db-instances \
+   --db-instance-identifier microservices-scrum | \
+   jq -r '.DBInstances[] | select(.DBName=="scrumdb") | .Endpoint.Address'
+   microservices-scrum.cfzuhvugfmcm.eu-west-2.rds.amazonaws.com
+   (vaws) [stevebrown@6r4nm12 estafet-microservices-scrum-stericbro]$
+   ```
+1. SSH onto the bastion:
+
+   The makefile has targets to ssh to the bastion and the master node.
+
+   ```
+   ssh-bastion:
+       ssh -t -A ec2-user@$$(terraform output bastion-public_ip)
+   ssh-master:
+	   ssh -t -A ec2-user@$$(terraform output bastion-public_ip) ssh master.openshift.local
+   ```
+
+   ssh on to the bastion:
+
+   ```
+   $ make ssh-bastion
+   [stevebrown@6r4nm12 estafet-microservices-scrum-stericbro]$ make ssh-bastion
+   ssh -t -A ec2-user@$(terraform output bastion-public_ip)
+   Last login: Tue Sep 24 07:32:50 2019 from xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+           __|  __|_  )
+            _|  (     /   Amazon Linux AMI
+          ___|\___|___|
+
+    https://aws.amazon.com/amazon-linux-ami/2018.03-release-notes/
+
+    [ec2-user@ip-10-0-1-136 ~]$
+    ```
+    The Ansible script to create the DevOps environments on AWS is `ansible/create-devops-environments-playbook.yml`
+
+1. Create the inventory file from the template:
+
+   Substitute the values from steps 1 and 2.
+
+   ```
+   $ cp inventory.template inventory
+   $ vi inventory
+   localhost ansible_connection=local openshift=<OKD Console URL> database=<RDS Database DNS name>
+   ```
+1. Run the Ansible playbook to create the DevOps environments:
+
+   ```
+   $ cd estafet-microservices-scrum/ansible
+   $ ansible-playbook -vv create-devops-environments-playbook.yml
+   ```
+   The script creates these environments:
+
+   * `dev`
+   * `cicd`
+   * `test`
+   * `prod`
+
+   All the EMS microservices are deployed to the `dev` environment and the database for each microservice is created in
+the RDS database instance.
+
+   Jenkins and Nexus are deployed to the `cicd` environment. The `cicd` environment contains the build and release
+pipelines for each of the EMS microservices.
+
+1. Get the Jenkins Host
+
+   ```
+   [ec2-user@ip-10-0-1-136 ansible]$ oc get route jenkins -n cicd -o jsonpath="{.spec.host}";echo ""
+   jenkins-cicd.3.9.50.47.xip.io
+   [ec2-user@ip-10-0-1-136 ansible]$
+   ```
+
+## <a name="configuring-jenkins"/>Configuring Jenkins
+
+Point a browser at `https://<jenkins host>`. The login credentials are `admin` and `123`.
+
+There are some manual steps needed to configure Jenkins.
+
+* Configure Jenkins integration with Maven
+* Install Jenkins plugins
+* Create GitHub credentials
+* Configure GitHub Webhooks
+
+### <a name="configure-jenkins-integration-with-maven"/> Configure Jenkins Integration With Maven
+
+The Jenkins main screen is:
+
+![Jenkins main page](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/devops/jenkins_main_page.png)
+
+Choose the `cicd` link:
+
+![Jenkins cicd page](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/devops/jenkins_cicd_page.png)
+
+Choose `Config Files`:
+
+![Jenkins cicd add config files page](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/devops/jenkins_cicd_config_files_page.png)
+
+Choose `Add a new Config`:
+
+![Jenkins add Config file page](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/devops//home/stevebrown/work/estafet-microservices-scrum-stericbro/md_images/devops/jenkins_cicd_add_config_file_page.png)
+
+1. Select `Global Maven settings.xml`
+1. Set the ID field to `microservices-scrum`
+1. Click on `Submit`
+
+![Jenkins add Config file page](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/devops//home/stevebrown/work/estafet-microservices-scrum-stericbro/md_images/devops/jenkins_edit_global_maven_config_file.png)
+
