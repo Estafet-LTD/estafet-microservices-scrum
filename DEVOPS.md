@@ -1,16 +1,16 @@
 # Creating the devops Environment For the Estafet Microservices Scrum Demo Application
 ## Contents
 
-* [Overview](https://github.com/stericbro/estafet-microservices-scrum#overview)
-* [Prerequisites](https://github.com/stericbro/estafet-microservices-scrum#prerequisites)
-* [Forking the GitHub Repositories](https://github.com/stericbro/estafet-microservices-scrum#forking-the-github-repositories)
-* [Creating the Infrastructure](https://github.com/stericbro/estafet-microservices-scrum#creating-the-infrastructure)
-* [Deploying OpenShift](https://github.com/stericbro/estafet-microservices-scrum#deploying-openshift)
-* [Creating the Devops Environments](https://github.com/stericbro/estafet-microservices-scrum#creating-the-devops-environments)
-* [Configuring Jenkins](https://github.com/stericbro/estafet-microservices-scrum#configuring-jenkins)
-* [Environments](https://github.com/stericbro/estafet-microservices-scrum#environments)
-* [Architecture](https://github.com/stericbro/estafet-microservices-scrum#architecture)
-* [Distributed Monitoring](https://github.com/stericbro/estafet-microservices-scrum#distributed-monitoring)
+* [Overview](https://github.com/stericbro/estafet-microservices-scrum/blob/master/DEVOPS.md#prerequisites#overview)
+* [Prerequisites](https://github.com/stericbro/estafet-microservices-scrum/blob/master/DEVOPS.md#prerequisites)
+* [Forking the GitHub Repositories](https://github.com/stericbro/estafet-microservices-scrum/blob/master/DEVOPS.md#forking-the-github-repositories)
+* [Creating the Infrastructure](https://github.com/stericbro/estafet-microservices-scrum/blob/master/DEVOPS.md#creating-the-infrastructure)
+* [Deploying OpenShift](https://github.com/stericbro/estafet-microservices-scrum/blob/master/DEVOPS.md#deploying-openshift)
+* [Creating the Devops Environments](https://github.com/stericbro/estafet-microservices-scrum/blob/master/DEVOPS.md#creating-the-devops-environments)
+* [Configuring Jenkins](https://github.com/stericbro/estafet-microservices-scrum/blob/master/DEVOPS.md#configuring-jenkins)
+* [Environments](https://github.com/stericbro/estafet-microservices-scrum/blob/master/DEVOPS.md#environments)
+* [Architecture](https://github.com/stericbro/estafet-microservices-scrum/blob/master/DEVOPS.md#architecture)
+* [Distributed Monitoring](https://github.com/stericbro/estafet-microservices-scrum/blob/master/DEVOPS.md#distributed-monitoring)
 
 ## <a name="overview"/>Overview
 
@@ -285,12 +285,12 @@ Point a browser at `https://<jenkins host>`. The login credentials are `admin` a
 
 There are some manual steps needed to configure Jenkins.
 
-* Configure Jenkins integration with Maven
-* Install Jenkins plugins
-* Create GitHub credentials
-* Configure GitHub Webhooks
+* [Configure the Jenkins Maven Settings File](https://github.com/stericbro/estafet-microservices-scrum/blob/master/DEVOPS.md#configure-jenkins-maven-settings-file)
+* [Install the Jenkins Pipeline Maven Plugin](https://github.com/stericbro/estafet-microservices-scrum/blob/master/DEVOPS.md#install-jenkins-pipeline-maven-plugin)
+* [Create GitHub credentials](https://github.com/stericbro/estafet-microservices-scrum/blob/master/DEVOPS.md#create-github-credentials)
+* [Configure GitHub Webhooks](https://github.com/stericbro/estafet-microservices-scrum/blob/master/DEVOPS.md#configure-github-webhooks)
 
-### <a name="configure-jenkins-integration-with-maven"/> Configure Jenkins Integration With Maven
+###<a name="configure-jenkins-maven-settings-file"/> Configure the Jenkins Maven Settings File
 
 The Jenkins main screen is:
 
@@ -318,10 +318,35 @@ Choose `Add a new Config`:
 1. Set the Name field to `Microservices Scrum Global Maven Settings`
 1. Set the comment to `Jenkins Maven Settings`
 1. Check `Replace All`
-1. Paste the contents of `estafet-microservices-scrum-newowner/maven-settings/jenkins-settings` into
+1. Paste the contents of `estafet-microservices-scrum-newowner/maven-settings/jenkins-settings.xml` into
 `Content` field. In the screen shot, all the comments in the file have been removed for clarity.
-1. Click on `Submit`
+1. Click on `Submit`:
 
 ![Jenkins Global Maven configuration file](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/devops/jenkins_global_maven_config_file.png)
 
+###<a name="install-jenkins-pipeline-maven-plugin"/> Install the Jenkins Pipeline Mavem Plugin
 
+The EMS demo `cicd` environment requires a particular version of the Jenkins Maven Pipeline Plugin: version `3.5.9`. To
+download this version:
+
+```
+$ cd /tmp
+$ curl -w "HTTP code is %{http_code}\n" -Ss -k -LJO \
+https://updates.jenkins.io/download/plugins/pipeline-maven/3.5.9/pipeline-maven.hpi
+HTTP code is 200
+$ cd -
+```
+If the HTTP code is not `200`, the download failed.
+
+Then, From the Jenkins dropdown menu, choose `Manage Jenkins`, then `Manage Plugins`, then the `Advanced` tab:
+
+![Jenkins Manage Plugins Menu](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/devops/jenkins_manage_plugins_advanced.png)
+
+1. Choose the file to upload (`/tmp/pipeline-maven.hpi`)
+2. Choose `Upload`:
+
+![Jenkins Pipeline Maven Plugin Success](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/devops/jenkins_pipeline_maven_plugin_success.png)
+
+###<a name="create-github-credentials"/> Create GitHub credentials
+
+###<a name="Configure GitHub Webhooks"/> Configure GitHub Webhooks
