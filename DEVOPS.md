@@ -340,7 +340,7 @@ If the HTTP code is not `200`, the download failed.
 
 Then, From the Jenkins dropdown menu, choose `Manage Jenkins`, then `Manage Plugins`, then the `Advanced` tab:
 
-![Jenkins Manage Plugins Menu](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/devops/jenkins_manage_plugins_advanced.png)
+![Jenkins Manage Plugins Menu](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/devops/jenkins_manage_plugins_advanced_tab.png)
 
 1. Choose the file to upload (`/tmp/pipeline-maven.hpi`)
 2. Choose `Upload`:
