@@ -314,3 +314,14 @@ Choose `Add a new Config`:
 
 ![Jenkins edit Jenkins Maven configuration](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/devops/jenkins_edit_global_maven_config_file.png)
 
+1. Set the ID field to `microservices-scrum`
+1. Set the Name field to `Microservices Scrum Global Maven Settings`
+1. Set the comment to `Jenkins Maven Settings`
+1. Check `Replace All`
+1. Paste the contents of `estafet-microservices-scrum-newowner/maven-settings/jenkins-settings` into
+`Content` field. In the screen shot, all the comments in the file have been removed for clarity.
+1. Click on `Submit`
+
+![Jenkins Global Maven configuration file](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/devops/jenkins_global_maven_config_file.png)
+
+
