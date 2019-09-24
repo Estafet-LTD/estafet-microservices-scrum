@@ -290,7 +290,7 @@ There are some manual steps needed to configure Jenkins.
 * [Create GitHub credentials](https://github.com/stericbro/estafet-microservices-scrum/blob/master/DEVOPS.md#create-github-credentials)
 * [Configure GitHub Webhooks](https://github.com/stericbro/estafet-microservices-scrum/blob/master/DEVOPS.md#configure-github-webhooks)
 
-###<a name="configure-jenkins-maven-settings-file"/> Configure the Jenkins Maven Settings File
+### <a name="configure-jenkins-maven-settings-file"/> Configure the Jenkins Maven Settings File
 
 The Jenkins main screen is:
 
@@ -324,7 +324,7 @@ Choose `Add a new Config`:
 
 ![Jenkins Global Maven configuration file](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/devops/jenkins_global_maven_config_file.png)
 
-###<a name="install-jenkins-pipeline-maven-plugin"/> Install the Jenkins Pipeline Mavem Plugin
+### <a name="install-jenkins-pipeline-maven-plugin"/> Install the Jenkins Pipeline Mavem Plugin
 
 The EMS demo `cicd` environment requires a particular version of the Jenkins Maven Pipeline Plugin: version `3.5.9`. To
 download this version:
@@ -347,6 +347,6 @@ Then, From the Jenkins dropdown menu, choose `Manage Jenkins`, then `Manage Plug
 
 ![Jenkins Pipeline Maven Plugin Success](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/devops/jenkins_pipeline_maven_plugin_success.png)
 
-###<a name="create-github-credentials"/> Create GitHub credentials
+### <a name="create-github-credentials"/> Create GitHub credentials
 
-###<a name="Configure GitHub Webhooks"/> Configure GitHub Webhooks
+### <a name="Configure GitHub Webhooks"/> Configure GitHub Webhooks
