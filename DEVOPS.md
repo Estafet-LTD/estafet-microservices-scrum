@@ -324,7 +324,7 @@ Choose `Add a new Config`:
 
 ![Jenkins Global Maven configuration file](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/devops/jenkins_global_maven_config_file.png)
 
-### <a name="install-jenkins-pipeline-maven-plugin"/> Install the Jenkins Pipeline Mavem Plugin
+### <a name="install-jenkins-pipeline-maven-plugin"/> Install the Jenkins Pipeline Maven Plugin
 
 The EMS demo `cicd` environment requires a particular version of the Jenkins Maven Pipeline Plugin: version `3.5.9`. To
 download this version:
@@ -338,7 +338,7 @@ $ cd -
 ```
 If the HTTP code is not `200`, the download failed.
 
-Then, From the Jenkins dropdown menu, choose `Manage Jenkins`, then `Manage Plugins`, then the `Advanced` tab:
+Then, from the Jenkins dropdown menu, choose `Manage Jenkins`, then `Manage Plugins`, then the `Advanced` tab:
 
 ![Jenkins Manage Plugins Menu](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/devops/jenkins_manage_plugins_advanced_tab.png)
 
@@ -349,4 +349,20 @@ Then, From the Jenkins dropdown menu, choose `Manage Jenkins`, then `Manage Plug
 
 ### <a name="create-github-credentials"/> Create GitHub credentials
 
-### <a name="Configure GitHub Webhooks"/> Configure GitHub Webhooks
+From the Jenkins dropdown menu, choose `Credentials`:
+
+![Jenkins Credentials page](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/devops/jenkins_credentials_page.png)
+
+Click on the `global` dropdown list in the `Credentials` section. Then choose `Add credentials`:
+
+![Jenkins Add Credential page](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/devops/jenkins_add_github_username_password.png)
+
+Leave the `Kind` and `Scope` fields as shown.
+
+1. Enter your GitHub username in the `Username` field.
+1. Enter you GitHub password in the `Password` field.
+1. Enter `microservices-scrum` in the `ID` field.
+1. Enter `GitHub username and password` in the `Description` field.
+1. Click on `OK` button.
+
+### <a name="configure-github-webhooks"/> Configure GitHub Webhooks
