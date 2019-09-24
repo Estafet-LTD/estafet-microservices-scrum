@@ -5,6 +5,7 @@
 * [Prerequisites](https://github.com/stericbro/estafet-microservices-scrum#prerequisites)
 * [Forking the GitHub Repositories](https://github.com/stericbro/estafet-microservices-scrum#forking-the-github-repositories)
 * [Creating the Infrastructure](https://github.com/stericbro/estafet-microservices-scrum#creating-the-infrastructure)
+* [Deploying OpenShift](https://github.com/stericbro/estafet-microservices-scrum#deploying-openshift)
 * [Creating the Devops Environments](https://github.com/stericbro/estafet-microservices-scrum#procedure)
 * [Getting Started](https://github.com/stericbro/estafet-microservices-scrum#getting-started)
 * [Environments](https://github.com/stericbro/estafet-microservices-scrum#environments)
@@ -70,6 +71,8 @@ a GitHub fork of it, or cloned a GitHub fork of it.
 
 The policy for the ESM demo is to take forks of the original repositories, so as to avoid inadvertently breaking the ESM demo.
 
+> Note: In this document, the owner of the new forks is `newowner` . Replace `newowner` with your GitHub login name.
+
 To fork the GitHub repositories:
 
 1. Login to GitHub Fork the [the original GitHub repository](https://github.com/Estafet-Ltd/estafet-microservices-scrum "The original GitHub repository")
@@ -96,15 +99,15 @@ To fork the GitHub repositories:
 1. Clone your new fork of [the original GitHub repository](https://github.com/Estafet-Ltd/estafet-microservices-scrum "The original GitHub repository"):
 
     ```
-    $ git clone --recurse-submodules git@github.com:<your GitHub login name>/estafet-microservices-scrum.git estafet-microservices-scrum-<your GitHub login name>
+    $ git clone --recurse-submodules git@github.com:newowner/estafet-microservices-scrum.git estafet-microservices-scrum-newowner
     ```
     or 
     ```
-    $ git clone https://github.com/<your GitHub login name>/estafet-microservices-scrum.git estafet-microservices-scrum-<your GitHub login name>
+    $ git clone https://github.com/newowner/estafet-microservices-scrum.git estafet-microservices-scrum-newowner
     ``` 
     then:
     ```
-    $ cd estafet-microservices-scrum-<your GitHub login name>
+    $ cd estafet-microservices-scrum-newowner
     ``` 
     
 1. Make sure you are on the master branch:
@@ -114,12 +117,13 @@ To fork the GitHub repositories:
     ``` 
 1. Edit the .gitmodules file:
 
-   Change all occurrences of "`Estafet-LTD`" to your GitHub login name, e.g.:
+   Change all occurrences of "`Estafet-LTD`" to your GitHub login name, e.g. for the `estafet-microservices-scrum-api` 
+   submodule:
    
    ```
    [submodule "estafet-microservices-scrum-api-project"]
     path = estafet-microservices-scrum-api-project
-    url = git@github.com:<your GitHub kogin name>/estafet-microservices-scrum-api-project.git
+    url = git@github.com:newowner/estafet-microservices-scrum-api-project.git
    
    The rest of the file has been omitted for brevity.
     ```
@@ -166,3 +170,26 @@ Your GitHub repositories are now completely separated from the original reposito
 to any of the original repositories.
 
 ## <a name="creating-the-infrastructure"/>Creating the Infrastructure
+
+To create the AWS EC2 instances and the AWS RDS database servers:
+
+    ```
+    $ cd  estafet-microservices-scrum-newowner
+    $ make infrastructure
+    ```
+ The makefile takes about 30 minutes to run.
+ 
+ ## <a name="deploying-openshift"/>Deploying OpenShift
+
+To deploy OpenShift to the infrastructure you just created:
+
+    ```
+    $ make openshift
+    ```
+ The makefile takes about 30 minutes to run. The makefile deploys OpenShift to the infrastructure created in the
+ previous step.
+ 
+ This will install OpenShift on the AWS nodes.
+ 
+ 
+ 
