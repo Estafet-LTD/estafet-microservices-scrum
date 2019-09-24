@@ -76,39 +76,29 @@ Then choose "Jenkins", "Manage Jenkins", then "Configure System"
 
 Scroll down to the `GitHub` section:
 
+![GitHub section](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/jenkins_configure_system_github.png)
+
+Choose `Advanced`:
+
+![Advanced GitHub Configuration](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/jenkins_github_advanced_settings.png)
+
+Choose `Convert login and password to token`" from the "`Manage addtional GitHub actions`" dropdown list:
+
 ![GitHub Configuration](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/jenkins_github_configuration.png)
-
-Enter "Public GitHub" in the GitHub Server `Name` field, then click on the `Advanced` button:
-
-![Advanced GitHub Configuration](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/jenkins_github_configuration_advanced.png)
 
 Choose "`Convert login and password to token`" from the "`Manage addtional GitHub actions`" dropdown list:
 
-![Convert login and password to token](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/jenkins_github_convert_login_password.png)
+![Convert login and password to token](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/jenkins_github_choose_credential.png)
 
-Select "`From login and password`":
+1. Select the [credential you previously created](https://github.com/stericbro/estafet-microservices-scrum/blob/master/DEVPOS.md#create-github-credentials) from the `Credential`
+dropdown list
+2. Choose `Create token credentials`:
 
-![From login and password](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/jenkins_github_from_login_password.png)
+![GitHub token generated](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/jenkins_github_token_generated.png)
 
-Enter your GitHub Login username and password, then click on "`Create token credentials`"
+Login to GitHub with your credentials, then choose`Your Profile', then `Developer Settings`, then `Personal access tokens`:
 
-![GitHub credential](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/jenkins_github_credential.png)
-
-Click the "Save button", then scroll up to:
-
-![GitHub set credential and test](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/jenkins_github_set_credential_and_test.png)
-
-Select the credential you just created from the "`Credentials`" dropdown list and then choose "`Test connection`":
-
-![GitHub credential test result](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/jenkins_github_credential_test_result.png)
-
-Click on `Advanced`:
-
-![GitHub Advanced Settings](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/jenkins_github_advanced_settings_2.png)
-
-Check `Specify another hook URL for GitHib configuration`:
-
-![GitHub Override Hook URL](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/jenkins_github_override_hook_url.png)
+![GitHub Personal Access Token](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/github_personal_access_token.png)
 
 <a name="save-hook-url"></a>Ignore the error message `Failed to test a connection to ...`.  Copy the highlighted  Webhook URL and save it.
 

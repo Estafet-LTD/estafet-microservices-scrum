@@ -360,7 +360,7 @@ Click on the `global` dropdown list in the `Credentials` section. Then choose `A
 Leave the `Kind` and `Scope` fields as shown.
 
 1. Enter your GitHub username in the `Username` field.
-1. Enter you GitHub password in the `Password` field.
+1. Enter your GitHub password in the `Password` field.
 1. Enter `microservices-scrum` in the `ID` field.
 1. Enter `GitHub username and password` in the `Description` field.
 1. Click on `OK` button:
