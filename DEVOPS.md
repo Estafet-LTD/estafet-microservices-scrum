@@ -306,7 +306,7 @@ Choose `Config Files`:
 
 Choose `Add a new Config`:
 
-![Jenkins add Config file page](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/devops/devops/jenkins_cicd_add_config_file_page.png)
+![Jenkins add Config file page](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/devops/jenkins_cicd_add_config_file_page.png)
 
 1. Select `Global Maven settings.xml`
 1. Set the ID field to `microservices-scrum`
