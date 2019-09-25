@@ -165,6 +165,20 @@ You should see a a page like this:
 
 ![GitHub webhook successful](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/github_webhook_successful.png)
 
+Click on the link for the `Jenkins GitHub Plugin token`:
+
+![GitHub edit GitHub Plugin token](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/github_edit_pat.png)
+
+The token must have the `admin:org_hook` scope, otherwise the GitHub will deliver the Webhook payload to Jenkins and
+Jenkins will return a 200 status code, but **no build will be trigged in Jenkins**.
+
+1. Check `admin:org_hook` scope
+2. Click on `Update token` at the bottom of the page (not on the screenshot):
+
+![GitHub Plugin token has admin:org_hook scope](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/personal_access_token_has_admin_org_hook_scope.png)
+
+The Jenkins GitHub Plugin token has the `admin:org_hook` scope.
+
 ## <a name="validation"> Validation
 
 The best way to verify that the Webhook works is to make an insignificant change, e.g add a comment to file, then commit and push
@@ -174,12 +188,12 @@ This is the state of the `ci-basic-ui` build pipeline for the `estafet-microserv
 
 ![Build pipeline before validation](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/jenkins_basic_ui_before_push.png)
 
-1. Add comments to `AcceptanceCriteriaController.java`:
+1. Add a class comment to `ErrorController.java`
 
 1. Commit and push the changes:
    ```
-   [stevebrown@6r4nm12]$ cd estafet-microservices-scrum-basic-ui
-   [stevebrown@6r4nm12 estafet-microservices-scrum-basic-ui]$ gi status
+   [stevebrown@6r4nm12 estafet-microservices-scrum-stericbro]$ cd estafet-microservices-scrum-basic-ui/
+   [stevebrown@6r4nm12 estafet-microservices-scrum-basic-ui]$ git status
    On branch master
    Your branch is up to date with 'origin/master'.
 
@@ -187,23 +201,26 @@ This is the state of the `ci-basic-ui` build pipeline for the `estafet-microserv
      (use "git add <file>..." to update what will be committed)
      (use "git checkout -- <file>..." to discard changes in working directory)
 
-	       modified:   src/main/java/com/estafet/microservices/scrum/basic/ui/controllers/AcceptanceCriteriaController.java
+	       modified:   src/main/java/com/estafet/microservices/scrum/basic/ui/controllers/ErrorController.java
 
    no changes added to commit (use "git add" and/or "git commit -a")
-   [stevebrown@6r4nm12 estafet-microservices-scrum-basic-ui]$ git add src/main/java/com/estafet/microservices/scrum/basic/ui/controllers/AcceptanceCriteriaController.java
-   [stevebrown@6r4nm12 estafet-microservices-scrum-basic-ui]$ git commit -m "Add comments to AcceptanceCriteriaController.java."
-   [master ccfe530] Add comments to AcceptanceCriteriaController.java.
-   1 file changed, 28 insertions(+), 1 deletion(-)
+   [stevebrown@6r4nm12 estafet-microservices-scrum-basic-ui]$ git add src/main/java/com/estafet/microservices/scrum/basic/ui/controllers/ErrorController.java
+   [stevebrown@6r4nm12 estafet-microservices-scrum-basic-ui]$ git commit -m "Add class comment to verify GitHub WebHooks work."
+   [master 0a846a7] Add class comment to verify GitHub WebHooks work.
+    1 file changed, 5 insertions(+), 1 deletion(-)
    [stevebrown@6r4nm12 estafet-microservices-scrum-basic-ui]$ git push
    Enumerating objects: 25, done.
    Counting objects: 100% (25/25), done.
    Delta compression using up to 8 threads
    Compressing objects: 100% (7/7), done.
-   Writing objects: 100% (13/13), 1.28 KiB | 1.28 MiB/s, done.
+   Writing objects: 100% (13/13), 900 bytes | 900.00 KiB/s, done.
    Total 13 (delta 4), reused 0 (delta 0)
    remote: Resolving deltas: 100% (4/4), completed with 4 local objects.
    To github.com:stericbro/estafet-microservices-scrum-basic-ui.git
-      8de90d2..ccfe530  master -> master
-   [stevebrown@6r4nm12 estafet-microservices-scrum-basic-ui]$
+      ed3d21b..0a846a7  master -> master
+   [stevebrown@6r4nm12 estafet-microservices-scrum-basic-ui]$ 
    ```
     
+   In Jenkins, you will see the build that is triggered by the `git push`:
+    
+   ![Jenkins build triggered by push to GitHub](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/jenkins_build_triggered_by_push_to_github.png)
