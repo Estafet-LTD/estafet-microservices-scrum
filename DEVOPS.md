@@ -340,12 +340,24 @@ If the HTTP code is not `200`, the download failed.
 
 Then, from the Jenkins dropdown menu, choose `Manage Jenkins`, then `Manage Plugins`, then the `Advanced` tab:
 
-![Jenkins Manage Plugins Menu](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/devops/jenkins_manage_plugins_advanced_tab.png)
+![Jenkins Manage Plugins Advanced Tab](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/devops/jenkins_manage_plugins_advanced_tab.png)
 
 1. Choose the file to upload (`/tmp/pipeline-maven.hpi`)
 2. Choose `Upload`:
 
 ![Jenkins Pipeline Maven Plugin Success](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/devops/jenkins_pipeline_maven_plugin_success.png)
+
+### <a name="install-jenkins-http-request-plugin"/> Install the Jenkins HTTP Request Plugin
+
+From the Jenkins dropdown menu, choose `Manage Jenkins`, then `Manage Plugins`, then the `Available` tab:
+
+![Jenkins Manage Plugins Available Tab](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/devops/jenkins_manage_plugins_available_tab.png)
+
+1. Enter `HTTP Request` in the `Filter` field
+2. Check ``HTTP Request`` on thhe `Available` tab
+3. Click on `Install without restart`
+
+![Jenkins HTTP Request plugin installed](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/devops/jenkins_http_request_plugin_installed.png)
 
 ### <a name="create-github-credentials"/> Create GitHub credentials
 

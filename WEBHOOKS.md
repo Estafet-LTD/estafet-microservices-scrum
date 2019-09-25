@@ -122,6 +122,16 @@ In GitHub, you should see this:
 
 ![GitHub PAT status](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/github_pat_status.png)
 
+Now, choose the `cicd` link on the Jenkins dashboard, the click on the `cicd/ci-basic-ui` link:
+
+![basic-ui Build pipeline](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/jenkins_basic_ui_pipeline.png)
+
+Choose `Configuration`:
+
+![basic-ui buildpipeline configuration](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/jenkins_cicd_basic_ui_build_triggers.png)
+
+Check `GitHub hook trigger for GITScm polling` in the `Build Triggers` section, the click on the `Save` button.
+ 
 ## <a name="configuring-github"></a>Configuring GitHub
 
 Point a browser at the GitHub for the repository, in this case `estafet-microservices-scrum-basic-ui`:
@@ -164,49 +174,36 @@ This is the state of the `ci-basic-ui` build pipeline for the `estafet-microserv
 
 ![Build pipeline before validation](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/jenkins_basic_ui_before_push.png)
 
-1. Add a class comment to `AcceptanceCriteriaController.java`:
+1. Add comments to `AcceptanceCriteriaController.java`:
 
-    ```
-    package com.estafet.microservices.scrum.basic.ui.controllers;
+1. Commit and push the changes:
+   ```
+   [stevebrown@6r4nm12]$ cd estafet-microservices-scrum-basic-ui
+   [stevebrown@6r4nm12 estafet-microservices-scrum-basic-ui]$ gi status
+   On branch master
+   Your branch is up to date with 'origin/master'.
 
-    /**
-    * @author Dennis Williams, Estafet Ltd.
-    *
-    */
-    @Controller
-    public class AcceptanceCriteriaController {
+   Changes not staged for commit:
+     (use "git add <file>..." to update what will be committed)
+     (use "git checkout -- <file>..." to discard changes in working directory)
 
-    ```
+	       modified:   src/main/java/com/estafet/microservices/scrum/basic/ui/controllers/AcceptanceCriteriaController.java
 
-    The imports and the rest of the class have been omitted for brevity.
- 1. Commit and push the changes:
-     ```
-     [stevebrown@6r4nm12 estafet-microservices-scrum-basic-ui]$ git status
-    On branch master
-    Your branch is up to date with 'origin/master'.
-
-    Changes not staged for commit:
-      (use "git add <file>..." to update what will be committed)
-      (use "git checkout -- <file>..." to discard changes in working directory)
-
-        modified:   src/main/java/com/estafet/microservices/scrum/basic/ui/controllers/AcceptanceCriteriaController.java
-
-    no changes added to commit (use "git add" and/or "git commit -a")
-    [stevebrown@6r4nm12 estafet-microservices-scrum-basic-ui]$ git add src/main/java/com/estafet/microservices/scrum/basic/ui/controllers/AcceptanceCriteriaController.java
-    [stevebrown@6r4nm12 estafet-microservices-scrum-basic-ui]$ git commit -m "Add class comment to ^C
-    [stevebrown@6r4nm12 estafet-microservices-scrum-basic-ui]$ git commit -m "Add class comment to AcceptanceCriteriaController.java."
-    [master 147db68] Add class comment to AcceptanceCriteriaController.java.
-     1 file changed, 9 insertions(+), 5 deletions(-)
-    [stevebrown@6r4nm12 estafet-microservices-scrum-basic-ui]$ git push
-    Enumerating objects: 25, done.
-    Counting objects: 100% (25/25), done.
-    Delta compression using up to 8 threads
-    Compressing objects: 100% (7/7), done.
-    Writing objects: 100% (13/13), 952 bytes | 952.00 KiB/s, done.
-    Total 13 (delta 4), reused 0 (delta 0)
-    remote: Resolving deltas: 100% (4/4), completed with 4 local objects.
-    To github.com:stericbro/estafet-microservices-scrum-basic-ui.git
-       94dcfd5..147db68  master -> master
-    [stevebrown@6r4nm12 estafet-microservices-scrum-basic-ui]$
-    ```
+   no changes added to commit (use "git add" and/or "git commit -a")
+   [stevebrown@6r4nm12 estafet-microservices-scrum-basic-ui]$ git add src/main/java/com/estafet/microservices/scrum/basic/ui/controllers/AcceptanceCriteriaController.java
+   [stevebrown@6r4nm12 estafet-microservices-scrum-basic-ui]$ git commit -m "Add comments to AcceptanceCriteriaController.java."
+   [master ccfe530] Add comments to AcceptanceCriteriaController.java.
+   1 file changed, 28 insertions(+), 1 deletion(-)
+   [stevebrown@6r4nm12 estafet-microservices-scrum-basic-ui]$ git push
+   Enumerating objects: 25, done.
+   Counting objects: 100% (25/25), done.
+   Delta compression using up to 8 threads
+   Compressing objects: 100% (7/7), done.
+   Writing objects: 100% (13/13), 1.28 KiB | 1.28 MiB/s, done.
+   Total 13 (delta 4), reused 0 (delta 0)
+   remote: Resolving deltas: 100% (4/4), completed with 4 local objects.
+   To github.com:stericbro/estafet-microservices-scrum-basic-ui.git
+      8de90d2..ccfe530  master -> master
+   [stevebrown@6r4nm12 estafet-microservices-scrum-basic-ui]$
+   ```
     
