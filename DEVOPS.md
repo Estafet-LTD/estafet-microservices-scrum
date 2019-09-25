@@ -271,7 +271,7 @@ the RDS database instance.
    Jenkins and Nexus are deployed to the `cicd` environment. The `cicd` environment contains the build and release
 pipelines for each of the EMS microservices.
 
-1. Get the Jenkins Host
+1. <a name="get-jenkins-host"/>Get the Jenkins Host
 
    ```
    [ec2-user@ip-10-0-1-136 ansible]$ oc get route jenkins -n cicd -o jsonpath="{.spec.host}";echo ""

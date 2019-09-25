@@ -26,9 +26,9 @@ Installing and configuring gogs is outside the scope of this document.
     ```
     [ec2-user@ip-10-0-1-136 estafet-microservices-scrum]$ oc login --insecure-skip-tls-verify=true -u admin -p 123 https://ip-10-0-1-105.eu-west-2.compute.internal:8443
     Login successful.
-    
+
     You have access to the following projects and can switch between them with 'oc project <projectname>':
-    
+
       * cicd
         default
         dev
@@ -48,24 +48,24 @@ Installing and configuring gogs is outside the scope of this document.
         openshift-web-console
         prod
         test
-    
+
     Using project "cicd".
-    [ec2-user@ip-10-0-1-136 estafet-microservices-scrum]$ 
-    
+    [ec2-user@ip-10-0-1-136 estafet-microservices-scrum]$
+
     ```
 1. Make sure you are using the `cicd` project:
 
     ```
     [ec2-user@ip-10-0-1-136 estafet-microservices-scrum]$ oc project cicd
     Now using project "cicd" on server "https://ip-10-0-1-105.eu-west-2.compute.internal:8443".
-    [ec2-user@ip-10-0-1-136 estafet-microservices-scrum]$ 
-   ``` 
+    [ec2-user@ip-10-0-1-136 estafet-microservices-scrum]$
+   ```
  1. <a name="extract-build-config-secret"/>Extract the secret with this jsonpath expression:
      ```
     [ec2-user@ip-10-0-1-136 estafet-microservices-scrum]$ oc get bc ci-basic-ui -o jsonpath="{.spec.triggers[?(@.type=='GitHub')].github.secret}";echo ""
     secret101
-    [ec2-user@ip-10-0-1-136 estafet-microservices-scrum]$ 
-    ```  
+    [ec2-user@ip-10-0-1-136 estafet-microservices-scrum]$
+    ```
 ## <a name="configuring-jenkins"></a>Configuring Jenkins
 
 Point a browser at Jenkins running on the OpenShift Cluster:
@@ -118,6 +118,10 @@ Choose `Add GitHub Server`:
 
 Click on `Save`.
 
+In GitHub, you should see this:
+
+![GitHub PAT status](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/github_pat_status.png)
+
 ## <a name="configuring-github"></a>Configuring GitHub
 
 Point a browser at the GitHub for the repository, in this case `estafet-microservices-scrum-basic-ui`:
@@ -128,7 +132,7 @@ Choose Settings:
 
 ![GitHub repository settings page](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/github_repo_settings_page.png)
 
-Choose `WebHooks`: 
+Choose `WebHooks`:
 
 ![GitHub repository settings page](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/github_repo_webhooks_page.png)
 
@@ -136,15 +140,20 @@ Choose 'Add webhook':
 
 ![GitHub repository settings page](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/github_repo_add_webhook_page.png)
 
-1. Copy the Jenkins hook URL from [save hook url](https://github.com/stericbro/estafet-microservices-scrum/blob/master/WEBHOOKS.md#save-hook-url)
-into the `Payload URL` field.
-1. Change the `Content type` to `application/json` 
+[Get the Jenkins host](https://github.com/stericbro/estafet-microservices-scrum/blob/master/DEVOPS.md#get-jenkins-host), e.g. `jenkins-cicd.3.9.50.47.xip.io`.
+The Payload URL will be `https://jenkins-cicd.3.9.50.47.xip.io/github-webhook/`.
+
+1. Enter the payload URL in the `Payload URL` field.
+1. Change the `Content type` to `application/json`
 1. Set the `Secret` field to the secret value from [Get Build Pipeline Secret](https://github.com/stericbro/estafet-microservices-scrum/blob/master/WEBHOOKS.md#extract-build-config-secret)
-1. Under `SSL verification`, disable SSL verification because, in the AWS environment, Jenkins uses self-signed certificates. 
-1. Cick on `Add webhook`
+1. Disable SSL verification under `SSL verification` because Jenkins (in the AWS environment) uses self-signed certificates.
+1. Click on `Add webhook`
 
 You will be prompted to enter you GitHiub password for verification.
 
+You should see a a page like this:
+
+![GitHub webhook successful](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/github_webhook_successful.png)
 
 ## <a name="validation"> Validation
 
@@ -156,32 +165,32 @@ This is the state of the `ci-basic-ui` build pipeline for the `estafet-microserv
 ![Build pipeline before validation](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/jenkins_basic_ui_before_push.png)
 
 1. Add a class comment to `AcceptanceCriteriaController.java`:
-    
+
     ```
     package com.estafet.microservices.scrum.basic.ui.controllers;
-    
+
     /**
     * @author Dennis Williams, Estafet Ltd.
     *
     */
     @Controller
     public class AcceptanceCriteriaController {
-    
+
     ```
-    
+
     The imports and the rest of the class have been omitted for brevity.
  1. Commit and push the changes:
      ```
      [stevebrown@6r4nm12 estafet-microservices-scrum-basic-ui]$ git status
     On branch master
     Your branch is up to date with 'origin/master'.
-    
+
     Changes not staged for commit:
       (use "git add <file>..." to update what will be committed)
       (use "git checkout -- <file>..." to discard changes in working directory)
-    
+
         modified:   src/main/java/com/estafet/microservices/scrum/basic/ui/controllers/AcceptanceCriteriaController.java
-    
+
     no changes added to commit (use "git add" and/or "git commit -a")
     [stevebrown@6r4nm12 estafet-microservices-scrum-basic-ui]$ git add src/main/java/com/estafet/microservices/scrum/basic/ui/controllers/AcceptanceCriteriaController.java
     [stevebrown@6r4nm12 estafet-microservices-scrum-basic-ui]$ git commit -m "Add class comment to ^C
@@ -198,5 +207,6 @@ This is the state of the `ci-basic-ui` build pipeline for the `estafet-microserv
     remote: Resolving deltas: 100% (4/4), completed with 4 local objects.
     To github.com:stericbro/estafet-microservices-scrum-basic-ui.git
        94dcfd5..147db68  master -> master
-    [stevebrown@6r4nm12 estafet-microservices-scrum-basic-ui]$ 
+    [stevebrown@6r4nm12 estafet-microservices-scrum-basic-ui]$
     ```
+    
