@@ -382,3 +382,9 @@ Leave the `Kind` and `Scope` fields as shown.
 ### <a name="configure-github-webhooks"/> Configure GitHub Webhooks
 
 Please see [WEBHOOKS.md](https://github.com/stericbro/estafet-microservices-scrum/blob/master/WEBHOOKS.md)
+
+## Restart Jenkins.
+
+To restart Jenkins, the URL is `https://jenkins-cicd.3.9.50.47.xip.io/restart` from [Get Jenkins Host](https://github.com/stericbro/estafet-microservices-scrum/blob/master/DEVOPS.md#get-jenkins-host).
+
+Click on `OK` when prompted, then wait for Jenkins to complete restarting. You will then be asked to login again.
