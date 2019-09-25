@@ -78,6 +78,8 @@ Scroll down to the `GitHub` section:
 
 ![GitHub section](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/jenkins_configure_system_github.png)
 
+### <a nane="create-github-token>Create the GitHub Personal Access Token
+
 Choose `Advanced`:
 
 ![Advanced GitHub Configuration](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/jenkins_github_advanced_settings.png)
@@ -96,11 +98,35 @@ dropdown list
 
 ![GitHub token generated](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/jenkins_github_token_generated.png)
 
+The token has been created as a `Personal Access Token` in GitHub.
+
 Click on `Save`.
+
+### <a name="edit-github-personal-access-token"/> Edit the GitHub Personal Access Token
+
+The GitHub Personal Access Token must have the `admin:org_hook` scope, otherwise the GitHub will deliver the Webhook
+payload to Jenkins and Jenkins will return a 200 status code, but **no build will be trigged in Jenkins**.
 
 Login to GitHub with your credentials, then choose`Your Profile', then `Developer Settings`, then `Personal access tokens`:
 
 ![GitHub Personal Access Token](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/github_personal_access_token.png)
+
+You should see this:
+
+![GitHub PAT status](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/github_pat_status.png)
+
+Click on the link for the `Jenkins GitHub Plugin token`:
+
+![GitHub edit GitHub Plugin token](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/github_edit_pat.png)
+
+1. Check `admin:org_hook` scope
+2. Click on `Update token` at the bottom of the page (not on the screenshot):
+
+![GitHub Plugin token has admin:org_hook scope](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/personal_access_token_has_admin_org_hook_scope.png)
+
+The Jenkins GitHub Plugin token has the `admin:org_hook` scope.
+
+### <a name="jenkins-create-github-server"/>Create a Jenkins GitHub Server
 
 In Jenkins:
 
@@ -118,9 +144,7 @@ Choose `Add GitHub Server`:
 
 Click on `Save`.
 
-In GitHub, you should see this:
-
-![GitHub PAT status](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/github_pat_status.png)
+### <a name="configure-build-pipeline-to-use-webhook"/> Configure the Build Pipeline to Use the GitHub Webhook
 
 Now, choose the `cicd` link on the Jenkins dashboard, the click on the `cicd/ci-basic-ui` link:
 
@@ -164,20 +188,6 @@ You will be prompted to enter you GitHiub password for verification.
 You should see a a page like this:
 
 ![GitHub webhook successful](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/github_webhook_successful.png)
-
-Click on the link for the `Jenkins GitHub Plugin token`:
-
-![GitHub edit GitHub Plugin token](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/github_edit_pat.png)
-
-The token must have the `admin:org_hook` scope, otherwise the GitHub will deliver the Webhook payload to Jenkins and
-Jenkins will return a 200 status code, but **no build will be trigged in Jenkins**.
-
-1. Check `admin:org_hook` scope
-2. Click on `Update token` at the bottom of the page (not on the screenshot):
-
-![GitHub Plugin token has admin:org_hook scope](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/personal_access_token_has_admin_org_hook_scope.png)
-
-The Jenkins GitHub Plugin token has the `admin:org_hook` scope.
 
 ## <a name="validation"> Validation
 

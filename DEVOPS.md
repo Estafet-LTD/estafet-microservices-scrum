@@ -79,7 +79,7 @@ To fork the GitHub repositories:
 
    Click on `Fork` and follow the instructions
 
-1. Fork the GitHub repository for each microservice:
+1. <a name="microservices-list"/> Fork the GitHub repository for each microservice:
 
     | Repository        | Description |
     | ----------------- |-------------|
@@ -90,10 +90,7 @@ To fork the GitHub repositories:
     | [estafet-microservices-scrum-api-sprint-burndown](https://github.com/Estafet-LTD/estafet-microservices-scrum-api-sprint-burndown) | Microservices for aggregating and generating sprint burndown reports. |
     | [estafet-microservices-scrum-api-story](https://github.com/Estafet-LTD/estafet-microservices-scrum-api-story) | Microservices for managing stories. |
     | [estafet-microservices-scrum-api-task](https://github.com/Estafet-LTD/estafet-microservices-scrum-api-task) | Microservices for managing tasks. |
-    | [estafet-microservices-scrum-api-discovery](https://github.com/Estafet-LTD/estafet-microservices-scrum-api-discovery) | Service Discovery for microservices. |
-    | [estafet-microservices-scrum-api-gateway](https://github.com/Estafet-LTD/estafet-microservices-scrum-api-gateway) | Microservices API Gateway. |
     | [estafet-microservices-scrum-basic-ui](https://github.com/Estafet-LTD/estafet-microservices-scrum-basic-ui) | Basic User Interface that uses the scrum microservices. |
-    | [estafet-microservices-scrum-lib](https://github.com/Estafet-LTD/estafet-microservices-scrum-lib) | Shared Libraries |
     | [estafet-microservices-scrum-qa](https://github.com/Estafet-LTD/estafet-microservices-scrum-qa) | Cross cutting Quality Assurance tests. |
 
 1. Clone your new fork of [the original GitHub repository](https://github.com/Estafet-Ltd/estafet-microservices-scrum "The original GitHub repository"):
@@ -388,3 +385,26 @@ Please see [WEBHOOKS.md](https://github.com/stericbro/estafet-microservices-scru
 To restart Jenkins, the URL is `https://jenkins-cicd.3.9.50.47.xip.io/restart` from [Get Jenkins Host](https://github.com/stericbro/estafet-microservices-scrum/blob/master/DEVOPS.md#get-jenkins-host).
 
 Click on `OK` when prompted, then wait for Jenkins to complete restarting. You will then be asked to login again.
+
+## Enable GitHub Webhooks For All Microservices
+
+These are the build pipelines in Jenkins in the `cicd` environment:
+
+| Build pipeline        | GitHub Repository URL                                                          |
+|:----------------------|:-------------------------------------------------------------------------------|
+| `ci-basic-ui`         | `https://github.com/newowner/estafet-microservices-scrum-basic-ui`             |
+| `ci-project-api`      | `https://github.com/newowner/estafet-microservices-scrum-api-project-burndown` |
+| `ci-project-burndown` | `https://github.com/newowner/estafet-microservices-scrum-api-sprint`           |
+| `ci-sprint-api`       | `https://github.com/newowner/estafet-microservices-scrum-api-sprint-board`     |
+| `ci-sprint-board`     | `https://github.com/newowner/estafet-microservices-scrum-api-sprint-burndown`  |
+| `ci-sprint-burndowm`  | `https://github.com/newowner/estafet-microservices-scrum-api-story`            |
+| `ci-story-api`        | `https://github.com/newowner/estafet-microservices-scrum-api-task`             |
+| `ci-task-api`         | `https://github.com/newowner/estafet-microservices-scrum-api-discovery`        |
+| `qa-pipeline`      | `https://github.com/newowner/estafet-microservices-scrum-api-gateway`          |
+
+[WEBHOOKS.md](https://github.com/stericbro/estafet-microservices-scrum/blob/master/WEBHOOKS.md) show how to configure
+the `ci-basic-ui` build pipeline and the `estafet-microservices-scrum-basic-ui` GitHub repository.
+
+Each of these GitHub repositories must be setup with a [GitHub Webhook](https://github.com/stericbro/estafet-microservices-scrum/blob/master/WEBHOOKS.md#configuring-github).
+
+In Jenkins, each build pipeline must be [configured to use the GitHub WebHook](https://github.com/stericbro/estafet-microservices-scrum/blob/master/WEBHOOKS.md#configure-build-pipeline-to-use-webhook).
