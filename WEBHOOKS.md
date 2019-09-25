@@ -96,14 +96,27 @@ dropdown list
 
 ![GitHub token generated](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/jenkins_github_token_generated.png)
 
+Click on `Save`.
+
 Login to GitHub with your credentials, then choose`Your Profile', then `Developer Settings`, then `Personal access tokens`:
 
 ![GitHub Personal Access Token](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/github_personal_access_token.png)
 
-<a name="save-hook-url"></a>Ignore the error message `Failed to test a connection to ...`.  Copy the highlighted  Webhook URL and save it.
+In Jenkins:
 
-1. Uncheck `Specify another hook URL for GitHib configuration`
-1. Click on `Save`.
+![Add GitHub Server](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/jenkins_add_github_server.png)
+
+Choose `Add GitHub Server`:
+
+![Jenkins GitHub Server](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/jenkins_github_server.png)
+
+1. Set the `Name` field to `Public GitHub`
+1. Choose `GitHub (https://api.github.com) auto generated token credentials for newowner` from the `Credential` dropdown list
+1. Click `Test connection`:
+
+![Jenkins GitHub Connection OK](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/jenkins_github_server_connection_ok.png)
+
+Click on `Save`.
 
 ## <a name="configuring-github"></a>Configuring GitHub
 
