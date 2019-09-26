@@ -323,16 +323,17 @@ Choose `Add a new Config`:
 The EMS demo `cicd` environment requires a particular version of the Jenkins Maven Pipeline Plugin: version `3.5.9`. To
 download this version:
 
-```
-$ cd /tmp
-$ curl -w "HTTP code is %{http_code}\n" -Ss -k -LJO \
-https://updates.jenkins.io/download/plugins/pipeline-maven/3.5.9/pipeline-maven.hpi
-HTTP code is 200
-$ cd -
-```
-If the HTTP code is not `200`, the download failed.
+1. Download the plugin file
+    ```
+    $ cd /tmp
+    $ curl -w "HTTP code is %{http_code}\n" -Ss -k -LJO \
+    https://updates.jenkins.io/download/plugins/pipeline-maven/3.5.9/pipeline-maven.hpi
+    HTTP code is 200
+    $ cd -
+    ```
+    If the HTTP code is not `200`, the download failed.
 
-Then, from the Jenkins dropdown menu, choose `Manage Jenkins`, then `Manage Plugins`, then the `Advanced` tab:
+2. <a name="upload-and-install-the plugin"/>Then, from the Jenkins dropdown menu, choose `Manage Jenkins`, then `Manage Plugins`, then the `Advanced` tab:
 
 ![Jenkins Manage Plugins Advanced Tab](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/devops/jenkins_manage_plugins_advanced_tab.png)
 
@@ -341,8 +342,21 @@ Then, from the Jenkins dropdown menu, choose `Manage Jenkins`, then `Manage Plug
 
 ![Jenkins Pipeline Maven Plugin Success](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/devops/jenkins_pipeline_maven_plugin_success.png)
 
-### <a name="install-jenkins-http-request-plugin"/> Install the Jenkins HTTP Request Plugin
+### <a name="install-jenkins-cucumber-reports-plugin> Install the Jenkins Cucumber Reports Plugin
 
+1. Download the Cucumber Report Jenkins plugin file:
+
+   ```
+   [stevebrown@6r4nm12 estafet-microservices-scrum-stericbro]$ cd /tmp
+   [stevebrown@6r4nm12 tmp]$ curl -w "HTTP code is %{http_code}\n" -Ss -k -LJO https://updates.jenkins.io/download/plugins/cucumber-reports/4.6.0/cucumber-reports.hpi
+   HTTP code is 200
+   [stevebrown@6r4nm12 tmp]$ 
+   ``` 
+
+2. Follow the steps in [Upload and install the plugin](https://github.com/stericbro/estafet-microservices-scrum/blob/master/DEVOPS.md#upload-and-install-the plugin)
+ 
+### <a name="install-jenkins-http-request-plugin"/> Install the Jenkins HTTP Request Plugin
+   
 From the Jenkins dropdown menu, choose `Manage Jenkins`, then `Manage Plugins`, then the `Available` tab:
 
 ![Jenkins Manage Plugins Available Tab](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/devops/jenkins_manage_plugins_available_tab.png)
