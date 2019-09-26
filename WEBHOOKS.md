@@ -105,8 +105,6 @@ payload to Jenkins and Jenkins will return a 200 status code, but **no build wil
 
 Login to GitHub with your credentials, then choose`Your Profile', then `Developer Settings`, then `Personal access tokens`:
 
-![GitHub Personal Access Token](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/github_personal_access_token.png)
-
 You should see this:
 
 ![GitHub PAT status](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/github_pat_status.png)
