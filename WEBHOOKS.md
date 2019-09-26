@@ -6,7 +6,7 @@ This document describes how to set up GitHub Webhooks so that Jenkins automatica
 1. [Prerequisites](https://github.com/stericbro/estafet-microservices-scrum/blob/master/WEBHOOKS.md#prerequisites)
 1. [Get the Build Pipeline secret](https://github.com/stericbro/estafet-microservices-scrum/blob/master/WEBHOOKS.md#get-build-pipline-secret)
 1. [Configuring Jenkins](https://github.com/stericbro/estafet-microservices-scrum/blob/master/WEBHOOKS.md#configuring-jenkins)
-1. [Configuring GitHub](https://github.com/stericbro/estafet-microservices-scrum/blob/master/WEBHOOKS.md#configuring-github)
+1. [Configuring the GitHub Repository](https://github.com/stericbro/estafet-microservices-scrum/blob/master/WEBHOOKS.md#configuring-the-github-repository)
 1. [Validation](https://github.com/stericbro/estafet-microservices-scrum/blob/master/WEBHOOKS.md#validation)
 
 ## <a name="prerequisites"></a>Prerequisites
@@ -150,9 +150,9 @@ Choose `Configuration`:
 
 Check `GitHub hook trigger for GITScm polling` in the `Build Triggers` section, the click on the `Save` button.
  
-## <a name="configuring-github"></a>Configuring GitHub
+## <a name="configuring-the-github-repository"></a>Configuring the GitHub Repository
 
-Point a browser at the GitHub for the repository, in this case `estafet-microservices-scrum-basic-ui`:
+Point a browser at the GitHub repository, in this case `estafet-microservices-scrum-basic-ui`:
 
 ![GitHub repository page](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/github_repo_page.png)
 
@@ -162,11 +162,11 @@ Choose Settings:
 
 Choose `WebHooks`:
 
-![GitHub repository settings page](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/github_repo_webhooks_page.png)
+![GitHub repository webhook settings page](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/github_repo_webhooks_page.png)
 
 Choose 'Add webhook':
 
-![GitHub repository settings page](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/github_repo_add_webhook_page.png)
+![GitHub repository add Webhook page](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/github_repo_add_webhook_page.png)
 
 [Get the Jenkins host](https://github.com/stericbro/estafet-microservices-scrum/blob/master/DEVOPS.md#get-jenkins-host), e.g. `jenkins-cicd.3.9.50.47.xip.io`.
 The Payload URL will be `https://jenkins-cicd.3.9.50.47.xip.io/github-webhook/`.
@@ -181,7 +181,7 @@ You will be prompted to enter you GitHiub password for verification.
 
 You should see a a page like this:
 
-![GitHub webhook successful](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/github_webhook_successful.png)
+![GitHub webhook successful page](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/github_webhook_successful.png)
 
 ## <a name="validation"> Validation
 
