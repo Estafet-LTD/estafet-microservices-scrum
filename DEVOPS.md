@@ -511,7 +511,10 @@ Finished: FAILURE
 
    Finished: FAILURE
    ```
-1. Approve the `groovy.lang.GroovyObject getProperty java.lang.String (groovy.util.slurpersupport.NodeChild.version)`, as above.
+1. Approve the `groovy.lang.GroovyObject getProperty java.lang.String (groovy.util.slurpersupport.NodeChild.version)`
+method, as above. The approved classes and methods should be:
+
+   ![Jenkins approved script classes and methods](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/devops/jenkins_approved_script_classes_methods.png)
 
 1. Run the build again - it should succeed.
 
