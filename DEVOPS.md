@@ -333,7 +333,7 @@ download this version:
     ```
     If the HTTP code is not `200`, the download failed.
 
-2. Follow the steps in [Upload and install the plugin](https://github.com/stericbro/estafet-microservices-scrum/blob/master/DEVOPS.md#pload-and-install-jenkins-plugin).
+2. Follow the steps in [Upload and install the plugin](https://github.com/stericbro/estafet-microservices-scrum/blob/master/DEVOPS.md#upload-and-install-jenkins-plugin).
 The driver `.hpi` file is `/tmp//pipeline-maven.hpi`.
 
 ### <a name="install-jenkins-cucumber-reports-plugin"/> Install the Jenkins Cucumber Reports Plugin
@@ -349,7 +349,7 @@ The Estafet Microservices Scrum `cicd` environment requires version 4.6.0 of the
    [stevebrown@6r4nm12 tmp]$
    ```
 
-2. Follow the steps in [Upload and install the plugin](https://github.com/stericbro/estafet-microservices-scrum/blob/master/DEVOPS.md#pload-and-install-jenkins-plugin).
+2. Follow the steps in [Upload and install the plugin](https://github.com/stericbro/estafet-microservices-scrum/blob/master/DEVOPS.md#upload-and-install-jenkins-plugin).
 The driver `.hpi` file is `/tmp/cucumber-reports.hpi`.
 
 #### <a name="upload-and-install-jenkins-plugin"/>Upload and install a Jenkins plugin
