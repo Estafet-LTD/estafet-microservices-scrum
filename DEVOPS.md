@@ -515,4 +515,4 @@ Finished: FAILURE
 
 1. Run the build again - it should succeed.
 
- 
+   ![Jenkins successful release pipeline](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/devops/jenkins_successful_release_pipeline.png)
