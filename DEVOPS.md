@@ -342,7 +342,7 @@ download this version:
 
 ![Jenkins Pipeline Maven Plugin Success](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/devops/jenkins_pipeline_maven_plugin_success.png)
 
-### <a name="install-jenkins-cucumber-reports-plugin> Install the Jenkins Cucumber Reports Plugin
+### <a name="install-jenkins-cucumber-reports-plugin/> Install the Jenkins Cucumber Reports Plugin
 
 1. Download the Cucumber Report Jenkins plugin file:
 
