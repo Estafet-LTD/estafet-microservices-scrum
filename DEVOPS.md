@@ -333,7 +333,7 @@ download this version:
     ```
     If the HTTP code is not `200`, the download failed.
 
-2. <a name="upload-and-install-the plugin"/>Then, from the Jenkins dropdown menu, choose `Manage Jenkins`, then `Manage Plugins`, then the `Advanced` tab:
+2. <a name="upload-and-install-the-plugin"/>Then, from the Jenkins dropdown menu, choose `Manage Jenkins`, then `Manage Plugins`, then the `Advanced` tab:
 
 ![Jenkins Manage Plugins Advanced Tab](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/devops/jenkins_manage_plugins_advanced_tab.png)
 
@@ -353,7 +353,7 @@ download this version:
    [stevebrown@6r4nm12 tmp]$ 
    ``` 
 
-2. Follow the steps in [Upload and install the plugin](https://github.com/stericbro/estafet-microservices-scrum/blob/master/DEVOPS.md#upload-and-install-the plugin).
+2. Follow the steps in [Upload and install the plugin](https://github.com/stericbro/estafet-microservices-scrum/blob/master/DEVOPS.md#upload-and-install-the-plugin).
 The driver file is `/tmp/cucumber-reports.hpi`.
  
 ### <a name="install-jenkins-http-request-plugin"/> Install the Jenkins HTTP Request Plugin
