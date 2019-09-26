@@ -333,14 +333,8 @@ download this version:
     ```
     If the HTTP code is not `200`, the download failed.
 
-2. <a name="upload-and-install-the-plugin"/>Then, from the Jenkins dropdown menu, choose `Manage Jenkins`, then `Manage Plugins`, then the `Advanced` tab:
-
-![Jenkins Manage Plugins Advanced Tab](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/devops/jenkins_manage_plugins_advanced_tab.png)
-
-1. Choose the file to upload (`/tmp/pipeline-maven.hpi`)
-2. Choose `Upload`:
-
-![Jenkins Pipeline Maven Plugin Success](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/devops/jenkins_pipeline_maven_plugin_success.png)
+2. Follow the steps in [Upload and install the plugin](https://github.com/stericbro/estafet-microservices-scrum/blob/master/DEVOPS.md#pload-and-install-jenkins-plugin).
+The driver `.hpi` file is `/tmp//pipeline-maven.hpi`.
 
 ### <a name="install-jenkins-cucumber-reports-plugin"/> Install the Jenkins Cucumber Reports Plugin
 
@@ -355,8 +349,21 @@ The Estafet Microservices Scrum `cicd` environment requires version 4.6.0 of the
    [stevebrown@6r4nm12 tmp]$
    ```
 
-2. Follow the steps in [Upload and install the plugin](https://github.com/stericbro/estafet-microservices-scrum/blob/master/DEVOPS.md#upload-and-install-the-plugin).
-The driver file is `/tmp/cucumber-reports.hpi`.
+2. Follow the steps in [Upload and install the plugin](https://github.com/stericbro/estafet-microservices-scrum/blob/master/DEVOPS.md#pload-and-install-jenkins-plugin).
+The driver `.hpi` file is `/tmp/cucumber-reports.hpi`.
+
+#### <a name="upload-and-install-jenkins-plugin"/>Upload and install a Jenkins plugin
+
+2. From the Jenkins dropdown menu, choose `Manage Jenkins`, then `Manage Plugins`, then the `Advanced` tab:
+
+![Jenkins Manage Plugins Advanced Tab](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/devops/jenkins_manage_plugins_advanced_tab.png)
+
+1. Choose the driver `.hpi` file to upload
+2. Choose `Upload`:
+
+This screenshot shows the result of installing the Jenkins Pipeline Maven plugin:
+
+![Jenkins Pipeline Maven Plugin Success](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/devops/jenkins_pipeline_maven_plugin_success.png)
 
 ### <a name="install-jenkins-http-request-plugin"/> Install the Jenkins HTTP Request Plugin
 
