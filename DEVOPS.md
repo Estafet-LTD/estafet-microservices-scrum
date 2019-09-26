@@ -344,20 +344,22 @@ download this version:
 
 ### <a name="install-jenkins-cucumber-reports-plugin"/> Install the Jenkins Cucumber Reports Plugin
 
+The Estafet Microservices Scrum `cicd` environment requires version 4.6.0 of the Cucumber Report Jenkins plugin.
+
 1. Download the Cucumber Report Jenkins plugin file:
 
    ```
    [stevebrown@6r4nm12 estafet-microservices-scrum-stericbro]$ cd /tmp
    [stevebrown@6r4nm12 tmp]$ curl -w "HTTP code is %{http_code}\n" -Ss -k -LJO https://updates.jenkins.io/download/plugins/cucumber-reports/4.6.0/cucumber-reports.hpi
    HTTP code is 200
-   [stevebrown@6r4nm12 tmp]$ 
-   ``` 
+   [stevebrown@6r4nm12 tmp]$
+   ```
 
 2. Follow the steps in [Upload and install the plugin](https://github.com/stericbro/estafet-microservices-scrum/blob/master/DEVOPS.md#upload-and-install-the-plugin).
 The driver file is `/tmp/cucumber-reports.hpi`.
- 
+
 ### <a name="install-jenkins-http-request-plugin"/> Install the Jenkins HTTP Request Plugin
-   
+
 From the Jenkins dropdown menu, choose `Manage Jenkins`, then `Manage Plugins`, then the `Available` tab:
 
 ![Jenkins Manage Plugins Available Tab](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/devops/jenkins_manage_plugins_available_tab.png)
@@ -465,7 +467,7 @@ Finished: FAILURE
 1. Run the release pipeline again:
 
    The following error occurs:
-   
+
    ```
    [Pipeline] // stage
    [Pipeline] stage
@@ -521,7 +523,7 @@ Finished: FAILURE
            at com.cloudbees.groovy.cps.impl.PropertyAccessBlock.rawGet(PropertyAccessBlock.java:20)
            at WorkflowScript.run(WorkflowScript:60)
            at ___cps.transform___(Native Method)
-   
+
    Some of the stacktrace has been omitted for brevity.
 
    Finished: FAILURE
