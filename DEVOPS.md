@@ -397,9 +397,9 @@ These are the build pipelines in Jenkins in the `cicd` environment:
 | `ci-sprint-burndowm`  | `https://github.com/newowner/estafet-microservices-scrum-api-story`            |
 | `ci-story-api`        | `https://github.com/newowner/estafet-microservices-scrum-api-task`             |
 | `ci-task-api`         | `https://github.com/newowner/estafet-microservices-scrum-api-discovery`        |
-| `qa-pipeline`      | `https://github.com/newowner/estafet-microservices-scrum-api-gateway`          |
+| `qa-pipeline`         | `https://github.com/newowner/estafet-microservices-scrum-api-gateway`          |
 
-[WEBHOOKS.md](https://github.com/stericbro/estafet-microservices-scrum/blob/master/WEBHOOKS.md) show how to configure
+[WEBHOOKS.md](https://github.com/stericbro/estafet-microservices-scrum/blob/master/WEBHOOKS.md) shows how to configure
 the `ci-basic-ui` build pipeline and the `estafet-microservices-scrum-basic-ui` GitHub repository.
 
 Each of these GitHub repositories must be setup with a [GitHub Webhook](https://github.com/stericbro/estafet-microservices-scrum/blob/master/WEBHOOKS.md#configuring-github).
@@ -407,3 +407,112 @@ Each of these GitHub repositories must be setup with a [GitHub Webhook](https://
 In Jenkins, each build pipeline must be [configured to use the GitHub WebHook](https://github.com/stericbro/estafet-microservices-scrum/blob/master/WEBHOOKS.md#configure-build-pipeline-to-use-webhook).
 
 ## <a name="release-pipeline-issues"/>Release Pipeline Issues
+
+The first time a release pipeline is run, the following error will occur:
+
+```
+[cicd-release-basic-ui] Running shell script
++ oc start-build qa-pipeline -n cicd
+build.build.openshift.io/qa-pipeline-2 started
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (increment version)
+[Pipeline] readFile
+Scripts not permitted to use new groovy.util.XmlSlurper. Administrators can decide whether to approve or reject this signature.
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+org.jenkinsci.plugins.scriptsecurity.sandbox.RejectedAccessException: Scripts not permitted to use new groovy.util.XmlSlurper
+	    at org.jenkinsci.plugins.scriptsecurity.sandbox.whitelists.StaticWhitelist.rejectNew(StaticWhitelist.java:271)
+	    at org.jenkinsci.plugins.scriptsecurity.sandbox.groovy.SandboxInterceptor.onNewInstance(SandboxInterceptor.java:174)
+	    at org.kohsuke.groovy.sandbox.impl.Checker$3.call(Checker.java:200)
+	    at org.kohsuke.groovy.sandbox.impl.Checker.checkedConstructor(Checker.java:205)
+	    at com.cloudbees.groovy.cps.sandbox.SandboxInvoker.constructorCall(SandboxInvoker.java:21)
+	    at WorkflowScript.run(WorkflowScript:60)
+	    at ___cps.transform___(Native Method)
+
+Some of the stacktrace has been omitted for brevity.
+
+Finished: FAILURE
+```
+
+1. Click on `Administrators can decide whether to approve or reject this signature`:
+
+   ![Jenkins approve in-process script class](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/devops/jenkins_approve_script_class.png)
+
+1. Click on the `approve` button  to approve the `groovy.util.XmlSlurper` class:
+
+   ![Jenkins in-process script class approved](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/devops/jenkins_script_class_approved.png)
+
+1. Run the release pipeline again:
+
+   The following error occurs:
+   
+   ```
+   [Pipeline] // stage
+   [Pipeline] stage
+   [Pipeline] { (increment version)
+   [Pipeline] readFile
+   Scripts not permitted to use method groovy.util.XmlSlurper parseText java.lang.String. Administrators can decide whether to approve or reject this signature.
+   [Pipeline] }
+   [Pipeline] // stage
+   [Pipeline] }
+   [Pipeline] // node
+   [Pipeline] End of Pipeline
+   org.jenkinsci.plugins.scriptsecurity.sandbox.RejectedAccessException: Scripts not permitted to use method groovy.util.XmlSlurper parseText java.lang.String
+	       at org.jenkinsci.plugins.scriptsecurity.sandbox.whitelists.StaticWhitelist.rejectMethod(StaticWhitelist.java:262)
+	       at org.jenkinsci.plugins.scriptsecurity.sandbox.groovy.SandboxInterceptor.onMethodCall(SandboxInterceptor.java:161)
+	       at org.kohsuke.groovy.sandbox.impl.Checker$1.call(Checker.java:158)
+	       at org.kohsuke.groovy.sandbox.impl.Checker.checkedCall(Checker.java:162)
+	       at com.cloudbees.groovy.cps.sandbox.SandboxInvoker.methodCall(SandboxInvoker.java:17)
+	       at WorkflowScript.run(WorkflowScript:60)
+	       at ___cps.transform___(Native Method)
+
+   Some of the stacktrace has been omitted for brevity.
+
+   Finished: FAILURE
+   ```
+1. Click on `Administrators can decide whether to approve or reject this signature`
+
+1. Click on the `approve` button  to approve the `groovy.util.XmlSlurper parseText java.lang.String` method:
+
+   ![Jenkins in-process script method approved](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/devops/jenkins_script_method_approved.png)
+
+1. Run the build again:
+
+   ```
+   build.build.openshift.io/qa-pipeline-6 started
+   [Pipeline] }
+   [Pipeline] // stage
+   [Pipeline] stage (hide)
+   [Pipeline] { (increment version)
+   [Pipeline] readFile
+   Scripts not permitted to use method groovy.lang.GroovyObject getProperty java.lang.String (groovy.util.slurpersupport.NodeChild.version). Administrators can decide whether to approve or reject this signature.
+   [Pipeline] }
+   [Pipeline] // stage
+   [Pipeline] }
+   [Pipeline] // node
+   [Pipeline] End of Pipeline
+   org.jenkinsci.plugins.scriptsecurity.sandbox.RejectedAccessException: Scripts not permitted to use method groovy.lang.GroovyObject getProperty java.lang.String (groovy.util.slurpersupport.NodeChild.version)
+           at org.jenkinsci.plugins.scriptsecurity.sandbox.whitelists.StaticWhitelist.rejectMethod(StaticWhitelist.java:267)
+           at org.jenkinsci.plugins.scriptsecurity.sandbox.groovy.SandboxInterceptor$11.reject(SandboxInterceptor.java:358)
+           at org.jenkinsci.plugins.scriptsecurity.sandbox.groovy.SandboxInterceptor.onGetProperty(SandboxInterceptor.java:409)
+           at org.kohsuke.groovy.sandbox.impl.Checker$6.call(Checker.java:291)
+           at org.kohsuke.groovy.sandbox.impl.Checker.checkedGetProperty(Checker.java:295)
+           at com.cloudbees.groovy.cps.sandbox.SandboxInvoker.getProperty(SandboxInvoker.java:29)
+           at com.cloudbees.groovy.cps.impl.PropertyAccessBlock.rawGet(PropertyAccessBlock.java:20)
+           at WorkflowScript.run(WorkflowScript:60)
+           at ___cps.transform___(Native Method)
+   
+   Some of the stacktrace has been omitted for brevity.
+
+   Finished: FAILURE
+   ```
+1. Approve the `groovy.lang.GroovyObject getProperty java.lang.String (groovy.util.slurpersupport.NodeChild.version)`, as above.
+
+1. Run the build again - it should succeed.
+
+ 
