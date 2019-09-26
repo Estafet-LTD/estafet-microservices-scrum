@@ -78,15 +78,11 @@ Scroll down to the `GitHub` section:
 
 ![GitHub section](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/jenkins_configure_system_github.png)
 
-### <a nane="create-github-token>Create the GitHub Personal Access Token
+### <a name="create-github-token>Create the GitHub Personal Access Token
 
 Choose `Advanced`:
 
 ![Advanced GitHub Configuration](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/jenkins_github_advanced_settings.png)
-
-Choose `Convert login and password to token`" from the "`Manage addtional GitHub actions`" dropdown list:
-
-![GitHub Configuration](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/jenkins_github_configuration.png)
 
 Choose "`Convert login and password to token`" from the "`Manage addtional GitHub actions`" dropdown list:
 
