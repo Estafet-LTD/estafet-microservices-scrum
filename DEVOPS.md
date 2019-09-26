@@ -8,9 +8,6 @@
 * [Deploying OpenShift](https://github.com/stericbro/estafet-microservices-scrum/blob/master/DEVOPS.md#deploying-openshift)
 * [Creating the Devops Environments](https://github.com/stericbro/estafet-microservices-scrum/blob/master/DEVOPS.md#creating-the-devops-environments)
 * [Configuring Jenkins](https://github.com/stericbro/estafet-microservices-scrum/blob/master/DEVOPS.md#configuring-jenkins)
-* [Environments](https://github.com/stericbro/estafet-microservices-scrum/blob/master/DEVOPS.md#environments)
-* [Architecture](https://github.com/stericbro/estafet-microservices-scrum/blob/master/DEVOPS.md#architecture)
-* [Distributed Monitoring](https://github.com/stericbro/estafet-microservices-scrum/blob/master/DEVOPS.md#distributed-monitoring)
 
 ## <a name="overview"/>Overview
 

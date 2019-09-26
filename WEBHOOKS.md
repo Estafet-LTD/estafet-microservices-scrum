@@ -88,7 +88,7 @@ Choose "`Convert login and password to token`" from the "`Manage addtional GitHu
 
 ![Convert login and password to token](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/jenkins_github_choose_credential.png)
 
-1. Select the [credential you previously created](https://github.com/stericbro/estafet-microservices-scrum/blob/master/DEVPOS.md#create-github-credentials) from the `Credential`
+1. Select the [credential you previously created](https://github.com/stericbro/estafet-microservices-scrum/blob/master/DEVOPS.md#create-github-credentials) from the `Credential`
 dropdown list
 2. Choose `Create token credentials`:
 
