@@ -78,7 +78,7 @@ Scroll down to the `GitHub` section:
 
 ![GitHub section](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/jenkins_configure_system_github.png)
 
-### <a name="create-github-token>Create the GitHub Personal Access Token
+### <a name="create-github-token"/>Create the GitHub Personal Access Token
 
 Choose `Advanced`:
 
@@ -150,7 +150,7 @@ Choose `Configuration`:
 
 Check `GitHub hook trigger for GITScm polling` in the `Build Triggers` section, the click on the `Save` button.
  
-## <a name="configuring-the-github-repository"></a>Configuring the GitHub Repository
+## <a name="configuring-the-github-repository"/>Configuring the GitHub Repository
 
 Point a browser at the GitHub repository, in this case `estafet-microservices-scrum-basic-ui`:
 
@@ -183,7 +183,7 @@ You should see a a page like this:
 
 ![GitHub webhook successful page](https://github.com/stericbro/estafet-microservices-scrum/blob/master/md_images/webhooks/github_webhook_successful.png)
 
-## <a name="validation"> Validation
+## <a name="validation"/> Validation
 
 The best way to verify that the Webhook works is to make an insignificant change, e.g add a comment to file, then commit and push
 that change to GitHub. If the Webhook is working, you should see a build triggered in Jenkins.

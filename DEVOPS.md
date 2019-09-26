@@ -405,3 +405,5 @@ the `ci-basic-ui` build pipeline and the `estafet-microservices-scrum-basic-ui` 
 Each of these GitHub repositories must be setup with a [GitHub Webhook](https://github.com/stericbro/estafet-microservices-scrum/blob/master/WEBHOOKS.md#configuring-github).
 
 In Jenkins, each build pipeline must be [configured to use the GitHub WebHook](https://github.com/stericbro/estafet-microservices-scrum/blob/master/WEBHOOKS.md#configure-build-pipeline-to-use-webhook).
+
+## <a name="release-pipeline-issues"/>Release Pipeline Issues
