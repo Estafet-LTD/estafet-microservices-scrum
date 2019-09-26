@@ -353,7 +353,8 @@ download this version:
    [stevebrown@6r4nm12 tmp]$ 
    ``` 
 
-2. Follow the steps in [Upload and install the plugin](https://github.com/stericbro/estafet-microservices-scrum/blob/master/DEVOPS.md#upload-and-install-the plugin)
+2. Follow the steps in [Upload and install the plugin](https://github.com/stericbro/estafet-microservices-scrum/blob/master/DEVOPS.md#upload-and-install-the plugin).
+The driver file is `/tmp/cucumber-reports.hpi`.
  
 ### <a name="install-jenkins-http-request-plugin"/> Install the Jenkins HTTP Request Plugin
    
