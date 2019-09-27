@@ -29,7 +29,7 @@
   tags:
     - openshift
 
-# This fails when the prject is not present.
+# This fails when the microservice is not present.
 #- name: Create the deployment configuration for each production microservice
 #  shell: "oc create -n prod -f {{ workdir }}/{{ item.repo }}/openshift/prod-deployment-config.json"
 #  register: command_result
