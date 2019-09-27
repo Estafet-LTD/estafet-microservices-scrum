@@ -12,7 +12,11 @@ The application is designed to be deployed within an Openshift cluster and provi
 * [Distributed Monitoring](https://github.com/Estafet-LTD/estafet-microservices-scrum#distributed-monitoring)
 
 ## Project Structure
-One thing to note is that each microservice has its own git repository. Separate repositories means that each service be released independently. 
+
+> Note:-  If you are working with a forked repository, you must fork all the sub modules and make sure that your fork
+> does not update [the original GitHub repository](https://github.com/Estafet-Ltd/estafet-microservices-scrum "The original GitHub repository")
+
+Each microservice has its own Git repository. Separate Git repositories allow each service to be released independently.
 
 | Repository        | Description |
 | ----------------- |-------------|
@@ -39,6 +43,14 @@ There are a couple of installation options for the demo application:
 ### Prerequisites
 Please review the prerequisites below before continuing with the deployment steps:
 
+#### OpenShift
+
+There are three ways of installing OpenShift on a laptop for development:
+
+* Use Minishift (See The [MINISHIFT.md](https://github.com/Estafet-LTD/estafet-microservices-scrum/blob/master/MINISHIFT.md).
+* "oc cluster up (See this [Medium article](https://medium.com/@fabiojose/working-with-oc-cluster-up-a052339ea219 "Medium article"))
+* Install OKD on your laptop (see this [YouTube video](https://youtu.be/ZkFIozGY0IA) "YouTube video")
+
 #### Ansible
 Ansible is installed as a linux application, but it is possible to install it on Windows 10 and Mac OS X machines.
 
@@ -48,19 +60,32 @@ Windows users will need to install ansible using Windows Subsytem for Linux (WSL
 https://www.jeffgeerling.com/blog/2017/using-ansible-through-windows-10s-subsystem-linux
 
 ##### MAC OS X Users
-Mac users can easily install ansible provided homebrew isinstalled. For a comprehensive description, please consult this article. 
+Mac users can easily install ansible provided homebrew isinstalled. For a comprehensive description, please consult this article.
 
 https://hvops.com/articles/ansible-mac-osx/
 
 ##### Additional Python Library
 The ansible playbook requires a python module that is not always installed with the standard ansible distributions.
 
+For Debian-based distributions:
+
 ```
-sudo apt-get install python-jmespath
+$ sudo apt-get install python-jmespath
+```
+
+For Red Hat-based distributions:
+
+```
+$ sudo yum -y install python-jmespath
 ```
 
 #### Openshift
 The ansible playbook assumes that you have installed Openshift on your local development machine. If this is not the case, you will need to amend the ansible `create-local-environment-vars.yml` or `create-devops-environments-vars.yml` file (depending on which environment you are installing) and modify the `openshift: 192.168.99.100:8443` directive.
+
+#### Minishift
+
+The local environment can be run on [Minishift](https://docs.okd.io/latest/minishift/index.html "Minishift Homepage"). To install and configure
+Minishift, please see the [Minishift ReadMe](https://github.com/Estafet-LTD/estafet-microservices-scrum/blob/master/MINISHIFT.md "Minishift Readme") file.
 
 #### Openshift CLI (oc)
 The playbook also assumes that the Openshift CLI `oc` is installed on the same machine that you have installed Ansible on. If this is not the case, you will need to amend the Ansible `microservices-scrum.yml` file and modify the `hosts: localhost` directive.
@@ -73,6 +98,9 @@ cp /mnt/c/Users/<Windows User>/.kube/config ~/.kube
 ```
 
 ### Local Environment Setup
+
+The local environment is intended for development purposes, e.g. on a user's laptop.
+
 Installing and configuring the scrum demo application to openshift manually is a lengthy process. There are 13 applications in total (8 microservices + db + jaeger + message broker). Fortunately this process has been automated using Ansible.
 
 #### Steps
@@ -81,13 +109,38 @@ Installing and configuring the scrum demo application to openshift manually is a
 Clone the master repository to a directory of your choice.
 
 ```
-git clone https://github.com/Estafet-LTD/estafet-microservices-scrum.git
+$ git clone --recurse-submodules https://github.com/Estafet-LTD/estafet-microservices-scrum.git
+$ git checkout master
+$ git submodule foreach 'git checkout master || :'
+$
 ```
 
 ##### Step #2
+Create an inventory file:
+
+```
+$ cd estafet-microservices-scrum/ansible
+$ cp inventory.template inventory
+$ vi iniventory
+localhost ansible_connection=local openshift=192.168.42.34:8443
+```
+
+If you are using Minishift, the `openshift` value is taken from the output of starting minishift (see the [Minishift README](https://github.com/Estafet-LTD/estafet-microservices-scrum/blob/master/MINISHIFT.md)):
+
+```
+OpenShift server started.
+
+The server is accessible via web console at:
+    https://192.168.42.34:8443/console
+
+```
+
+Otherwise, the value is the public IP or DNS address of the Master OpenShift node.
+
+#### Step 3
 Run the playbook. The playbook takes about 15 mins complete.
 
-> Note:- If you are using minishift, it might be advisible to tweak the resources available (see below).
+> Note:- If you are using Minishift, you set the Minishift configuration to specify the resources available. (see the [Minishift README](https://github.com/Estafet-LTD/estafet-microservices-scrum/blob/master/MINISHIFT.md#configuration)).
 
 ```
 $ cd estafet-microservices-scrum/ansible
@@ -122,46 +175,30 @@ ansible-playbook reset-data-playbook.yml
 Click [here](https://github.com/Estafet-LTD/estafet-microservices-scrum-qa#test-environment-setup) to find the test environment setup details.
 
 ### DevOps Environment Setup
-The local environment setup allows a developer start using the microservices application, but in order to set up a project, we'll need to create a development, test, continuous integration and project environment. These environments will need CICI pipelines, artifact repositories, code analysis and all of the automation associated with DevOps. Fortunately, this can be setup with running a single script.
 
-#### Steps
-
-##### Step #1
-Clone the master repository to a directory of your choice.
-
-```
-git clone https://github.com/Estafet-LTD/estafet-microservices-scrum.git
-```
-
-##### Step #2
-Run the playbook. The playbook takes about 30 mins complete.
-
-> Note:- If you are using minishift, it might be advisible to tweak the resources available.
-
-```
-$ cd estafet-microservices-scrum/ansible
-$ ansible-playbook create-devops-environments-playbook.yml
-```
-
-##### Step #3
-Jenkins setup 
-tbc...
-
-##### Setting Up Maven Locally to Use Nexus
-tbc...
+Please refer to [DEVOPS.md](https://github.com/Estafet-LTD/estafet-microservices-scrum/blob/master/DEVOPS.md)
 
 ## Environments
-tbc...
+
+The environments are:
+
+* **local dev**: Runs on the developer's laptop. Supports development on a laptoop.
+* **local tes**: Runs on the developer's laptop. Supports development and testing on a laptoop.
+* **dev**: Runs in AWS. When a devloper pushes changes to GitHub, A GitHub Webhook ensures that the changes are autmatically
+built the `dev` environment,
+* **test**: Runs in AWS. A Jenkins pipeline promotes changes from the `dev` environment to the `test` environment and
+runs automated integration tests.
+* **prod**: Runs in AWS. A Jenkins pipeline promotes changes from the `test` environment to the `prod` environment.
 
 ## Architecture
 The application consists of 9 microservices + the user interface. These are deployed to openshift as pods. The postgres pod instance contains 6 databases, each "owned" by a microservice. The A-MQ broker processes messages sent to topics and distributes these to microservices that have subscribedtothose topics.
 
-![alt tag](https://github.com/Estafet-LTD/estafet-microservices-scrum/blob/master/PodComponents.png)
+![alt tag](https://github.com/Estafet-LTD/estafet-microservices-scrum/blob/master/md_images/readme/PodComponents.png)
 
 ### Domain Model
 Here's the overall business domain model.
 
-![alt tag](https://github.com/Estafet-LTD/estafet-microservices-scrum/blob/master/UnboundedDomainModel.png)
+![alt tag](https://github.com/Estafet-LTD/estafet-microservices-scrum/blob/master/md_images/readme/UnboundedDomainModel.png)
 
 ## Distributed Monitoring
 Here's a short summary of the Opentracing and Jaeger with microservices.
@@ -171,10 +208,3 @@ Here's a short summary of the Opentracing and Jaeger with microservices.
 This is a more detailed walkthrough of the scrum demo application and it's integration with Jaeger.
 
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/U04MzSGzF3s/0.jpg)](https://www.youtube.com/watch?v=U04MzSGzF3s)
-
-
-
-
-
-
-
