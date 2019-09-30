@@ -1,33 +1,33 @@
 [submodule "estafet-microservices-scrum-api-project"]
 	path = estafet-microservices-scrum-api-project
-	url = https://github.com/Estafet-LTD/estafet-microservices-scrum-api-project.git
+	url = git@github.com:stericbro/estafet-microservices-scrum-api-project.git
 [submodule "estafet-microservices-scrum-api-sprint"]
 	path = estafet-microservices-scrum-api-sprint
-	url = https://github.com/Estafet-LTD/estafet-microservices-scrum-api-sprint.git
+	url = git@github.com:stericbro/estafet-microservices-scrum-api-sprint.git
 [submodule "estafet-microservices-scrum-api-story"]
 	path = estafet-microservices-scrum-api-story
-	url = https://github.com/Estafet-LTD/estafet-microservices-scrum-api-story.git
+	url = git@github.com:stericbro/estafet-microservices-scrum-api-story.git
 [submodule "estafet-microservices-scrum-basic-ui"]
 	path = estafet-microservices-scrum-basic-ui
-	url = https://github.com/Estafet-LTD/estafet-microservices-scrum-basic-ui.git
+	url = git@github.com:stericbro/estafet-microservices-scrum-basic-ui.git
 [submodule "estafet-microservices-scrum-api-sprint-board"]
 	path = estafet-microservices-scrum-api-sprint-board
-	url = https://github.com/Estafet-LTD/estafet-microservices-scrum-api-sprint-board.git
+	url = git@github.com:stericbro/estafet-microservices-scrum-api-sprint-board.git
 [submodule "estafet-microservices-scrum-api-project-burndown"]
 	path = estafet-microservices-scrum-api-project-burndown
-	url = https://github.com/Estafet-LTD/estafet-microservices-scrum-api-project-burndown.git
+	url = git@github.com:stericbro/estafet-microservices-scrum-api-project-burndown.git
 [submodule "estafet-microservices-scrum-api-sprint-burndown"]
 	path = estafet-microservices-scrum-api-sprint-burndown
-	url = https://github.com/Estafet-LTD/estafet-microservices-scrum-api-sprint-burndown.git
+	url = git@github.com:stericbro/estafet-microservices-scrum-api-sprint-burndown.git
 [submodule "estafet-microservices-scrum-api-task"]
 	path = estafet-microservices-scrum-api-task
-	url = https://github.com/Estafet-LTD/estafet-microservices-scrum-api-task.git
+	url = git@github.com:stericbro/estafet-microservices-scrum-api-task.git
 [submodule "estafet-microservices-scrum-api-discovery"]
 	path = estafet-microservices-scrum-api-discovery
-	url = https://github.com/Estafet-LTD/estafet-microservices-scrum-api-discovery
+	url = git@github.com:stericbro/estafet-microservices-scrum-api-discovery
 [submodule "estafet-microservices-scrum-api-gateway"]
 	path = estafet-microservices-scrum-api-gateway
-	url = https://github.com/Estafet-LTD/estafet-microservices-scrum-api-gateway
+	url = git@github.com:stericbro/estafet-microservices-scrum-api-gateway
 [submodule "estafet-microservices-scrum-qa"]
 	path = estafet-microservices-scrum-qa
-	url = https://github.com/Estafet-LTD/estafet-microservices-scrum-qa.git
+	url = git@github.com:stericbro/estafet-microservices-scrum-qa.git
