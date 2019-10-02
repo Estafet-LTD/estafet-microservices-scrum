@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Template
+metadata:
+  creationTimestamp: null
+  name: database-service
+parameters:
+- description: Defines that hostname of the for the database service
+  name: DB_HOST
+  required: true
+objects:
+- apiVersion: "v1"
+  kind: "Service"
+  metadata:
+    name: "postgresql"
+  spec:
+    type: ExternalName
+    externalName: ${DB_HOST} 
+  selector: {}

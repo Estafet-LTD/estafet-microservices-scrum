@@ -2,8 +2,8 @@
 - name: Recreate the test environments
   hosts: all
   vars_files:
-    - microservices-vars.yml
-    - create-environments-vars.yml    
+    - variables/microservices-vars.yml
+    - variables/create-environments-vars.yml    
   tasks:  
-    - include: initial-setup.yml
-    - include: create-test-environment.yml
+    - include: roles/initial-setup.yml
+    - include: roles/create-test-environment.yml

@@ -2,8 +2,8 @@
 - name: Run the build pipelines and then the release pipelines
   hosts: all
   vars_files:
-    - microservices-vars.yml
-    - pipelines-vars.yml
+    - variables/microservices-vars.yml
+    - variables/pipelines-vars.yml
     
   tasks:  
     - name: Login in OpenShift as {{ username }}

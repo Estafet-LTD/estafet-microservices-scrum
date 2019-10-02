@@ -2,11 +2,11 @@
 - name: Create Environments for Entire Software Development Lifecycle
   hosts: all
   vars_files:
-    - microservices-vars.yml
-    - create-devops-environments-vars.yml    
+    - variables/microservices-vars.yml
+    - variables/create-devops-environments-vars.yml    
   tasks:  
-    - include: initial-setup.yml
-    - include: create-cicd-environment.yml    
-    - include: create-build-environment.yml
-    - include: create-test-environment.yml
-    - include: create-prod-environment.yml
+    - include: roles/initial-setup.yml
+    - include: roles/create-cicd-environment.yml    
+    - include: roles/create-build-environment.yml
+    - include: roles/create-test-environment.yml
+    - include: roles/create-prod-environment.yml

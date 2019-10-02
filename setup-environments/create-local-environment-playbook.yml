@@ -2,10 +2,10 @@
 - name: Install Estafet Microservices Application in Openshift
   hosts: all
   vars_files:
-    - create-local-environment-vars.yml
-    - microservices-vars.yml
+    - variables/create-local-environment-vars.yml
+    - variables/microservices-vars.yml
   tasks:
-    - include: initial-setup.yml
-    - include: environment-setup.yml
-    - include: jaeger-setup.yml
-    - include: microservices-setup.yml
+    - include: roles/initial-setup.yml
+    - include: roles/environment-setup.yml
+    - include: roles/jaeger-setup.yml
+    - include: roles/microservices-setup.yml

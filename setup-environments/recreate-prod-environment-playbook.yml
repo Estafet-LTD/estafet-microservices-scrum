@@ -2,8 +2,8 @@
 - name: Recreate the prod environment
   hosts: all
   vars_files:
-    - create-prod-environment-vars.yml
-    - microservices-vars.yml 
+    - variables/create-prod-environment-vars.yml
+    - variables/microservices-vars.yml 
   tasks:  
-    - include: initial-setup.yml
-    - include: create-prod-environment.yml
+    - include: roles/initial-setup.yml
+    - include: roles/create-prod-environment.yml

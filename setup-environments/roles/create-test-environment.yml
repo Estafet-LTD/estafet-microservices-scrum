@@ -2,12 +2,16 @@
 # Define the name and description of the OpenShift project
 - set_fact: project="test"
 - set_fact: project_description="Test Environment for Microservices Scrum"
-- set_fact: expose_basic_ui=true
-- set_fact: external_db=true
     
 - include: environment-setup.yml
 - include: jaeger-setup.yml
-- include: create-db.yml
+
+- name: Create the external database service 
+  shell: "oc process -n {{ project }} -f {{ workdir }}/database-service.yml -p DB_HOST={{ database }} | oc create -f -"
+  when: "{{ external_db }}"
+  tags:
+    - db
+    - postgresql
 
 - name: Allows jenkins to access the test environment
   shell: "oc policy add-role-to-user edit system:serviceaccount:cicd:jenkins -n test"

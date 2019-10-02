@@ -39,26 +39,4 @@
     - openshift
     - postgresql
 
-- name: copy the database service template to the working directory
-  copy:
-    src: "external-postgres-service.yml.template"
-    dest: "{{ workdir }}/external-postgres-service.yml"
-    force: true
-
-- name: Set Database Domain  
-  replace:
-    path: "{{ workdir }}/external-postgres-service.yml"
-    regexp: 'localhost'
-    replace: "{{ database }}"
-  when: "{{ external_db }}"
-  tags:
-    - db
-    - postgresql  
-    
-- name: Create the external database service 
-  shell: "oc create -f {{ workdir }}/external-postgres-service.yml"
-  when: "{{ external_db }}"
-  tags:
-    - db
-    - postgresql
     

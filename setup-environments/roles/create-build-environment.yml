@@ -5,6 +5,13 @@
 
 - include: environment-setup.yml
 
+- name: Create the external database service 
+  shell: "oc process -n {{ project }} -f {{ workdir }}/database-service.yml -p DB_HOST={{ database }} | oc create -f -"
+  when: "{{ external_db }}"
+  tags:
+    - db
+    - postgresql
+
 - name: Build and Deploy wiremock 
   shell: "oc new-app rodolpheche/wiremock~https://github.com/rodolpheche/wiremock-docker.git --strategy=docker -n {{ project }}"
   register: command_result
@@ -31,6 +38,4 @@
   tags:
     - openshift
     - jenkins   
-
-- include: microservices-setup.yml
   
