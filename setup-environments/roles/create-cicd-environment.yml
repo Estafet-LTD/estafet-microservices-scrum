@@ -5,7 +5,7 @@
 
 - name: Checkout qa from Github to access pipeline
   git:
-    repo: "{{ github }}/estafet-microservices-scrum-qa"
+    repo: "https://github.com/{{ github }}/estafet-microservices-scrum-qa"
     dest: "{{ workdir }}/estafet-microservices-scrum-qa"
     update: yes
   tags:
@@ -42,8 +42,8 @@
     - openshift
     - jenkins  
     
-- name: Create the ci pipeline for each of the microservices
-  shell: "oc create -n cicd -f {{ workdir }}/{{ item.repo }}/pipelines/ci-pipeline.yaml"
+- name: Create the pipelines for each of the microservices
+  shell: "oc process -n cicd -f {{ workdir }}/{{ item.repo }}/openshift/templates/{{ item.name }}-pipelines.yml -p GITHUB={{ github }} | oc create -f -"
   register: command_result
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
   changed_when: "'exists' not in command_result.stderr"  
@@ -51,17 +51,8 @@
   tags:
     - openshift       
 
-- name: Create the release pipeline for each of the microservices
-  shell: "oc create -n cicd -f {{ workdir }}/{{ item.repo }}/pipelines/release-pipeline.yaml"
-  register: command_result
-  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
-  changed_when: "'exists' not in command_result.stderr"  
-  with_items: "{{ microservices_scrum_projects }}"
-  tags:
-    - openshift   
-
 - name: Create the qa pipeline 
-  shell: "oc create -n cicd -f {{ workdir }}/estafet-microservices-scrum-qa/qa-pipeline.yaml"
+  shell: "oc process -n cicd -f {{ workdir }}/estafet-microservices-scrum-qa/openshift/templates/qa-pipeline.yaml -p GITHUB={{ github }} | oc create -f -"
   register: command_result
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
   changed_when: "'exists' not in command_result.stderr"  

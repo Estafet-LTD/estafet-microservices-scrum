@@ -1,8 +1,7 @@
 ---
 # Define the name and description of the OpenShift project
-- set_fact: project="dev"
-- set_fact: project_description="Development Environment for Microservices Scrum"
-- set_fact: expose_basic_ui=false
+- set_fact: project="build"
+- set_fact: project_description="Build Environment for Microservices Scrum"
 
 - include: environment-setup.yml
 

@@ -20,7 +20,7 @@
 
 - name: Checkout source code from Github
   git:
-    repo: "{{ github }}/{{ item.repo }}"
+    repo: "https://github.com/{{ github }}/{{ item.repo }}"
     dest: "{{ workdir }}/{{ item.repo }}"
     update: yes
   with_items: "{{ microservices_scrum_projects }}"
