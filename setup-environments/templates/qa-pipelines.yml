@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Template
+metadata:
+  creationTimestamp: null
+  name: qa-pipelines
+parameters:
+- description: Defines the location of the estafet github (change this if you have forked and want to use another github)
+  name: GITHUB
+  required: true
+objects:
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    creationTimestamp: null
+    labels:
+      app: pipeline
+      name: qa-pipeline
+    name: qa-pipeline
+  spec:
+    output: {}
+    postCommit: {}
+    resources: {}
+    runPolicy: Serial
+    source:
+      git:
+        uri: "https://github.com/${GITHUB}/estafet-microservices-scrum-qa"
+    strategy:
+      jenkinsPipelineStrategy:
+        env:
+          - name: GITHUB
+            value: ${GITHUB}      
+        jenkinsfilePath: openshift/pipelines/qa-pipeline.groovy
+      type: JenkinsPipeline
+    triggers:
+    - github:
+        secret: secret101
+      type: GitHub
+    - generic:
+        secret: secret101
+      type: Generic    
+  status:
+    lastVersion: 0
