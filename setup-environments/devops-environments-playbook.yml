@@ -3,7 +3,7 @@
   hosts: all
   vars_files:
     - variables/microservices-vars.yml
-    - variables/create-devops-environments-vars.yml    
+    - variables/devops-environments-vars.yml    
   tasks:  
     - include: roles/initial-setup.yml
     - include: roles/create-cicd-environment.yml    

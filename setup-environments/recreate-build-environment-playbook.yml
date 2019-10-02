@@ -1,8 +1,0 @@
----
-- name: Recreate the dev environments
-  hosts: all
-  vars_files:
-    - variables/microservices-vars.yml
-  tasks:  
-    - include: roles/initial-setup.yml
-    - include: roles/create-build-environment.yml
