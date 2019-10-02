@@ -1,1 +1,1 @@
-localhost ansible_connection=local github=Estafet-LTD openshift=10.0.75.2:8443 database=some_dbhost.amw.com
+localhost ansible_connection=local github=Estafet-LTD openshift=10.0.75.2:8443 username=admin password=123 database=some_dbhost.amw.com

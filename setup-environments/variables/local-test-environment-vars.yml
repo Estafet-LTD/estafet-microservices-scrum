@@ -2,10 +2,6 @@
 # the Absolute path where you want to checkout the sourcecode
 workdir: "{{ ansible_env.HOME }}/.estafet"
 
-# Your OpenShift credentials
-username: developer
-password: developer
-
 # Does the use an external db
 external_db: false
 

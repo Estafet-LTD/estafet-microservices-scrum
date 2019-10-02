@@ -5,16 +5,10 @@
     
 - include: environment-setup.yml
 - include: jaeger-setup.yml
-
-- name: Create the external database service 
-  shell: "oc process -n {{ project }} -f {{ workdir }}/database-service.yml -p DB_HOST={{ database }} | oc create -f -"
-  when: "{{ external_db }}"
-  tags:
-    - db
-    - postgresql
+- include: external-db.yml
 
 - name: Allows jenkins to access the test environment
-  shell: "oc policy add-role-to-user edit system:serviceaccount:cicd:jenkins -n test"
+  shell: "oc policy add-role-to-user edit system:serviceaccount:cicd:jenkins -n {{ project }}"
   register: command_result
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
   changed_when: "'exists' not in command_result.stderr"

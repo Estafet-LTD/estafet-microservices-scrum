@@ -6,7 +6,7 @@
     - variables/devops-environments-vars.yml    
   tasks:  
     - include: roles/initial-setup.yml
-    - include: roles/create-cicd-environment.yml    
-    - include: roles/create-build-environment.yml
-    - include: roles/create-test-environment.yml
-    - include: roles/create-prod-environment.yml
+    - include: roles/cicd-environment.yml    
+    - include: roles/build-environment.yml
+    - include: roles/test-environment.yml
+    - include: roles/prod-environment.yml

@@ -1,0 +1,20 @@
+---
+- name: Check if the service for the external database exists 
+  shell: "oc get service postgresql -n {{ project }}"
+  register: service_output  
+  ignore_errors: True
+  tags:
+    - db
+    - postgresql
+
+- name: Create the service for external database 
+  shell: "oc process -n {{ project }} -f {{ inventory_dir }}/templates/database-service.yml -p DB_HOST={{ database }} | oc create -f -"
+  register: command_result
+  when: "'already exists' not in service_output.stderr"
+  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+  changed_when: "'exists' not in command_result.stderr"  
+  tags:
+    - db
+    - postgresql
+
+    
