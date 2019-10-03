@@ -64,6 +64,9 @@ objects:
         uri: "https://github.com/${GITHUB}/${MICROSERVICE_REPO_URI}"
     strategy:
       jenkinsPipelineStrategy:
+        env:
+          - name: GITHUB
+            value: ${GITHUB}      
         jenkinsfilePath: openshift/pipelines/release-pipeline.groovy
       type: JenkinsPipeline
   status:

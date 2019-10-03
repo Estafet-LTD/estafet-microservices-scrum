@@ -25,7 +25,7 @@
     - openshift  
 
 - name: Install the Jenkins master server
-  shell: "oc new-app jenkins-persistent -p VOLUME_CAPACITY=20Gi"
+  shell: "oc new-app jenkins-persistent -p VOLUME_CAPACITY=20Gi -p MEMORY_LIMIT=2Gi"
   register: command_result
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
   changed_when: "'exists' not in command_result.stderr"
