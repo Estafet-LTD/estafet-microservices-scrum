@@ -70,4 +70,29 @@ objects:
         jenkinsfilePath: openshift/pipelines/release-pipeline.groovy
       type: JenkinsPipeline
   status:
-    lastVersion: 0    
+    lastVersion: 0
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    creationTimestamp: null
+    labels:
+      app: pipeline
+      name: "promote-to-prod-${MICROSERVICE_NAME}"
+    name: "promote-to-prod-${MICROSERVICE_NAME}"
+  spec:
+    output: {}
+    postCommit: {}
+    resources: {}
+    runPolicy: Serial
+    source:
+      git:
+        uri: "https://github.com/${GITHUB}/${MICROSERVICE_REPO_URI}"
+    strategy:
+      jenkinsPipelineStrategy:
+        env:
+          - name: GITHUB
+            value: ${GITHUB}      
+        jenkinsfilePath: openshift/pipelines/promote-to-prod-pipeline.groovy
+      type: JenkinsPipeline
+  status:
+    lastVersion: 0        

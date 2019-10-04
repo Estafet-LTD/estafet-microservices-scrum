@@ -14,7 +14,7 @@ objects:
     creationTimestamp: null
     labels:
       app: pipeline
-      name: deploy-prod
+      name: promote-all-to-prod
     name: deploy-prod
   spec:
     output: {}
@@ -26,7 +26,7 @@ objects:
         uri: "https://github.com/${GITHUB}/estafet-microservices-scrum"
     strategy:
       jenkinsPipelineStrategy:
-        jenkinsfilePath: setup-environments/pipelines/deploy-prod-pipeline.groovy
+        jenkinsfilePath: setup-environments/pipelines/promote-all-to-prod-pipeline.groovy
       type: JenkinsPipeline
   status:
     lastVersion: 0

@@ -5,7 +5,7 @@
     - variables/local-test-environment-vars.yml
     - variables/microservices-vars.yml    
   tasks:  
-    - include: roles/initial-setup.yml
+    - include: roles/init.yml
     - include: roles/namespace-setup.yml
     - include: roles/jaeger-setup.yml
     - include: roles/microservices-setup.yml

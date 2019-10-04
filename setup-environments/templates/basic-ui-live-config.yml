@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Template
+metadata:
+  creationTimestamp: null
+  name: basic-ui-live-config
+parameters:
+- description: Defines that hostname of the for the database service
+  name: ENV
+  value: green 
+  required: true
+objects:
+- apiVersion: "v1"
+  kind: "Service"
+  metadata:
+    labels:
+      app: basic-ui
+      env: ${ENV}  
+    name: basic-ui
+  spec:
+    type: ExternalName
+    externalName: "basic-ui.prod-${ENV}.svc" 
+  selector: {}
+- apiVersion: v1
+  kind: Route
+  metadata:
+    creationTimestamp: null
+    labels:
+      app: basic-ui
+    name: basic-ui
+  spec:
+    port:
+      targetPort: 8080-tcp
+    to:
+      kind: Service
+      name: live
+      weight: 100
+    wildcardPolicy: None
+  status:
+    ingress:  
