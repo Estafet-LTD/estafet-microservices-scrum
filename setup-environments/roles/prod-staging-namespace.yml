@@ -1,0 +1,7 @@
+---
+# Define the name and description of the OpenShift project
+- set_fact: project="staging"
+- set_fact: project_description="Image Stream Staging Namespace for Microservices Scrum"
+    
+- include: create-namespace.yml
+- include: add-jenkins-role.yml

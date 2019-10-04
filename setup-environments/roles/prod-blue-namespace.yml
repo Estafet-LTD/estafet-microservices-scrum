@@ -1,0 +1,9 @@
+---
+# Define the name and description of the OpenShift project
+- set_fact: project="prod-blue"
+- set_fact: project_description="Blue Production Namespace for Microservices Scrum"
+    
+- include: namespace-setup.yml
+- include: jaeger-setup.yml
+- include: external-db.yml
+- include: add-jenkins-role.yml

@@ -3,6 +3,8 @@
 - set_fact: project="cicd"
 - set_fact: project_description="CI/CD Jenkins for Microservices Scrum"
 
+- include: create-namespace.yml
+
 - name: Checkout qa from Github to access pipeline
   git:
     repo: "https://github.com/{{ github }}/estafet-microservices-scrum-qa"
@@ -10,19 +12,6 @@
     update: yes
   tags:
     - git
-        
-- name: Create a new Openshift project
-  shell: "oc new-project {{ project }} --display-name='{{ project_description }}'"
-  register: command_result
-  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
-  changed_when: "'exists' not in command_result.stderr"
-  tags:
-    - openshift
-        
-- name: Define Openshift project
-  shell: "oc project {{ project }}"
-  tags:
-    - openshift  
 
 - name: Install the Jenkins master server
   shell: "oc new-app jenkins-persistent -p VOLUME_CAPACITY=20Gi -p MEMORY_LIMIT=2Gi"

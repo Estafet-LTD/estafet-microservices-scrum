@@ -1,13 +1,4 @@
 ---
-# Define the name and description of the OpenShift project
-- set_fact: project="prod"
-- set_fact: project_description="Production/Demo Environment for Microservices Scrum"
-- set_fact: expose_basic_ui=true
-    
-- include: environment-setup.yml
-- include: jaeger-setup.yml
-- include: external-db.yml
-
 - name: Allows jenkins to access the production environment
   shell: "oc policy add-role-to-user edit system:serviceaccount:cicd:jenkins -n {{ project }}"
   register: command_result
@@ -16,3 +7,6 @@
   tags:
     - openshift
     - jenkins   
+
+
+    
