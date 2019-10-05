@@ -32,7 +32,7 @@ objects:
       targetPort: 8080-tcp
     to:
       kind: Service
-      name: live
+      name: basic-ui
       weight: 100
     wildcardPolicy: None
   status:
