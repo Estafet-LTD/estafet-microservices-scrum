@@ -1,6 +1,6 @@
 @NonCPS
 def getMicroServices(json) {
-	def tags = new groovy.json.JsonSlurper().parseText(json).items
+	def items = new groovy.json.JsonSlurper().parseText(json).items
 	def microservices = []
 	for (int i = 0; i < items.size(); i++) {
 		microservices << items[i]['metadata']['name']

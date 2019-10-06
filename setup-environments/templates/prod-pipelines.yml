@@ -15,7 +15,7 @@ objects:
     labels:
       app: pipeline
       name: promote-all-to-prod
-    name: deploy-prod
+    name: promote-all-to-prod
   spec:
     output: {}
     postCommit: {}
