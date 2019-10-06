@@ -7,3 +7,4 @@
 - include: jaeger-setup.yml
 - include: external-db.yml
 - include: add-jenkins-role.yml
+- include: add-image-puller-role.yml

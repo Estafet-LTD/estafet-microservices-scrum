@@ -13,12 +13,26 @@ objects:
   kind: "Service"
   metadata:
     labels:
-      app: basic-ui
-      env: ${ENV}  
-    name: basic-ui
+      app: basic-ui  
+    name: green-basic-ui
   spec:
     type: ExternalName
-    externalName: "basic-ui.prod-${ENV}.svc" 
+    externalName: "basic-ui.prod-green.svc" 
+    ports:
+      - name: 8080-tcp
+        port: 8080
+        protocol: TCP
+        targetPort: 8080
+  selector: {}
+- apiVersion: "v1"
+  kind: "Service"
+  metadata:
+    labels:
+      app: basic-ui  
+    name: blue-basic-ui
+  spec:
+    type: ExternalName
+    externalName: "basic-ui.prod-blue.svc" 
     ports:
       - name: 8080-tcp
         port: 8080
@@ -37,7 +51,7 @@ objects:
       targetPort: 8080-tcp
     to:
       kind: Service
-      name: basic-ui
+      name: ${ENV}-basic-ui
       weight: 100
     wildcardPolicy: None
   status:
