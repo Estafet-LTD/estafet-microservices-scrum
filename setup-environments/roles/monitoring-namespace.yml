@@ -1,7 +1,7 @@
 ---
 # Define the name and description of the OpenShift project
 - set_fact: project="monitoring"
-- set_fact: project_description="Monitoring Namespace for Microservices Scrum"
+- set_fact: project_description="Monitoring - Microservices Scrum"
     
 - include: create-namespace.yml
 - include: add-jenkins-role.yml

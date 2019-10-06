@@ -1,7 +1,7 @@
 ---
 # Define the name and description of the OpenShift project
 - set_fact: project="prod-green"
-- set_fact: project_description="Green Production Environment for Microservices Scrum"
+- set_fact: project_description="Green - Microservices Scrum"
     
 - include: namespace-setup.yml
 - include: jaeger-setup.yml

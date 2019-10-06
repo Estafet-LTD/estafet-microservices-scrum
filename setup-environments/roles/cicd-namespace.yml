@@ -1,7 +1,7 @@
 ---
 # Define the name and description of the OpenShift project
 - set_fact: project="cicd"
-- set_fact: project_description="CI/CD Jenkins for Microservices Scrum"
+- set_fact: project_description="CI/CD - Microservices Scrum"
 
 - include: create-namespace.yml
 
