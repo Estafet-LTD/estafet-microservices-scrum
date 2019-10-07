@@ -17,7 +17,7 @@ node {
 	}	
 	
 	stage("make the target namespace active") {
-		sh "oc patch route/ bluegreen-p '{\" spec\":{\" to\":{\" name\":\" ${env}-basic-ui\"}}}' -n live"
+		sh "oc patch route/basic-ui -p '{\" spec\":{\" to\":{\" name\":\" ${env}-basic-ui\"}}}' -n live"
 	}
 	
 }	
