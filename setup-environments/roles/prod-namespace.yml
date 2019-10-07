@@ -6,7 +6,6 @@
 - include: namespace-setup.yml
 - include: jaeger-setup.yml
 - include: imagestream-setup.yml
-- include: amq-setup.yml
 - include: external-db.yml
 - include: add-jenkins-role.yml
 
