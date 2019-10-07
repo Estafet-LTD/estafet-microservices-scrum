@@ -17,7 +17,7 @@ node {
 	}	
 	
 	stage("make the target deployment active") {
-		sh "oc patch route/basic-ui -p '{\"spec\":{\"to\":{\"name\":\"${env}basic-ui\"}}}' -n live > route.out"
+		sh "oc patch route/basic-ui -p '{\"spec\":{\"to\":{\"name\":\"${env}basic-ui\"}}}' -n prod > route.out"
 		def route = readFile('route.out')
 		if (route.indexOf("basic-ui patched") < 0) {
 			throw new RuntimeException("error when patching route $route")
