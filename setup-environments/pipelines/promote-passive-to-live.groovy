@@ -9,12 +9,6 @@ node {
 	
 	def env
 
-	properties([
-	  parameters([
-	     string(name: 'GITHUB'),
-	  ])
-	])
-	
 	stage("determine the environment to deploy to") {
 		sh "oc get route -o json -n live > route.json"
 		def route = readFile('route.json')
