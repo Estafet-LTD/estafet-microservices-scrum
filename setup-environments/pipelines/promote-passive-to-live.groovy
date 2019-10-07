@@ -17,9 +17,9 @@ node {
 	}	
 	
 	stage("make the target namespace active") {
-		sh "oc patch route/basic-ui -p '{\"spec\":{\"to\":{\"name\":\" ${env}-basic-ui\"}}}' -n live > route.out"
+		sh "oc patch route/basic-ui -p '{\"spec\":{\"to\":{\"name\":\"${env}-basic-ui\"}}}' -n live > route.out"
 		def route = readFile('route.out')
-		if (!route.equals("route \"basic-ui\" patched")) {
+		if (route.indexOf("basic-ui patched")< 0) {
 			throw new RuntimeException("error when patching route $route")
 		}
 	}
