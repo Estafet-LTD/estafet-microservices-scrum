@@ -1,5 +1,5 @@
 @NonCPS
-def getMicroServices(json) {
+def getPipelines(json) {
 	def items = new groovy.json.JsonSlurper().parseText(json).items
 	def microservices = []
 	for (int i = 0; i < items.size(); i++) {
@@ -9,13 +9,13 @@ def getMicroServices(json) {
 }
 
 node {
-	stage ('release each microservice') {
+	stage ('release all microservices') {
 		sh "oc get bc -n cicd --selector app=pipeline --selector type=release -o json > images.output"
 		def images = readFile('images.output')
-		def microservices = getMicroServices(images)
-		microservices.each { microservice ->
-			openshiftBuild namespace: "cicd", buildConfig: "release-${microservice}", waitTime: "300000"
-			openshiftVerifyBuild namespace: "cicd", buildConfig: "release-${microservice}", waitTime: "300000" 
+		def pipelines = getPipelines(images)
+		pipelines.each { pipeline ->
+			openshiftBuild namespace: "cicd", buildConfig: "${pipeline}", waitTime: "300000"
+			openshiftVerifyBuild namespace: "cicd", buildConfig: "${pipeline}", waitTime: "300000" 
 	  }	
 	}
 }
