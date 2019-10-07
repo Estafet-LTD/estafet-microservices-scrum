@@ -4,4 +4,5 @@
 - set_fact: project_description="MQ Blue - Microservices Scrum"
     
 - include: namespace-setup.yml
+- include: imagestream-setup.yml
 - include: amq-setup.yml

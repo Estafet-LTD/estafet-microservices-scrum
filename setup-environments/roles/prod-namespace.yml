@@ -4,8 +4,10 @@
 - set_fact: project_description="Production - Microservices Scrum"
 
 - include: namespace-setup.yml
-- include: external-db.yml
 - include: jaeger-setup.yml
+- include: imagestream-setup.yml
+- include: amq-setup.yml
+- include: external-db.yml
 - include: add-jenkins-role.yml
 
 - name: Create a route to expose the application

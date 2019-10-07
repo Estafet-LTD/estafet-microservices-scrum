@@ -4,5 +4,6 @@
 - set_fact: project_description="MQ Green - Microservices Scrum"
     
 - include: namespace-setup.yml
+- include: imagestream-setup.yml
 - include: amq-setup.yml
 

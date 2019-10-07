@@ -56,14 +56,6 @@
   tags:
     - openshift      
 
-- name: Create the setup pipeline 
-  shell: "oc process -n cicd -f {{ inventory_dir }}/templates/setup-pipeline.yml -p GITHUB={{ github }} | oc create -f -"
-  register: command_result
-  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
-  changed_when: "'exists' not in command_result.stderr"  
-  tags:
-    - openshift     
-
 - name: Install the Nexus repository server
   shell: "oc new-app sonatype/nexus"
   register: command_result
