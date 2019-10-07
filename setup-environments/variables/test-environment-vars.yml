@@ -12,7 +12,7 @@ adjust_scc: false
 project: test-microservices-scrum
 
 # Project Description
-project_description: "Local Test Environment for Microservices Scrum"
+project_description: "Test Environment for Microservices Scrum"
 
 # specify whether to remove the readiness probe for amq - this is a workaround for an issue with oc cluster up on windows
 remove_amq_readiness: true
