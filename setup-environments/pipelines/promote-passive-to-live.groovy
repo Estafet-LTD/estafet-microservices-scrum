@@ -10,7 +10,7 @@ node {
 	def env
 
 	stage("determine the environment to deploy to") {
-		sh "oc get route basic -o json -n prod > route.json"
+		sh "oc get route basic-ui -o json -n prod > route.json"
 		def route = readFile('route.json')
 		env = getTargetEnvironment(route)
 		println "the target deployment is $env"
