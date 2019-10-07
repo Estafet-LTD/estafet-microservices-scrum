@@ -1,50 +1,16 @@
 ---
-- include: create-namespace.yml
+- name: Create a new Openshift project
+  shell: "oc new-project {{ project }} --display-name='{{ project_description }}'"
+  register: command_result
+  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+  changed_when: "'exists' not in command_result.stderr"
+  tags:
+    - openshift
+        
+- name: Define Openshift project
+  shell: "oc project {{ project }}"
+  tags:
+    - openshift  
 
-- name: Install xpaas image streams
-  shell: "oc create -f {{ workdir }}/openshift-ansible/roles/openshift_examples/files/examples/v3.9/xpaas-streams/jboss-image-streams.json -n {{ project }}"
-  register: command_result
-  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
-  changed_when: "'exists' not in command_result.stderr"
-  tags:
-    - openshift
-    - xpaas 
-      
-- name: Install xpaas source to image templates
-  shell: "oc create -f {{ workdir }}/openshift-ansible/roles/openshift_examples/files/examples/v3.9/xpaas-templates -n {{ project }}"
-  register: command_result
-  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
-  changed_when: "'exists' not in command_result.stderr"
-  tags:
-    - openshift
-    - xpaas  
-              
-- name: Install the JBoss A-MQ Message Broker
-  shell: "oc process amq63-basic -p IMAGE_STREAM_NAMESPACE={{ project }} -p MQ_USERNAME=amq -p MQ_PASSWORD=amq | oc create -f -"
-  register: command_result
-  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
-  changed_when: "'exists' not in command_result.stderr"
-  tags:
-    - openshift
-    - a-mq        
-
-- name: Remove the readiness probe as some OS implements with ipv4 only stop this from working correctly
-  shell: "oc set probe dc/broker-amq --readiness --remove"
-  when: "{{ remove_amq_readiness }}"
-  register: command_result
-  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
-  changed_when: "'exists' not in command_result.stderr"
-  tags:
-    - openshift
-    - a-mq     
-
-- name: Wait for the a-mq to become available
-  shell : "oc rollout status dc/broker-amq"
-  register: command_result
-  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
-  changed_when: "'exists' not in command_result.stderr"
-  tags:
-    - openshift
-    - a-mq   
    
 

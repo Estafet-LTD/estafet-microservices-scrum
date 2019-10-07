@@ -17,7 +17,7 @@ node {
 	])
 	
 	stage ('deploy each microservice') {
-		sh "oc get is -n staging -o json > images.output"
+		sh "oc get is -n prod -o json > images.output"
 		def images = readFile('images.output')
 		def microservices = getMicroServices(images)
 		microservices.each { microservice ->

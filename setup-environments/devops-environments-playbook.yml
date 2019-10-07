@@ -9,7 +9,6 @@
     - include: roles/cicd-namespace.yml    
     - include: roles/build-namespace.yml
     - include: roles/test-namespace.yml
-    - include: roles/prod-staging-namespace.yml
-    - include: roles/prod-green-namespace.yml
-    - include: roles/prod-blue-namespace.yml
-    - include: roles/prod-live-namespace.yml
+    - include: roles/mq-green-namespace.yml
+    - include: roles/mq-blue-namespace.yml
+    - include: roles/prod-namespace.yml

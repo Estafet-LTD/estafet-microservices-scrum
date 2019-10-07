@@ -3,7 +3,7 @@
 - set_fact: project="cicd"
 - set_fact: project_description="CI/CD - Microservices Scrum"
 
-- include: create-namespace.yml
+- include: namespace-setup.yml
 
 - name: Checkout qa from Github to access pipeline
   git:
