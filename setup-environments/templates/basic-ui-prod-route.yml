@@ -21,6 +21,6 @@ objects:
       targetPort: 8080-tcp
     to:
       kind: Service
-      name: ${ENV}-basic-ui
+      name: ${ENV}basic-ui
       weight: 100
     wildcardPolicy: None

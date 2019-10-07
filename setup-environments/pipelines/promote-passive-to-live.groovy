@@ -10,14 +10,14 @@ node {
 	def env
 
 	stage("determine the environment to deploy to") {
-		sh "oc get route -o json -n live > route.json"
+		sh "oc get route -o json -n prod --selector app=basic-ui > route.json"
 		def route = readFile('route.json')
 		env = getTargetEnvironment(route)
 		println "the target namespace to make active is prod-${env}"
 	}	
 	
 	stage("make the target namespace active") {
-		sh "oc patch route/basic-ui -p '{\"spec\":{\"to\":{\"name\":\"${env}-basic-ui\"}}}' -n live > route.out"
+		sh "oc patch route/basic-ui -p '{\"spec\":{\"to\":{\"name\":\"${env}basic-ui\"}}}' -n live > route.out"
 		def route = readFile('route.out')
 		if (route.indexOf("basic-ui patched")< 0) {
 			throw new RuntimeException("error when patching route $route")
