@@ -21,6 +21,7 @@ objects:
     labels:
       app: pipeline
       name: "build-${MICROSERVICE_NAME}"
+      type: build
     name: "build-${MICROSERVICE_NAME}"
   spec:
     output: {}
@@ -53,6 +54,7 @@ objects:
     labels:
       app: pipeline
       name: "release-${MICROSERVICE_NAME}"
+      type: release
     name: "release-${MICROSERVICE_NAME}"
   spec:
     output: {}
@@ -78,6 +80,7 @@ objects:
     labels:
       app: pipeline
       name: "promote-to-prod-${MICROSERVICE_NAME}"
+      type: promote
     name: "promote-to-prod-${MICROSERVICE_NAME}"
   spec:
     output: {}
