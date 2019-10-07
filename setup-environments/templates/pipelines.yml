@@ -1,0 +1,162 @@
+apiVersion: v1
+kind: Template
+metadata:
+  creationTimestamp: null
+  name: prod-pipelines
+parameters:
+- description: Defines the location of the estafet github (change this if you have forked and want to use another github)
+  name: GITHUB
+  required: true  
+objects:
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    creationTimestamp: null
+    labels:
+      app: pipeline
+      name: promote-all-to-prod
+    name: promote-all-to-prod
+  spec:
+    output: {}
+    postCommit: {}
+    resources: {}
+    runPolicy: Serial
+    source:
+      git:
+        uri: "https://github.com/${GITHUB}/estafet-microservices-scrum"
+    strategy:
+      jenkinsPipelineStrategy:
+        jenkinsfilePath: setup-environments/pipelines/promote-all-to-prod-pipeline.groovy
+      type: JenkinsPipeline
+  status:
+    lastVersion: 0
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    creationTimestamp: null
+    labels:
+      app: pipeline
+      name: promote-to-live
+    name: promote-to-live
+  spec:
+    output: {}
+    postCommit: {}
+    resources: {}
+    runPolicy: Serial
+    source:
+      git:
+        uri: "https://github.com/${GITHUB}/estafet-microservices-scrum"
+    strategy:
+      jenkinsPipelineStrategy:
+        jenkinsfilePath: setup-environments/pipelines/promote-passive-to-live.groovy
+      type: JenkinsPipeline
+  status:
+    lastVersion: 0     
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    creationTimestamp: null
+    labels:
+      app: pipeline
+      name: qa-test
+    name: qa-test
+  spec:
+    output: {}
+    postCommit: {}
+    resources: {}
+    runPolicy: Serial
+    source:
+      git:
+        uri: "https://github.com/${GITHUB}/estafet-microservices-scrum"
+    strategy:
+      jenkinsPipelineStrategy:
+        env:
+          - name: GITHUB
+            value: ${GITHUB}                  
+        jenkinsfilePath: setup-environments/pipelines/qa-tests-pipeline.groovy
+      type: JenkinsPipeline
+    triggers:
+    - github:
+        secret: secret101
+      type: GitHub
+    - generic:
+        secret: secret101
+      type: Generic    
+  status:
+    lastVersion: 0     
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    creationTimestamp: null
+    labels:
+      app: pipeline
+      name: prod-test
+    name: prod-test
+  spec:
+    output: {}
+    postCommit: {}
+    resources: {}
+    runPolicy: Serial
+    source:
+      git:
+        uri: "https://github.com/${GITHUB}/estafet-microservices-scrum"
+    strategy:
+      jenkinsPipelineStrategy:
+        env:
+          - name: GITHUB
+            value: ${GITHUB}                  
+        jenkinsfilePath: setup-environments/pipelines/prod-tests-pipeline.groovy
+      type: JenkinsPipeline
+    triggers:
+    - github:
+        secret: secret101
+      type: GitHub
+    - generic:
+        secret: secret101
+      type: Generic    
+  status:
+    lastVersion: 0           
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    creationTimestamp: null
+    labels:
+      app: pipeline
+      name: build-all
+    name: build-all
+  spec:
+    output: {}
+    postCommit: {}
+    resources: {}
+    runPolicy: Serial
+    source:
+      git:
+        uri: "https://github.com/${GITHUB}/estafet-microservices-scrum"
+    strategy:
+      jenkinsPipelineStrategy:
+        jenkinsfilePath: setup-environments/pipelines/build-all-pipeline.groovy
+      type: JenkinsPipeline
+  status:
+    lastVersion: 0     
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    creationTimestamp: null
+    labels:
+      app: pipeline
+      name: release-all
+    name: release-all
+  spec:
+    output: {}
+    postCommit: {}
+    resources: {}
+    runPolicy: Serial
+    source:
+      git:
+        uri: "https://github.com/${GITHUB}/estafet-microservices-scrum"
+    strategy:
+      jenkinsPipelineStrategy:
+        jenkinsfilePath: setup-environments/pipelines/release-all-pipeline.groovy
+      type: JenkinsPipeline
+  status:
+    lastVersion: 0         

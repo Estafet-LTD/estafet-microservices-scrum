@@ -9,14 +9,14 @@ def getMicroServices(json) {
 }
 
 node {
-
+	
 	stage ('deploy each microservice') {
-		sh "oc get is -n prod --selector product=microservices-scrum -o json > images.output"
+		sh "oc get is -n build --selector product=microservices-scrum -o json > images.output"
 		def images = readFile('images.output')
 		def microservices = getMicroServices(images)
 		microservices.each { microservice ->
-			openshiftBuild namespace: "cicd", buildConfig: "promote-to-prod-${microservice}", waitTime: "300000"
-			openshiftVerifyBuild namespace: "cicd", buildConfig: "promote-to-prod-${microservice}", waitTime: "300000" 
+			openshiftBuild namespace: "cicd", buildConfig: "build-${microservice}", waitTime: "300000"
+			openshiftVerifyBuild namespace: "cicd", buildConfig: "build-${microservice}", waitTime: "300000" 
 	  }	
 	}
 }

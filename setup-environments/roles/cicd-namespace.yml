@@ -31,7 +31,7 @@
     - openshift
     - jenkins  
     
-- name: Create the pipelines for each of the microservices
+- name: Create build, release and promotion pipelines for each of the microservices
   shell: "oc process -n cicd -f {{ inventory_dir }}/templates/microservice-pipelines.yml -p GITHUB={{ github }} -p MICROSERVICE_NAME={{ item.name }} -p MICROSERVICE_REPO_URI={{ item.repo }} | oc create -f -"
   register: command_result
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
@@ -40,16 +40,8 @@
   tags:
     - openshift       
 
-- name: Create the qa pipeline 
-  shell: "oc process -n cicd -f {{ inventory_dir }}/templates/qa-pipelines.yml -p GITHUB={{ github }} | oc create -f -"
-  register: command_result
-  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
-  changed_when: "'exists' not in command_result.stderr"  
-  tags:
-    - openshift      
-
-- name: Create the prod deploy pipeline 
-  shell: "oc process -n cicd -f {{ inventory_dir }}/templates/prod-pipelines.yml -p GITHUB={{ github }} | oc create -f -"
+- name: Create general pipelines 
+  shell: "oc process -n cicd -f {{ inventory_dir }}/templates/pipelines.yml -p GITHUB={{ github }} | oc create -f -"
   register: command_result
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
   changed_when: "'exists' not in command_result.stderr"  
