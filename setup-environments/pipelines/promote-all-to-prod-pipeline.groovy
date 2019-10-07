@@ -9,7 +9,6 @@ def getMicroServices(json) {
 }
 
 node {
-
 	stage ('deploy each microservice') {
 		sh "oc get is -n prod --selector product=microservices-scrum -o json > images.output"
 		def images = readFile('images.output')
