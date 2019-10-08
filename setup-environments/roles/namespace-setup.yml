@@ -1,5 +1,5 @@
 ---
-- name: Create a new Openshift project
+- name: Create a new Openshift {{ project }}
   shell: "oc new-project {{ project }} --display-name='{{ project_description }}'"
   register: command_result
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
@@ -7,7 +7,7 @@
   tags:
     - openshift
         
-- name: Define Openshift project
+- name: Switch the Namespace {{ project }}
   shell: "oc project {{ project }}"
   tags:
     - openshift  

@@ -1,5 +1,5 @@
 ---
-- name: Allows jenkins to access the production environment
+- name: Allows jenkins to access the {{ project }} namespace
   shell: "oc policy add-role-to-user edit system:serviceaccount:cicd:jenkins -n {{ project }}"
   register: command_result
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"

@@ -9,6 +9,7 @@
     - include: roles/cicd-namespace.yml    
     - include: roles/build-namespace.yml
     - include: roles/test-namespace.yml
+    - include: roles/monitoring-namespace.yml
     - include: roles/mq-green-namespace.yml
     - include: roles/mq-blue-namespace.yml
     - include: roles/prod-namespace.yml
