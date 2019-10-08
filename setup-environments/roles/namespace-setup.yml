@@ -12,5 +12,14 @@
   tags:
     - openshift  
 
+- name: Label the namespace as test passed is false
+  shell: 'oc label namespace {{ project }} test-passed=false --overwrite=true'
+  register: command_result
+  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+  changed_when: "'exists' not in command_result.stderr"
+  tags:
+    - openshift
    
+
+
 
