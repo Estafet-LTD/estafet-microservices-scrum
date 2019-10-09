@@ -37,12 +37,12 @@ node('maven') {
 	}
 
 	stage("initialise test flags") {
-		sh "oc get dc --selector product=microservices-scrum -n ${project} -o json > microservices.json"	
+		sh "oc get dc --selector environment=${env} -n ${project} -o json > microservices.json"	
 		def microservices = readFile('microservices.json')
 		def dcs = getDeploymentConfigs(microservices)
 		println dcs
 		dcs.each { dc ->
-				sh "oc patch dc/${env}${dc} -p '{\"metadata\":{\"labels\":{\"testStatus\":\"untested\"}}}' -n ${project}"
+				sh "oc patch dc/${dc} -p '{\"metadata\":{\"labels\":{\"testStatus\":\"untested\"}}}' -n ${project}"
 		}
 	}
 
@@ -57,12 +57,12 @@ node('maven') {
 	stage("flag this environment") {
 		if (currentBuild.currentResult == 'SUCCESS') {
 			println "The tests passed successfully"
-			sh "oc get dc --selector product=microservices-scrum -n ${project} -o json > microservices.json"	
+			sh "oc get dc --selector environment=${env} -n ${project} -o json > microservices.json"	
 			def microservices = readFile('microservices.json')
 			def dcs = getDeploymentConfigs(microservices)
 			println dcs
 			dcs.each { dc ->
-					sh "oc patch dc/${env}${dc} -p '{\"metadata\":{\"labels\":{\"testStatus\":\"passed\"}}}' -n ${project}"
+					sh "oc patch dc/${dc} -p '{\"metadata\":{\"labels\":{\"testStatus\":\"passed\"}}}' -n ${project}"
 			}		
 		}
 	}
