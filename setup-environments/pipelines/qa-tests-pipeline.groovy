@@ -8,18 +8,6 @@ def getDeploymentConfigs(json) {
 	return dcs
 }
 
-@NonCPS
-def isTested(json) {
-	def items = new groovy.json.JsonSlurper().parseText(json).items
-	for (int i = 0; i < items.size(); i++) {
-		def testStatus = items[i]['metadata']['labels']['testStatus']
-		if (testStatus.equals("untested") || testStatus.equals("failed")) {
-			return "failed"
-		}
-	}
-	return "passed"
-}
-
 node('maven') {
 
 	def project = "test"
@@ -35,7 +23,12 @@ node('maven') {
 	}
 
 	stage("initialise test flags") {
-		sh "oc label namespace ${project} test-passed=false --overwrite=true"	
+		sh "oc get dc --selector product=microservices-scrum -n ${project} -o json > microservices.json"	
+		def microservices = readFile('microservices.json')
+		def dcs = getDeploymentConfigs(microservices)
+		dcs.each { -> dc
+				sh "oc patch dc/${dc} -p '{\"metadata\":{\"labels\":{\"testStatus\":\"untested\"}}}'"
+		}
 	}
 
 	stage("unit tests") {
@@ -74,8 +67,17 @@ node('maven') {
 		}
 	}
 	
-	stage("flag this environment as tested") {
-		sh "oc label namespace ${project} test-passed=true --overwrite=true"	
+	stage("flag this environment") {
+		if (currentBuild.currentResult == 'SUCCESS') {
+			println "The tests passed successfully"
+			sh "oc get dc --selector product=microservices-scrum -n ${project} -o json > microservices.json"	
+			def microservices = readFile('microservices.json')
+			def dcs = getDeploymentConfigs(microservices)
+			dcs.each { -> dc
+					sh "oc patch dc/${dc} -p '{\"metadata\":{\"labels\":{\"testStatus\":\"passed\"}}}'"
+			}		
+		}
 	}
+	
 }
 
