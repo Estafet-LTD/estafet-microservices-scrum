@@ -1,3 +1,25 @@
+@NonCPS
+def getDeploymentConfigs(json) {
+	def items = new groovy.json.JsonSlurper().parseText(json).items
+	def dcs = []
+	for (int i = 0; i < items.size(); i++) {
+		dcs << items[i]['metadata']['name']
+	}
+	return dcs
+}
+
+@NonCPS
+def isTested(json) {
+	def items = new groovy.json.JsonSlurper().parseText(json).items
+	for (int i = 0; i < items.size(); i++) {
+		def testStatus = items[i]['metadata']['labels']['testStatus']
+		if (testStatus.equals("untested") || testStatus.equals("failed")) {
+			return "failed"
+		}
+	}
+	return "passed"
+}
+
 node('maven') {
 
 	def project = "test"

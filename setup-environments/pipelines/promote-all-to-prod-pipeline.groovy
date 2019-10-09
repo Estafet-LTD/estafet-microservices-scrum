@@ -10,7 +10,14 @@ def getMicroServices(json) {
 
 @NonCPS
 def getTestStatus(json) {
-	return new groovy.json.JsonSlurper().parseText(json).metadata.labels."test-passed"
+	def items = new groovy.json.JsonSlurper().parseText(json).items
+	for (int i = 0; i < items.size(); i++) {
+		def testStatus = items[i]['metadata']['labels']['testStatus']
+		if (testStatus.equals("untested") || testStatus.equals("failed")) {
+			return "false"
+		}
+	}
+	return "true"
 }
 
 node {
@@ -18,9 +25,9 @@ node {
 	def testStatus
 	
 	stage ("determine the status of the test environment") {
-		sh "oc get project test -o json > project.json"
-		def project = readFile('project.json')
-		testStatus = getTestStatus(project)
+		sh "oc get dc --selector product=microservices-scrum -n test -o json > test.json"
+		def test = readFile('test.json')
+		testStatus = getTestStatus(test)
 		println "the target deployment is $testStatus"
 	}
 	

@@ -7,7 +7,14 @@ def getTargetEnvironment(json) {
 
 @NonCPS
 def getTestStatus(json) {
-	return new groovy.json.JsonSlurper().parseText(json).metadata.labels."test-passed"
+	def items = new groovy.json.JsonSlurper().parseText(json).items
+	for (int i = 0; i < items.size(); i++) {
+		def testStatus = items[i]['metadata']['labels']['testStatus']
+		if (testStatus.equals("untested") || testStatus.equals("failed")) {
+			return "false"
+		}
+	}
+	return "true"
 }
 
 node {
@@ -23,9 +30,9 @@ node {
 	}	
 	
 	stage ("determine the status of the target environment") {
-		sh "oc get project prod -o json > project.json"
-		def project = readFile('project.json')
-		testStatus = getTestStatus(project)
+		sh "oc get dc --selector product=microservices-scrum -n prod -o json > test.json"
+		def test = readFile('test.json')
+		testStatus = getTestStatus(test)
 		println "the target environment test status is $testStatus"
 	}	
 	
