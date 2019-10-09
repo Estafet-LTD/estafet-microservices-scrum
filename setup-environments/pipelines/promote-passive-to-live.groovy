@@ -30,7 +30,7 @@ node {
 	}	
 	
 	stage ("determine the status of the target environment") {
-		sh "oc get dc --selector product=microservices-scrum -n prod -o json > test.json"
+		sh "oc get dc --selector product=microservices-scrum --selector environment=$env -n prod -o json > test.json"
 		def test = readFile('test.json')
 		testStatus = getTestStatus(test)
 		println "the target environment test status is $testStatus"
