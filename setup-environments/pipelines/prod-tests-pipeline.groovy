@@ -46,8 +46,8 @@ node('maven') {
 		}
 	}
 
-	stage("unit tests") {
-		withEnv( [ 	"BASIC_UI_URI=http://${env}${microservice}.${project}.svc:8080" ]) {
+	stage("execute smoke tests") {
+		withEnv( [ "BASIC_UI_URI=http://${env}basic-ui.${project}.svc:8080" ]) {
 			withMaven(mavenSettingsConfig: 'microservices-scrum') {
 				sh "mvn clean test"	
 		  } 
