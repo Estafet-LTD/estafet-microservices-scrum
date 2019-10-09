@@ -5,22 +5,39 @@ def getTargetEnvironment(json) {
 	return namespace.equals("green") ? "blue" : "green" 
 }
 
+@NonCPS
+def getTestStatus(json) {
+	return new groovy.json.JsonSlurper().parseText(json).metadata.labels."test-passed"
+}
+
 node {
 	
 	def env
-
+	def testStatus
+	
 	stage("determine the environment to deploy to") {
 		sh "oc get route basic-ui -o json -n prod > route.json"
 		def route = readFile('route.json')
 		env = getTargetEnvironment(route)
-		println "the target deployment is $env"
+		println "the target environment is $env"
+	}	
+	
+	stage ("determine the status of the target environment") {
+		sh "oc get project prod -o json > project.json"
+		def project = readFile('project.json')
+		testStatus = getTestStatus(project)
+		println "the target environment test status is $testStatus"
 	}	
 	
 	stage("make the target deployment active") {
-		sh "oc patch route/basic-ui -p '{\"spec\":{\"to\":{\"name\":\"${env}basic-ui\"}}}' -n prod > route.out"
-		def route = readFile('route.out')
-		if (route.indexOf("basic-ui patched") < 0) {
-			error("error when patching route $route")
+		if (testStatus.equals("true")) {
+			sh "oc patch route/basic-ui -p '{\"spec\":{\"to\":{\"name\":\"${env}basic-ui\"}}}' -n prod > route.out"
+			def route = readFile('route.out')
+			if (route.indexOf("basic-ui patched") < 0) {
+				error("error when patching route $route")
+			}
+		} else {
+			error("Cannot promote $env microservices live as they have not been passed tested")
 		}
 	}
 	
