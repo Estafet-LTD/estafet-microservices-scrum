@@ -27,8 +27,7 @@ node('maven') {
 		def microservices = readFile('microservices.json')
 		def dcs = getDeploymentConfigs(microservices)
 		println dcs
-		dcs.each { -> dc
-				println dc
+		dcs.each { dc ->
 				sh "oc patch dc/${dc} -p '{\"metadata\":{\"labels\":{\"testStatus\":\"untested\"}}}'"
 		}
 	}
