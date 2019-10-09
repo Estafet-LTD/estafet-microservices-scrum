@@ -10,7 +10,7 @@ def getMicroServices(json) {
 
 @NonCPS
 def getTestStatus(json) {
-	return new groovy.json.JsonSlurper().parseText(json).metadata.labels.test-passed
+	return new groovy.json.JsonSlurper().parseText(json).metadata.labels."test-passed"
 }
 
 node {
