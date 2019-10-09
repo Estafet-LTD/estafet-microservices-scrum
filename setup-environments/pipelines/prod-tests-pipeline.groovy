@@ -47,37 +47,9 @@ node('maven') {
 	}
 
 	stage("unit tests") {
-		withEnv( [ 	"BASIC_UI_URI=http://basic-ui.${project}.svc:8080",
-								"TASK_API_JDBC_URL=jdbc:postgresql://postgresql.${project}.svc:5432/${project}-task-api", 
-								"TASK_API_DB_USER=postgres", 
-								"TASK_API_DB_PASSWORD=welcome1",
-								"TASK_API_SERVICE_URI=http://task-api.${project}.svc:8080",
-								"STORY_API_JDBC_URL=jdbc:postgresql://postgresql.${project}.svc:5432/${project}-story-api", 
-								"STORY_API_DB_USER=postgres", 
-								"STORY_API_DB_PASSWORD=welcome1",
-								"STORY_API_SERVICE_URI=http://story-api.${project}.svc:8080",
-								"SPRINT_BURNDOWN_JDBC_URL=jdbc:postgresql://postgresql.${project}.svc:5432/${project}-sprint-burndown", 
-								"SPRINT_BURNDOWN_DB_USER=postgres", 
-								"SPRINT_BURNDOWN_DB_PASSWORD=welcome1",
-								"SPRINT_BURNDOWN_SERVICE_URI=http://sprint-burndown.${project}.svc:8080",
-								"SPRINT_API_JDBC_URL=jdbc:postgresql://postgresql.${project}.svc:5432/${project}-sprint-api", 
-								"SPRINT_API_DB_USER=postgres", 
-								"SPRINT_API_DB_PASSWORD=welcome1",
-								"SPRINT_API_SERVICE_URI=http://sprint-api.${project}.svc:8080",
-								"PROJECT_BURNDOWN_REPOSITORY_JDBC_URL=jdbc:postgresql://postgresql.${project}.svc:5432/${project}-project-burndown", 
-								"PROJECT_BURNDOWN_REPOSITORY_DB_USER=postgres", 
-								"PROJECT_BURNDOWN_REPOSITORY_DB_PASSWORD=welcome1",
-								"PROJECT_BURNDOWN_SERVICE_URI=http://project-burndown.${project}.svc:8080",
-								"PROJECT_API_JDBC_URL=jdbc:postgresql://postgresql.${project}.svc:5432/${project}-project-api", 
-								"PROJECT_API_DB_USER=postgres", 
-								"PROJECT_API_DB_PASSWORD=welcome1",
-								"PROJECT_API_SERVICE_URI=http://project-api.${project}.svc:8080" ]) {
+		withEnv( [ 	"BASIC_UI_URI=http://${env}${microservice}.${project}.svc:8080" ]) {
 			withMaven(mavenSettingsConfig: 'microservices-scrum') {
-				try {
-					sh "mvn clean test"	
-				} finally {
-					cucumber buildStatus: 'UNSTABLE', fileIncludePattern: '**/*cucumber-report.json',  trendsLimit: 10
-				}
+				sh "mvn clean test"	
 		  } 
 		}
 	}
