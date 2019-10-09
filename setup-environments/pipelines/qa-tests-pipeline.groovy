@@ -26,6 +26,7 @@ node('maven') {
 		sh "oc get dc --selector product=microservices-scrum -n ${project} -o json > microservices.json"	
 		def microservices = readFile('microservices.json')
 		def dcs = getDeploymentConfigs(microservices)
+		println dcs
 		dcs.each { -> dc
 				sh "oc patch dc/${dc} -p '{\"metadata\":{\"labels\":{\"testStatus\":\"untested\"}}}'"
 		}
