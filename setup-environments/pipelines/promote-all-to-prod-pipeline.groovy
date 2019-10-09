@@ -34,7 +34,7 @@ node {
 				openshiftVerifyBuild namespace: "cicd", buildConfig: "promote-to-prod-${microservice}", waitTime: "300000" 
 		  }		
 		}  else {
-			throw new RuntimeException("Cannot deploy microservices to production as the test environment has not been passed testing")
+			error("Cannot deploy microservices to production as the test environment has not been passed testing")
 		}
 		
 	}
