@@ -69,4 +69,20 @@
   changed_when: "'exists' not in command_result.stderr"
   tags:
     - openshift    
+
+- name: Deploy the microservice for the console-ui
+  shell: 'oc new-app redhat-openjdk18-openshift:1.2~https://github.com/Estafet-LTD/estafet-openshift-boost-console-ui.git --name=console-ui'
+  register: command_result
+  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+  changed_when: "'exists' not in command_result.stderr"
+  tags:
+    - openshift         
+    
+- name: Wait for the microservice to become available console-ui
+  shell : "oc rollout status dc/console-build-api"
+  register: command_result
+  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+  changed_when: "'exists' not in command_result.stderr"
+  tags:
+    - openshift    
     
