@@ -32,7 +32,7 @@ node('maven') {
 		}
 	}
 
-	stage("unit tests") {
+	stage("cucumber tests") {
 		withEnv( [ 	"BASIC_UI_URI=http://basic-ui.${project}.svc:8080",
 								"TASK_API_JDBC_URL=jdbc:postgresql://postgresql.${project}.svc:5432/${project}-task-api", 
 								"TASK_API_DB_USER=postgres", 
