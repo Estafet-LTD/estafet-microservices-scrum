@@ -3,8 +3,7 @@
 /.settings/
 /.classpath
 *.retry
-/.terraform/
+*.terraform/
 /inventory.cfg
 /terraform.tfstate
 /terraform.tfstate.backup
-/rds-inventory.cfg
