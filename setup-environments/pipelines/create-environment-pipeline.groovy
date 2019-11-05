@@ -64,7 +64,7 @@ node {
 	
 	stage("checkout openshift-ansible") {
 		checkout([$class: 'GitSCM', 
-							branches: [[name: "refs/tags/v3.11"]]], 
+							branches: [[name: "refs/tags/v3.11"]], 
         			doGenerateSubmoduleConfigurations: false, 
         			extensions: [[$class: 'RelativeTargetDirectory', 
             	relativeTargetDir: 'openshift-ansible']], 
