@@ -159,4 +159,31 @@ objects:
         jenkinsfilePath: setup-environments/pipelines/release-all-pipeline.groovy
       type: JenkinsPipeline
   status:
-    lastVersion: 0         
+    lastVersion: 0        
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    creationTimestamp: null
+    labels:
+      app: pipeline
+      name: create-environment
+    name: create-environment
+  spec:
+    output: {}
+    postCommit: {}
+    resources: {}
+    runPolicy: Serial
+    source:
+      git:
+        uri: "https://github.com/${GITHUB}/estafet-microservices-scrum"
+    strategy:
+      jenkinsPipelineStrategy:
+        env:
+          - name: GITHUB
+            value: ${GITHUB}
+          - name: PROJECT_TITLE
+            value: null
+        jenkinsfilePath: setup-environments/pipelines/create-environment-pipeline.groovy
+      type: JenkinsPipeline
+  status:
+    lastVersion: 0       

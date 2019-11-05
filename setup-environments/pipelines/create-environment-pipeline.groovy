@@ -72,7 +72,7 @@ node {
 	}		
 	
 	stage ("create the namespace") {
-		def project = getNextProjectName()
+		project = getNextProjectName()
 		sh "oc new-project $project --description='${params.PROJECT_TITLE}'"
 		sh "oc label namespace $project type=dev"
 	}
