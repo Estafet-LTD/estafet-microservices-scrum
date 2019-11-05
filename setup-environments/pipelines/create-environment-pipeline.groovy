@@ -73,7 +73,7 @@ node {
 	}		
 	
 	stage ("connect as admin") {
-		sh "oc login -u admin -p 123"
+		sh "oc login --insecure-skip-tls-verify=true -u admin -p 123 master.openshift.internal:8443"
 	}
 	
 	stage ("create the namespace") {
