@@ -48,7 +48,7 @@ node {
 	
 	properties([
 	  parameters([
-	     string(name: 'GITHUB'), string(name: 'PROJECT_TITLE'),
+	     string(name: 'GITHUB'), string(name: 'PROJECT_TITLE'), string(name: 'MASTER_HOST'),
 	  ])
 	])
 	
@@ -71,6 +71,10 @@ node {
         			submoduleCfg: [], 
         			userRemoteConfigs: [[url: "https://github.com/openshift/openshift-ansible"]]])
 	}		
+	
+	stage ("connect as admin") {
+		sh "oc login --insecure-skip-tls-verify=true -u admin -p 123 ${params.MASTER_HOST}"
+	}
 	
 	stage ("create the namespace") {
 		project = getNextProjectName()

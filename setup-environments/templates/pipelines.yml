@@ -7,6 +7,9 @@ parameters:
 - description: Defines the location of the estafet github (change this if you have forked and want to use another github)
   name: GITHUB
   required: true  
+- description: Defines the location of the estafet github (change this if you have forked and want to use another github)
+  name: MASTER_HOST
+  required: true  
 objects:
 - apiVersion: v1
   kind: BuildConfig
@@ -183,6 +186,8 @@ objects:
             value: ${GITHUB}
           - name: PROJECT_TITLE
             value: null
+          - name: MASTER_HOST
+            value: ${MASTER_HOST}
         jenkinsfilePath: setup-environments/pipelines/create-environment-pipeline.groovy
       type: JenkinsPipeline
   status:
