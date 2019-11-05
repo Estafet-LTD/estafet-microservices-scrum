@@ -72,6 +72,10 @@ node {
         			userRemoteConfigs: [[url: "https://github.com/openshift/openshift-ansible"]]])
 	}		
 	
+	stage ("connect as admin") {
+		oc login -u admin -p 123
+	}
+	
 	stage ("create the namespace") {
 		project = getNextProjectName()
 		sh "oc new-project $project --description='${params.PROJECT_TITLE}'"
