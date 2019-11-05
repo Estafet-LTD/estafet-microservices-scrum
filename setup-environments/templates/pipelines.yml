@@ -7,8 +7,14 @@ parameters:
 - description: Defines the location of the estafet github (change this if you have forked and want to use another github)
   name: GITHUB
   required: true  
-- description: Defines the location of the estafet github (change this if you have forked and want to use another github)
+- description: Defines the host and port for the master node
   name: MASTER_HOST
+  required: true  
+- description: Defines the admin user
+  name: ADMIN_USER
+  required: true  
+- description: Defines the admin password
+  name: ADMIN_PASSWORD
   required: true  
 objects:
 - apiVersion: v1
@@ -188,6 +194,10 @@ objects:
             value: null
           - name: MASTER_HOST
             value: ${MASTER_HOST}
+          - name: ADMIN_USER
+            value: ${ADMIN_USER}
+          - name: ADMIN_PASSWORD
+            value: ${ADMIN_PASSWORD}            
         jenkinsfilePath: setup-environments/pipelines/create-environment-pipeline.groovy
       type: JenkinsPipeline
   status:

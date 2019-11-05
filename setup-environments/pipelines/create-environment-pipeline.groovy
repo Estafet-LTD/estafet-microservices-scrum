@@ -31,7 +31,8 @@ def getNextProjectName() {
 		return "dq00"
 	} else {
 		def matcher = projects.last() =~ /(dq)(\d+\d+)/
-		return "${matcher[0][1]}${matcher[0][2].toInteger()+1}"	
+		def env = "${matcher[0][2].toInteger()+1}"
+		return "${matcher[0][1]}${env.padLeft(2, '0')}"	
 	}
 }
 
@@ -48,7 +49,7 @@ node {
 	
 	properties([
 	  parameters([
-	     string(name: 'GITHUB'), string(name: 'PROJECT_TITLE'), string(name: 'MASTER_HOST'),
+	     string(name: 'GITHUB'), string(name: 'PROJECT_TITLE'), string(name: 'MASTER_HOST'), string(name: 'ADMIN_USER'), string(name: 'ADMIN_PASSWORD'),
 	  ])
 	])
 	
@@ -73,12 +74,12 @@ node {
 	}		
 	
 	stage ("connect as admin") {
-		sh "oc login --insecure-skip-tls-verify=true -u admin -p 123 ${params.MASTER_HOST}"
+		sh "oc login --insecure-skip-tls-verify=true -u ${params.ADMIN_USER} -p ${params.ADMIN_PASSWORD} ${params.MASTER_HOST}"
 	}
 	
 	stage ("create the namespace") {
 		project = getNextProjectName()
-		sh "oc new-project $project --description='${params.PROJECT_TITLE}'"
+		sh "oc new-project $project --display-name='${params.PROJECT_TITLE}'"
 		sh "oc label namespace $project type=dev"
 	}
 	

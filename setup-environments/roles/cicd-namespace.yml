@@ -41,7 +41,7 @@
     - openshift       
 
 - name: Create general pipelines 
-  shell: "oc process -n cicd -f {{ inventory_dir }}/templates/pipelines.yml -p GITHUB={{ github }} -p MASTER_HOST={{ openshift }} | oc create -f -"
+  shell: "oc process -n cicd -f {{ inventory_dir }}/templates/pipelines.yml -p GITHUB={{ github }} -p MASTER_HOST={{ openshift }} -p ADMIN_USER={{ username }} -p ADMIN_PASSWORD={{ password }} | oc create -f -"
   register: command_result
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
   changed_when: "'exists' not in command_result.stderr"  
