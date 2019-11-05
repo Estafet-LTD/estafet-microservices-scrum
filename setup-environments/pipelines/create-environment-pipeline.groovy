@@ -25,7 +25,8 @@ def getDataBaseExternalName(json) {
 
 def getNextProjectName() {
 	sh "oc get projects --selector type=dev -o json > projects.json"
-	def projects = readFile('projects.json')	
+	def json = readFile('projects.json')	
+	def projects = getProjects(json)
 	if (projects.isEmpty()) {
 		return "dq00"
 	} else {
