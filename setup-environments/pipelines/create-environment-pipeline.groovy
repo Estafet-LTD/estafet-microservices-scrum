@@ -81,6 +81,7 @@ node {
 		project = getNextProjectName()
 		sh "oc new-project $project --display-name='${params.PROJECT_TITLE}'"
 		sh "oc label namespace $project type=dev"
+		sh "oc policy add-role-to-user edit system:serviceaccount:cicd:jenkins -n $project"
 	}
 	
 	stage ("create image streams and templates") {
