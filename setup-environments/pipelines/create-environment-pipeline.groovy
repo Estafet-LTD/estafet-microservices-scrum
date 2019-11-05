@@ -73,7 +73,7 @@ node {
 	}		
 	
 	stage ("connect as admin") {
-		oc login -u admin -p 123
+		sh "oc login -u admin -p 123"
 	}
 	
 	stage ("create the namespace") {
