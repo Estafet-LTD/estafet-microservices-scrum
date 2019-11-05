@@ -84,7 +84,7 @@ node {
 	}
 	
 	stage ("create image streams and templates") {
-		sh "oc create -f openshift-ansible/roles/openshift_examples/files/examples/latest/xpaas-streams/jboss-image-streams.json -n $project"
+		sh "oc create -f openshift-ansible/roles/openshift_examples/files/examples/latest/xpaas-streams/amq63-image-stream.json -n $project"
 		sh "oc create -f {{ workdir }}/openshift-ansible/roles/openshift_examples/files/examples/latest/xpaas-templates -n $project"
 	}
 	
