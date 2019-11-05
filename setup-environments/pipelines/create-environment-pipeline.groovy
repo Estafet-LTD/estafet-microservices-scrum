@@ -64,7 +64,7 @@ node {
 	
 	stage("checkout openshift-ansible") {
 		checkout([$class: 'GitSCM', 
-							branches: [[name: '*/openshift-ansible-3.9.27-1']], 
+							branches: [[name: "refs/tags/v3.11"]]], 
         			doGenerateSubmoduleConfigurations: false, 
         			extensions: [[$class: 'RelativeTargetDirectory', 
             	relativeTargetDir: 'openshift-ansible']], 
@@ -83,7 +83,8 @@ node {
 	}
 	
 	stage ("create image streams and templates") {
-		sh "oc create -f openshift-ansible/roles/openshift_examples/files/examples/v3.9/xpaas-streams/jboss-image-streams.json -n $project"
+		sh "oc create -f openshift-ansible/roles/openshift_examples/files/examples/latest/xpaas-streams/jboss-image-streams.json -n $project"
+		sh "oc create -f {{ workdir }}/openshift-ansible/roles/openshift_examples/files/examples/latest/xpaas-templates -n $project"
 	}
 	
 	stage ("create the message broker") {
