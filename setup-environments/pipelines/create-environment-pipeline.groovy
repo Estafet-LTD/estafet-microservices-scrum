@@ -72,13 +72,6 @@ node {
         			userRemoteConfigs: [[url: "https://github.com/openshift/openshift-ansible"]]])
 	}		
 	
-	stage ("connect as admin") {
-		sh "oc get nodes -o json > nodes.json"
-		def json = readFile('nodes.json')	
-		println json
-		sh "oc login --insecure-skip-tls-verify=true -u admin -p 123 master.openshift.internal:8443"
-	}
-	
 	stage ("create the namespace") {
 		project = getNextProjectName()
 		sh "oc new-project $project --description='${params.PROJECT_TITLE}'"
