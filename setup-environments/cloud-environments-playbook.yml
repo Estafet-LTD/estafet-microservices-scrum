@@ -3,7 +3,7 @@
   hosts: localhost
   vars_files:
     - variables/microservices-vars.yml
-    - variables/devops-environments-vars.yml    
+    - variables/cloud-environments-vars.yml    
   tasks:  
     - include: roles/init.yml
     - include: roles/cicd-namespace.yml    
