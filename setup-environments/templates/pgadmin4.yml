@@ -1,0 +1,174 @@
+apiVersion: v1
+kind: Template
+metadata:
+  creationTimestamp: null
+  name: pgadmin4
+objects:
+- apiVersion: v1
+  kind: Secret
+  metadata:
+    labels:
+      app: pgadmin-app
+    name: pgadmin
+  type: Opaque
+  stringData:
+    username: admin
+    password: DEFAULT_PASSWORD
+- apiVersion: v1
+  kind: ServiceAccount
+  metadata:
+    annotations:
+      serviceaccounts.openshift.io/oauth-redirectreference.pgadmin: '{"kind":"OAuthRedirectReference","apiVersion":"v1","reference":{"kind":"Route","name":"pgadmin"}}'
+    labels:
+      app: pgadmin-app
+    name: pgadmin
+- apiVersion: v1
+  kind: ConfigMap
+  metadata:
+    labels:
+      app: pgadmin-app
+    name: pgadmin
+  data:
+    config_local.py: |-
+      import os
+      _BASEDIR = '/var/lib/pgadmin/data'
+      LOG_FILE = os.path.join(_BASEDIR, 'logfile')
+      SQLITE_PATH = os.path.join(_BASEDIR, 'sqlite.db')
+      STORAGE_DIR = os.path.join(_BASEDIR, 'storage')
+      SESSION_DB_PATH = os.path.join(_BASEDIR, 'sessions')
+    servers.json: |-
+      {
+        "Servers": {
+          "1": {
+            "Name": "postgresql",
+            "Group": "Servers",
+            "Host": "postgresql",
+            "Port": 5432,
+            "MaintenanceDB": "postgres",
+            "Username": "dbuser",
+            "SSLMode": "prefer",
+            "SSLCompression": 0,
+            "Timeout": 0,
+            "UseSSHTunnel": 0,
+            "TunnelPort": "22",
+            "TunnelAuthentication": 0
+          }
+        }
+      }
+- apiVersion: apps.openshift.io/v1
+  kind: DeploymentConfig
+  metadata:
+    name: pgadmin
+    labels:
+      app: pgadmin-app
+  spec:
+    replicas: 1
+    selector:
+      app: pgadmin-app
+      deploymentconfig: pgadmin
+    template:
+      metadata:
+        labels:
+          app: pgadmin-app
+          deploymentconfig: pgadmin
+        name: pgadmin
+      spec:
+        serviceAccountName: pgadmin
+        containers:
+        - env:
+          - name: PGADMIN_DEFAULT_EMAIL
+            valueFrom:
+              secretKeyRef:
+                key: username
+                name: pgadmin
+          - name: PGADMIN_DEFAULT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: password
+                name: pgadmin
+          - name: PGADMIN_LISTEN_PORT
+            value: "5050"
+          - name: PGADMIN_LISTEN_ADDRESS
+            value: 0.0.0.0
+          image: docker.io/dpage/pgadmin4:4
+          livenessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 30
+            httpGet:
+              path: /misc/ping
+              port: 5050
+              scheme: HTTP
+            periodSeconds: 60
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: pgadmin
+          ports:
+            - containerPort: 5050
+              protocol: TCP
+          readinessProbe:
+            failureThreshold: 10
+            initialDelaySeconds: 3
+            httpGet:
+              path: /misc/ping
+              port: 5050
+              scheme: HTTP
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 1
+          volumeMounts:
+          - mountPath: /pgadmin4/config_local.py
+            name: pgadmin-config
+            subPath: config_local.py
+          - mountPath: /pgadmin4/servers.json
+            name: pgadmin-config
+            subPath: servers.json
+          - mountPath: /var/lib/pgadmin
+            name: pgadmin-data
+        - image: docker.io/openshift/oauth-proxy:latest
+          name: pgadmin-oauth-proxy
+          ports:
+          - containerPort: 5051
+            protocol: TCP
+          args:
+          - --http-address=:5051
+          - --https-address=
+          - --openshift-service-account=pgadmin
+          - --upstream=http://localhost:5050
+          - --cookie-secret=bdna987REWQ1234
+        volumes:
+        - name: pgadmin-config
+          configMap:
+            name: pgadmin
+            defaultMode: 0664
+        - name: pgadmin-data
+          emptyDir: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: pgadmin-oauth-proxy
+    labels:
+      app: pgadmin-app
+  spec:
+    ports:
+      - name: 80-tcp
+        protocol: TCP
+        port: 80
+        targetPort: 5051
+    selector:
+      app: pgadmin-app
+      deploymentconfig: pgadmin
+- apiVersion: route.openshift.io/v1
+  kind: Route
+  metadata:
+    labels:
+      app: pgadmin-app
+    name: pgadmin
+  spec:
+    port:
+      targetPort: 80-tcp
+    tls:
+      insecureEdgeTerminationPolicy: Redirect
+      termination: edge
+    to:
+      kind: Service
+      name: pgadmin-oauth-proxy

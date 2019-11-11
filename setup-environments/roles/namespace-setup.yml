@@ -7,7 +7,7 @@
   tags:
     - openshift
         
-- name: Switch the Namespace {{ project }}
+- name: Switch to Namespace {{ project }}
   shell: "oc project {{ project }}"
   tags:
     - openshift  
