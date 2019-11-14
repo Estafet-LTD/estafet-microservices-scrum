@@ -11,6 +11,9 @@ adjust_scc: false
 # Define the name of the OpenShift project
 project: test-microservices-scrum
 
+# Define whether this is a local or cloud environment
+cloud_environment: false
+
 # Project Description
 project_description: "Test Environment for Microservices Scrum"
 
