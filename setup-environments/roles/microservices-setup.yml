@@ -4,6 +4,7 @@
   tags:
     - openshift
 
+- include: roles/imagestream-setup.yml
 - include: roles/amq-setup.yml
 - include: roles/create-db.yml
 
