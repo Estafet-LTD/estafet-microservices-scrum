@@ -4,8 +4,12 @@
   vars_files:
     - variables/local-environment-vars.yml
     - variables/microservices-vars.yml
-  tasks:
+
+  tasks:  
     - include: roles/init.yml
     - include: roles/namespace-setup.yml
     - include: roles/jaeger-setup.yml
+    - include: roles/imagestream-setup.yml
+    - include: roles/amq-setup.yml
+    - include: roles/create-db.yml    
     - include: roles/microservices-setup.yml
