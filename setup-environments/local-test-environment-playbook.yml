@@ -4,7 +4,7 @@
   vars_files:
     - variables/local-test-environment-vars.yml
     - variables/microservices-vars.yml   
-    - variables/amq-vars.yml 
+
   tasks:  
     - include: roles/init.yml
     - include: roles/namespace-setup.yml

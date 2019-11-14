@@ -27,4 +27,4 @@
     - openshift
     - a-mq   
    
-
+- include: "{{ inventory_dir }}/variables/amq-vars.yml"
