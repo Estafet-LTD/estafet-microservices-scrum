@@ -4,11 +4,20 @@
   tags:
     - openshift
 
+- set_fact: service_envs="-e JAEGER_SAMPLER_TYPE=const -e JAEGER_SAMPLER_PARAM=1 -e JAEGER_SAMPLER_MANAGER_HOST_PORT=jaeger-agent.{{ project }}.svc:5778 -e JAEGER_AGENT_HOST=jaeger-agent.{{ project }}.svc"
+
 - name: Create the db based microservices applications using the source to image builder
   include_tasks: "create-app-with-db.yml"
   vars:
     repo: "{{ item.repo }}"
     microservice: "{{ item.name }}"
+    db_url_env: "{{ item.db_url_env }}"
+    db_user_env: "{{ item.db_user_env }}"
+    db_db_env: "{{ item.db_db_env }}"
+    cpu_min: "{{ item.cpu_min }}"
+    cpu_max: "{{ item.cpu_max }}"
+    memory_min: "{{ item.memory_min }}"
+    memory_max: "{{ item.memory_max }}"
   when: "{{ item.db }}"
   with_items: "{{ microservices_scrum_projects }}"
   tags:
@@ -19,6 +28,10 @@
   vars:
     repo: "{{ item.repo }}"
     microservice: "{{ item.name }}"
+    cpu_min: "{{ item.cpu_min }}"
+    cpu_max: "{{ item.cpu_max }}"
+    memory_min: "{{ item.memory_min }}"
+    memory_max: "{{ item.memory_max }}"    
   when: "not {{ item.db }}"
   with_items: "{{ microservices_scrum_projects }}"
   tags:

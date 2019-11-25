@@ -3,27 +3,77 @@
 microservices_scrum_projects:
   - name: project-api
     repo: estafet-microservices-scrum-api-project
+    db_url_env: PROJECT_API_JDBC_URL
+    db_user_env: PROJECT_API_DB_USER
+    db_db_env: PROJECT_API_DB_PASSWORD
+    cpu_min: 50m
+    cpu_max: 1000m
+    memory_min: 50Mi
+    memory_max: 400Mi
     db: true
   - name: project-burndown
-    repo: estafet-microservices-scrum-api-project-burndown
+    repo: estafet-microservices-scrum-api-project-burndown 
+    db_url_env: PROJECT_BURNDOWN_REPOSITORY_JDBC_URL
+    db_user_env: PROJECT_BURNDOWN_REPOSITORY_DB_USER
+    db_db_env: PROJECT_BURNDOWN_REPOSITORY_DB_PASSWORD    
+    cpu_min: 50m
+    cpu_max: 1000m
+    memory_min: 50Mi
+    memory_max: 400Mi
     db: true
   - name: sprint-api     
-    repo: estafet-microservices-scrum-api-sprint
+    repo: estafet-microservices-scrum-api-sprint   
+    db_url_env: SPRINT_API_JDBC_URL
+    db_user_env: SPRINT_API_DB_USER
+    db_db_env: SPRINT_API_DB_PASSWORD    
+    cpu_min: 50m
+    cpu_max: 1000m
+    memory_min: 50Mi
+    memory_max: 400Mi    
     db: true
   - name: sprint-board
     repo: estafet-microservices-scrum-api-sprint-board
+    cpu_min: 50m
+    cpu_max: 1000m    
+    memory_min: 50Mi
+    memory_max: 300Mi    
     db: false
   - name: sprint-burndown
     repo: estafet-microservices-scrum-api-sprint-burndown
+    db_url_env: SPRINT_BURNDOWN_JDBC_URL
+    db_user_env: SPRINT_BURNDOWN_DB_USER
+    db_db_env: SPRINT_BURNDOWN_DB_PASSWORD    
+    cpu_min: 50m
+    cpu_max: 1000m
+    memory_min: 50Mi
+    memory_max: 400Mi    
     db: true
   - name: story-api
     repo: estafet-microservices-scrum-api-story
+    db_url_env: STORY_API_JDBC_URL
+    db_user_env: STORY_API_DB_USER
+    db_db_env: STORY_API_DB_PASSWORD    
+    cpu_min: 50m
+    cpu_max: 1000m
+    memory_min: 50Mi
+    memory_max: 400Mi    
     db: true
   - name: task-api
-    repo: estafet-microservices-scrum-api-task
+    repo: estafet-microservices-scrum-api-task 
+    db_url_env: TASK_API_JDBC_URL
+    db_user_env: TASK_API_DB_USER
+    db_db_env: TASK_API_DB_PASSWORD
+    cpu_min: 50m
+    cpu_max: 1000m
+    memory_min: 50Mi
+    memory_max: 400Mi    
     db: true
   - name: basic-ui
     repo: estafet-microservices-scrum-basic-ui
+    cpu_min: 50m
+    cpu_max: 500m    
+    memory_min: 50Mi
+    memory_max: 300Mi    
     db: false 
    
     

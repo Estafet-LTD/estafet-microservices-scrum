@@ -1,6 +1,6 @@
 ---
 - name: Create Environments for Entire Software Development Lifecycle
-  hosts: localhost
+  hosts: local
   vars_files:
     - variables/microservices-vars.yml
     - variables/cloud-environments-vars.yml    

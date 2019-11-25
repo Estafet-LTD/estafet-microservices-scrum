@@ -20,9 +20,6 @@ project_description: "Test Environment for Microservices Scrum"
 # specify whether to remove the readiness probe for amq - this is a workaround for an issue with oc cluster up on windows
 remove_amq_readiness: true
 
-# expose basic ui
-expose_basic_ui: true  
-
 # enable readiness probe
 readiness_probe: false
 

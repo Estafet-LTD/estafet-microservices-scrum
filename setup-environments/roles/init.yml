@@ -18,15 +18,6 @@
     path: "{{ workdir }}"
     state: directory
 
-- name: Checkout source code from Github
-  git:
-    repo: "https://github.com/{{ github }}/{{ item.repo }}"
-    dest: "{{ workdir }}/{{ item.repo }}"
-    update: yes
-  with_items: "{{ microservices_scrum_projects }}"
-  tags:
-    - git
-
 - name: Checkout xpaas image stream from Github
   git:
     repo: "https://github.com/openshift/openshift-ansible.git"

@@ -1,10 +1,4 @@
 ---
-- name: include the variables for this microservice      
-  include_vars:
-    file: "{{ workdir }}/{{ repo }}/ansible/microservice-vars.yml"  
-
-- include: "{{ workdir }}/{{ repo }}/ansible/service-envs-{{ project }}-vars.yml"  
-
 - include: pre-create-app.yml
 
 - name: Create the microservices application from the source to image builder for db application

@@ -1,1 +1,16 @@
-localhost ansible_connection=local github=Estafet-LTD openshift=10.0.75.2:8443 username=admin password=123 database=some_dbhost.amw.com
+[local]
+localhost ansible_connection=local
+
+[local:vars]
+# The name of the github organisation
+github=Estafet-LTD 
+
+# openshift host and port
+openshift=192.168.99.100:8443 
+
+# openshift credentials 
+username=developer 
+password=developer
+
+# database host (only required for cloud environment) 
+database=some_dbhost.amw.com

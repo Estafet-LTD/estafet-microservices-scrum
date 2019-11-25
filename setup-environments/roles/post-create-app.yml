@@ -2,7 +2,6 @@
 - name: Expose Service ({{ microservice }})
   shell: "oc expose service {{ microservice }}"
   register: command_result
-  when: "{{ expose_service }}"
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
   changed_when: "'exists' not in command_result.stderr"
   tags:

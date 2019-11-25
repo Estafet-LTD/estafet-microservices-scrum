@@ -1,9 +1,6 @@
 ---
 - set_fact: branch="master"
 
-- set_fact: expose_service=true
-  when: "{{ test_environment }}"
-
 - name: fetch latest tag for this repo
   shell: "git describe --abbrev=0 --tags"
   args:
