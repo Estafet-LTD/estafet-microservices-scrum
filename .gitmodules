@@ -25,3 +25,23 @@
 [submodule "estafet-microservices-scrum-qa"]
 	path = estafet-microservices-scrum-qa
 	url = https://github.com/Estafet-LTD/estafet-microservices-scrum-qa.git
+[submodule "estafet-microservices-scrum-commons-lib"]
+	path = estafet-microservices-scrum-commons-lib
+	url = https://github.com/Estafet-LTD/estafet-microservices-scrum-commons-lib.git
+	branch = master
+[submodule "estafet-microservices-scrum-data-lib"]
+	path = estafet-microservices-scrum-data-lib
+	url = https://github.com/Estafet-LTD/estafet-microservices-scrum-data-lib.git
+	branch = master
+[submodule "estafet-microservices-scrum-lib"]
+	path = estafet-microservices-scrum-lib
+	url = https://github.com/Estafet-LTD/estafet-microservices-scrum-lib.git
+	branch = master
+[submodule "estafet-microservices-scrum-pages-lib"]
+	path = estafet-microservices-scrum-pages-lib
+	url = https://github.com/Estafet-LTD/estafet-microservices-scrum-pages-lib.git
+	branch = master
+[submodule "estafet-microservices-scrum-parent"]
+	path = estafet-microservices-scrum-parent
+	url = https://github.com/Estafet-LTD/estafet-microservices-scrum-parent.git
+	branch = master
