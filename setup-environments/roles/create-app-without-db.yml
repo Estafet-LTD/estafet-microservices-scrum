@@ -1,6 +1,8 @@
 ---
 - include: pre-create-app.yml
 
+- include: "{{ inventory_dir }}/variables/{{ microservice }}-service-env-vars.yml" 
+
 - name: Create the microservices application from the source to image builder for application
   shell: 'oc new-app redhat-openjdk18-openshift:1.2~https://github.com/{{ github }}/{{ repo }}#{{ branch }} --name={{ microservice }} {{ service_envs }}'
   register: command_result

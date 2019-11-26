@@ -1,0 +1,5 @@
+---
+
+- set_fact: service_envs="{{ service_envs }} -e SPRINT_API_SERVICE_URI=http://sprint-api.{{ project }}.svc:8080"
+- set_fact: service_envs="{{ service_envs }} -e STORY_API_SERVICE_URI=http://story-api.{{ project }}.svc:8080"
+- set_fact: service_envs="{{ service_envs }} -e TASK_API_SERVICE_URI=http://task-api.{{ project }}.svc:8080"

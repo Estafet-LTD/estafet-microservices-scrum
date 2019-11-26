@@ -1,0 +1,9 @@
+---
+
+- set_fact: service_envs="{{ service_envs }} -e SPRINT_API_SERVICE_URI=http://sprint-api.{{ project }}.svc:8080"
+- set_fact: service_envs="{{ service_envs }} -e STORY_API_SERVICE_URI=http://story-api.{{ project }}.svc:8080"
+- set_fact: service_envs="{{ service_envs }} -e TASK_API_SERVICE_URI=http://task-api.{{ project }}.svc:8080"
+- set_fact: service_envs="{{ service_envs }} -e PROJECT_API_SERVICE_URI=http://project-api.{{ project }}.svc:8080"
+- set_fact: service_envs="{{ service_envs }} -e SPRINT_BOARD_API_SERVICE_URI=http://sprint-board.{{ project }}.svc:8080"
+- set_fact: service_envs="{{ service_envs }} -e SPRINT_BURNDOWN_SERVICE_URI=http://sprint-burndown.{{ project }}.svc:8080"
+- set_fact: service_envs="{{ service_envs }} -e PROJECT_BURNDOWN_SERVICE_URI=http://project-burndown.{{ project }}.svc:8080"
