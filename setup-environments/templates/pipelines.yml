@@ -76,13 +76,13 @@ objects:
     runPolicy: Serial
     source:
       git:
-        uri: "https://github.com/${GITHUB}/estafet-microservices-scrum"
+        uri: "https://github.com/${GITHUB}/estafet-microservices-scrum-qa"
     strategy:
       jenkinsPipelineStrategy:
         env:
           - name: GITHUB
             value: ${GITHUB}                  
-        jenkinsfilePath: setup-environments/pipelines/qa-tests-pipeline.groovy
+        jenkinsfilePath: openshift/pipelines/qa-tests-pipeline.groovy
       type: JenkinsPipeline
     triggers:
     - github:
@@ -108,13 +108,13 @@ objects:
     runPolicy: Serial
     source:
       git:
-        uri: "https://github.com/${GITHUB}/estafet-microservices-scrum"
+        uri: "https://github.com/${GITHUB}/estafet-microservices-scrum-qa-prod"
     strategy:
       jenkinsPipelineStrategy:
         env:
           - name: GITHUB
             value: ${GITHUB}                  
-        jenkinsfilePath: setup-environments/pipelines/prod-tests-pipeline.groovy
+        jenkinsfilePath: openshift/pipelines/prod-tests-pipeline.groovy
       type: JenkinsPipeline
     triggers:
     - github:
@@ -201,4 +201,4 @@ objects:
         jenkinsfilePath: setup-environments/pipelines/create-environment-pipeline.groovy
       type: JenkinsPipeline
   status:
-    lastVersion: 0       
+    lastVersion: 0    

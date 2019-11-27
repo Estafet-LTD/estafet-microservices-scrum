@@ -1,0 +1,34 @@
+---
+# Project definition - add new microservices here
+microservices_boost_projects:
+  - name: console-application-api
+    repo: estafet-openshift-boost-console-api-app
+    cpu_min: 100m
+    cpu_max: 500m    
+    memory_min: 50Mi
+    memory_max: 300Mi    
+  - name: console-prod-api
+    repo: estafet-openshift-boost-console-api-prod
+    cpu_min: 100m
+    cpu_max: 500m    
+    memory_min: 50Mi
+    memory_max: 300Mi
+  - name: console-test-api
+    repo: estafet-openshift-boost-console-api-test
+    cpu_min: 100m
+    cpu_max: 500m    
+    memory_min: 50Mi
+    memory_max: 300Mi    
+  - name: console-build-api
+    repo: estafet-openshift-boost-console-api-build
+    cpu_min: 100m
+    cpu_max: 500m    
+    memory_min: 50Mi
+    memory_max: 300Mi   
+  - name: console-ui
+    repo: estafet-openshift-boost-console-ui
+    cpu_min: 100m
+    cpu_max: 500m    
+    memory_min: 50Mi
+    memory_max: 300Mi           
+    
