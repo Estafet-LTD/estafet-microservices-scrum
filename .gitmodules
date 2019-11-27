@@ -45,3 +45,6 @@
 	path = estafet-microservices-scrum-parent
 	url = https://github.com/Estafet-LTD/estafet-microservices-scrum-parent.git
 	branch = master
+[submodule "estafet-microservices-scrum-qa-prod.git"]
+	path = estafet-microservices-scrum-qa-prod.git
+	url = https://github.com/Estafet-LTD/estafet-microservices-scrum-qa-prod.git
