@@ -4,8 +4,8 @@
 - set_fact: project_description="Test - Microservices Scrum"
     
 - include: namespace-setup.yml
-- include: add-namespace-edit-role
-- include: amq-setup.yml
+- include: add-namespace-edit-role.yml
+- include: amq-cloud-setup.yml
 - include: jaeger-setup.yml
 - include: external-db.yml
 - include: add-jenkins-role.yml

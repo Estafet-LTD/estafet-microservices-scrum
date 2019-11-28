@@ -4,7 +4,8 @@
   vars_files:
     - variables/microservices-vars.yml
     - variables/libraries-vars.yml
-    - variables/cloud-environments-vars.yml    
+    - variables/cloud-environments-vars.yml
+    - variables/boost-console-microservices-vars.yml    
   tasks:  
     - include: roles/init.yml    
     - include: roles/cicd-namespace.yml    

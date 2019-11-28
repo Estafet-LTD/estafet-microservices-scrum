@@ -4,7 +4,7 @@
 - set_fact: project_description="Monitoring - Microservices Scrum"
     
 - include: namespace-setup.yml
-- include: add-namespace-view-role
+- include: add-namespace-view-role.yml
 - include: jaeger-setup.yml
 - include: pgadmin-setup.yml
 - include: boost-console-setup.yml

@@ -4,6 +4,6 @@
 - set_fact: project_description="MQ Green - Microservices Scrum"
     
 - include: namespace-setup.yml
-- include: add-namespace-view-role
-- include: amq-setup.yml
+- include: add-namespace-view-role.yml
+- include: amq-cloud-setup.yml
 

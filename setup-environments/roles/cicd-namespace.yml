@@ -4,7 +4,7 @@
 - set_fact: project_description="CI/CD - Microservices Scrum"
 
 - include: namespace-setup.yml
-- include: add-namespace-edit-role
+- include: add-namespace-edit-role.yml
 
 - name: Install the Jenkins master server
   shell: "oc new-app jenkins-persistent -p VOLUME_CAPACITY=20Gi -p MEMORY_LIMIT=2Gi"
@@ -105,7 +105,7 @@
     - nexus      
 
 - name: Configure the persistent storage for nexus
-  shell: "oc volumes dc/nexus --add --name 'nexus-volume-1' --type 'pvc' --mount-path '/sonatype-work/' --claim-name 'nexus-pv' --claim-size '10G' --overwrite"
+  shell: "oc volume dc/nexus --add --name 'nexus-volume-1' --type 'pvc' --mount-path '/sonatype-work/' --claim-name 'nexus-pv' --claim-size '10G' --overwrite"
   register: command_result
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
   changed_when: "'exists' not in command_result.stderr"

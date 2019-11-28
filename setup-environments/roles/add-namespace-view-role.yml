@@ -3,7 +3,8 @@
 
 - name: Allow users to access project
   shell: 'oc policy add-role-to-user view {{ item }} -n {{ project }}'
-  when: item != 'admin'
+  when: "{{ item != 'admin' }}"
+  with_items: "{{ users }}"
   register: command_result
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
   changed_when: "'exists' not in command_result.stderr"

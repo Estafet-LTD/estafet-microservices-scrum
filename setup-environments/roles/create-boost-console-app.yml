@@ -1,6 +1,6 @@
 ---
 - name: Deploy the microservice for ({{ microservice }})
-  shell: 'oc new-app redhat-openjdk18-openshift:1.2~https://github.com/{{ github }}/{{ repo }}.git --name={{ microservice }} -e OPENSHIFT_HOST_PORT={{ openshift }} -e OPENSHIFT_USER={{ username }} -e OPENSHIFT_PASSWORD={{ password }} {{ service_envs }}'
+  shell: 'oc new-app redhat-openjdk18-openshift:1.4~https://github.com/{{ github }}/{{ repo }}.git --name={{ microservice }} -e OPENSHIFT_HOST_PORT={{ openshift }} -e OPENSHIFT_USER={{ username }} -e OPENSHIFT_PASSWORD={{ password }} {{ service_envs }}'
   register: command_result
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
   changed_when: "'exists' not in command_result.stderr"
