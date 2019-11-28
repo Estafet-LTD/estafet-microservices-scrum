@@ -3,9 +3,10 @@
   hosts: local
   vars_files:
     - variables/microservices-vars.yml
+    - variables/libraries-vars.yml
     - variables/cloud-environments-vars.yml    
   tasks:  
-    - include: roles/init.yml
+    - include: roles/init.yml    
     - include: roles/cicd-namespace.yml    
     - include: roles/build-namespace.yml
     - include: roles/test-namespace.yml

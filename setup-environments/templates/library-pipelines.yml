@@ -30,13 +30,15 @@ objects:
     runPolicy: Serial
     source:
       git:
-        uri: "https://github.com/${GITHUB}/${LIBRARY_REPO_URI}"
+        uri: "https://github.com/${GITHUB}/estafet-microservices-scrum"
     strategy:
       jenkinsPipelineStrategy:
         env:
           - name: GITHUB
             value: ${GITHUB}
-        jenkinsfilePath: openshift/pipelines/build-pipeline.groovy
+          - name: REPO
+            value: ${LIBRARY_REPO_URI}            
+        jenkinsfilePath: setup-environments/pipelines/build-library-pipeline.groovy
       type: JenkinsPipeline
     triggers:
     - github:
@@ -63,13 +65,15 @@ objects:
     runPolicy: Serial
     source:
       git:
-        uri: "https://github.com/${GITHUB}/${LIBRARY_REPO_URI}"
+        uri: "https://github.com/${GITHUB}/estafet-microservices-scrum"
     strategy:
       jenkinsPipelineStrategy:
         env:
           - name: GITHUB
-            value: ${GITHUB}      
-        jenkinsfilePath: openshift/pipelines/release-pipeline.groovy
+            value: ${GITHUB}  
+          - name: REPO
+            value: ${LIBRARY_REPO_URI}                       
+        jenkinsfilePath: setup-environments/pipelines/release-library-pipeline.groovy
       type: JenkinsPipeline
   status:
     lastVersion: 0

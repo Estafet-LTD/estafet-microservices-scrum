@@ -4,14 +4,7 @@
 - set_fact: project_description="CI/CD - Microservices Scrum"
 
 - include: namespace-setup.yml
-
-- name: Checkout qa from Github to access pipeline
-  git:
-    repo: "https://github.com/{{ github }}/estafet-microservices-scrum-qa"
-    dest: "{{ workdir }}/estafet-microservices-scrum-qa"
-    update: yes
-  tags:
-    - git
+- include: add-namespace-edit-role
 
 - name: Install the Jenkins master server
   shell: "oc new-app jenkins-persistent -p VOLUME_CAPACITY=20Gi -p MEMORY_LIMIT=2Gi"
@@ -39,6 +32,15 @@
   with_items: "{{ microservices_scrum_projects }}"
   tags:
     - openshift       
+
+- name: Create build and release pipelines for the libraries
+  shell: "oc process -n cicd -f {{ inventory_dir }}/templates/library-pipelines.yml -p GITHUB={{ github }} -p LIBRARY_NAME={{ item.name }} -p LIBRARY_REPO_URI={{ item.repo }} | oc create -f -"
+  register: command_result
+  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+  changed_when: "'exists' not in command_result.stderr"  
+  with_items: "{{ libaries_projects }}"
+  tags:
+    - openshift  
 
 - name: Create general pipelines 
   shell: "oc process -n cicd -f {{ inventory_dir }}/templates/pipelines.yml -p GITHUB={{ github }} -p MASTER_HOST={{ openshift }} -p ADMIN_USER={{ username }} -p ADMIN_PASSWORD={{ password }} | oc create -f -"

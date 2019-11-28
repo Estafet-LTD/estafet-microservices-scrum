@@ -4,7 +4,7 @@
 - set_fact: project_description="Test - Microservices Scrum"
     
 - include: namespace-setup.yml
-- include: imagestream-setup.yml
+- include: add-namespace-edit-role
 - include: amq-setup.yml
 - include: jaeger-setup.yml
 - include: external-db.yml
