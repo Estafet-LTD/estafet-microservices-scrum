@@ -1,4 +1,15 @@
 ---
+
+- set_fact: microservice_exists=true
+
+- name: Check if microservice ({{ microservice }}) exists
+  shell: 'oc get dc {{ microservice }}'
+  register: command_result
+
+- name: set flag for deployment
+  set_fact: microservice_exists=false
+  when: "'NotFound' in command_result.stderr"
+  
 - name: Deploy the microservice for ({{ microservice }})
   shell: 'oc new-app redhat-openjdk18-openshift:1.4~https://github.com/{{ github }}/{{ repo }}.git --name={{ microservice }} -e OPENSHIFT_HOST_PORT={{ openshift }} -e OPENSHIFT_USER={{ username }} -e OPENSHIFT_PASSWORD={{ password }} {{ service_envs }}'
   register: command_result
@@ -18,6 +29,7 @@
 - name: Configure the resource limits for microservice ({{ microservice }})
   shell: "oc set resources dc {{ microservice }} -c={{ microservice }} --limits=cpu={{ cpu_max }},memory={{ memory_max }} --requests=cpu={{ cpu_min }},memory={{ memory_min }}"
   register: command_result
+  when: "not {{ microservice_exists }}"
   failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
   changed_when: "'exists' not in command_result.stderr"
   tags:
