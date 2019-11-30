@@ -12,5 +12,8 @@ openshift=192.168.99.100:8443
 username=developer 
 password=developer
 
+# the name of the product/application
+product=microservices-scrum
+
 # database host (only required for cloud environment) 
 database=some_dbhost.amw.com

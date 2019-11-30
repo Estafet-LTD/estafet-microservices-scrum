@@ -3,6 +3,7 @@
 microservices_scrum_projects:
   - name: project-api
     repo: estafet-microservices-scrum-api-project
+    expose: false
     db_url_env: PROJECT_API_JDBC_URL
     db_user_env: PROJECT_API_DB_USER
     db_db_env: PROJECT_API_DB_PASSWORD
@@ -12,7 +13,8 @@ microservices_scrum_projects:
     memory_max: 400Mi
     db: true
   - name: project-burndown
-    repo: estafet-microservices-scrum-api-project-burndown 
+    repo: estafet-microservices-scrum-api-project-burndown
+    expose: false 
     db_url_env: PROJECT_BURNDOWN_REPOSITORY_JDBC_URL
     db_user_env: PROJECT_BURNDOWN_REPOSITORY_DB_USER
     db_db_env: PROJECT_BURNDOWN_REPOSITORY_DB_PASSWORD    
@@ -23,6 +25,7 @@ microservices_scrum_projects:
     db: true
   - name: sprint-api     
     repo: estafet-microservices-scrum-api-sprint   
+    expose: false
     db_url_env: SPRINT_API_JDBC_URL
     db_user_env: SPRINT_API_DB_USER
     db_db_env: SPRINT_API_DB_PASSWORD    
@@ -33,6 +36,7 @@ microservices_scrum_projects:
     db: true
   - name: sprint-board
     repo: estafet-microservices-scrum-api-sprint-board
+    expose: false
     cpu_min: 50m
     cpu_max: 1000m    
     memory_min: 50Mi
@@ -40,6 +44,7 @@ microservices_scrum_projects:
     db: false
   - name: sprint-burndown
     repo: estafet-microservices-scrum-api-sprint-burndown
+    expose: false
     db_url_env: SPRINT_BURNDOWN_JDBC_URL
     db_user_env: SPRINT_BURNDOWN_DB_USER
     db_db_env: SPRINT_BURNDOWN_DB_PASSWORD    
@@ -50,6 +55,7 @@ microservices_scrum_projects:
     db: true
   - name: story-api
     repo: estafet-microservices-scrum-api-story
+    expose: false
     db_url_env: STORY_API_JDBC_URL
     db_user_env: STORY_API_DB_USER
     db_db_env: STORY_API_DB_PASSWORD    
@@ -60,6 +66,7 @@ microservices_scrum_projects:
     db: true
   - name: task-api
     repo: estafet-microservices-scrum-api-task 
+    expose: false
     db_url_env: TASK_API_JDBC_URL
     db_user_env: TASK_API_DB_USER
     db_db_env: TASK_API_DB_PASSWORD
@@ -70,10 +77,9 @@ microservices_scrum_projects:
     db: true
   - name: basic-ui
     repo: estafet-microservices-scrum-basic-ui
+    expose: true
     cpu_min: 50m
     cpu_max: 500m    
     memory_min: 50Mi
     memory_max: 300Mi    
     db: false 
-   
-    

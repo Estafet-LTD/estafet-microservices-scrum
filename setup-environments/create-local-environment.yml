@@ -10,8 +10,7 @@
     - include: roles/namespace-setup.yml
     - include: roles/jaeger-setup.yml
     - include: roles/imagestream-setup.yml
-    - include: roles/amq-setup.yml
-    - include: roles/create-db.yml    
-#    - include: roles/pgadmin-setup.yml
+    - include: roles/amq-setup.yml template templates_project={{ project }}
+    - include: roles/create-db.yml
     - include: roles/wiremock-setup.yml
     - include: roles/microservices-setup.yml

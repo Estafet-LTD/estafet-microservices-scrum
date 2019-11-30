@@ -2,7 +2,7 @@
 - name: Verify if variables are set
   fail:
     msg: "[Target directory] and/or [OpenShift host] is not defined. Please edit vars.yml"
-  when: (workdir is undefined) or (openshift is undefined)
+  when: (workdir is undefined) or (openshift is undefined) or (product is undefined)
 
 - name: Login in OpenShift as {{ username }}
   shell: "oc login --insecure-skip-tls-verify=true -u {{ username }} -p {{ password }} {{ openshift }}"
@@ -18,13 +18,13 @@
     path: "{{ workdir }}"
     state: directory
 
-- name: Checkout xpaas image stream from Github
+- name: Checkout the boost console dependencies from github
   git:
-    repo: "https://github.com/openshift/openshift-ansible.git"
-    dest: "{{ workdir }}/openshift-ansible"
-    version: openshift-ansible-3.9.27-1
+    repo: "https://github.com/{{ github }}/estafet-openshift-boost.git"
+    dest: "{{ workdir }}/estafet-openshift-boost"
     update: yes
   tags:
-    - git  
-
+    - git      
     
+- set_fact: roles="{{ workdir }}/estafet-openshift-boost/setup-environments/roles"
+- set_fact: vars="{{ workdir }}/estafet-openshift-boost/setup-environments/roles"  
