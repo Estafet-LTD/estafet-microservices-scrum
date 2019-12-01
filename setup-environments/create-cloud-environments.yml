@@ -1,17 +1,15 @@
 ---
 - name: Create Environments for Entire Software Development Lifecycle
   hosts: local
-  vars_files:
-    - variables/microservices-vars.yml
-    - variables/libraries-vars.yml
-    - variables/cloud-environments-vars.yml
-    - variables/boost-console-microservices-vars.yml    
+  vars_files: 
+    - microservices-vars.yml
+    - libraries-vars.yml    
   tasks:  
-    - include: roles/init.yml    
-    - include: roles/cicd-namespace.yml    
-    - include: roles/build-namespace.yml
-    - include: roles/test-namespace.yml
-    - include: roles/monitoring-namespace.yml
-    - include: roles/mq-green-namespace.yml
-    - include: roles/mq-blue-namespace.yml
-    - include: roles/prod-namespace.yml
+    - include: install-boost-roles.yml
+    - include_role:
+        name: cloud-environments-setup    
+      vars:
+        product: ms-scrum
+        product_description: Microservices Scrum
+         
+  

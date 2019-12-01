@@ -1,0 +1,3 @@
+---
+# the Absolute path where you want to checkout the sourcecode
+workdir: "{{ ansible_env.HOME }}/.estafet"
