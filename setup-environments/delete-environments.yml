@@ -1,12 +1,9 @@
 ---
-- name: Create Environments for Entire Software Development Lifecycle
-  hosts: local
-  vars_files: 
-    - vars/microservices-vars.yml
-    - vars/libraries-vars.yml    
+- name: Delete SDLC Environments for Microservices Scrum Demo
+  hosts: local 
   tasks:          
     - include_role:
-        name: cloud-environments-setup    
+        name: delete-cloud-environments    
       vars:
         product: ms-scrum
         product_description: Microservices Scrum
