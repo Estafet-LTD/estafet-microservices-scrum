@@ -1,6 +1,6 @@
 ---
 # Project definition - add new microservices here
-microservices_scrum_projects:
+microservices:
   - name: project-api
     repo: estafet-microservices-scrum-api-project
     expose: false

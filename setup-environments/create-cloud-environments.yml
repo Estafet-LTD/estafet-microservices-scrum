@@ -2,14 +2,15 @@
 - name: Create Environments for Entire Software Development Lifecycle
   hosts: local
   vars_files: 
-    - microservices-vars.yml
-    - libraries-vars.yml    
-  tasks:  
-    - include: install-boost-roles.yml
+    - vars/microservices-vars.yml
+    - vars/libraries-vars.yml    
+  tasks:          
     - include_role:
         name: cloud-environments-setup    
       vars:
         product: ms-scrum
         product_description: Microservices Scrum
+        workdir: "{{ ansible_env.HOME }}/.estafet"
+        repo: estafet-microservices-scrum
          
   

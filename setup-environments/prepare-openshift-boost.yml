@@ -1,0 +1,26 @@
+---
+- name: Preparing the ansible roles for openshift boost 
+  hosts: local   
+  vars:
+    workdir: "{{ ansible_env.HOME }}/.estafet"  
+  tasks:  
+    - name: Verify if variables are set
+      fail:
+        msg: "[Work directory] is not defined. Please edit vars.yml"
+      when: (workdir is undefined)
+    
+    - name: Create Workdir
+      file:
+        path: "{{ workdir }}"
+        state: directory
+    
+    - name: Checkout the boost console dependencies from github
+      git:
+        repo: "https://github.com/{{ github }}/estafet-openshift-boost.git"
+        dest: "{{ workdir }}/estafet-openshift-boost"
+        update: yes
+      tags:
+        - git  
+
+         
+  

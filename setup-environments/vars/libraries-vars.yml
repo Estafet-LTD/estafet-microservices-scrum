@@ -1,6 +1,6 @@
 ---
 # Project definition - add new libraries here
-libaries_projects:
+libraries:
   - name: commons-lib
     repo: estafet-microservices-scrum-commons-lib    
   - name: pages-lib
