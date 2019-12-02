@@ -10,7 +10,7 @@
       vars:
         product: ms-scrum
         product_description: Microservices Scrum
-        workdir: "{{ ansible_env.HOME }}/.estafet"
         repo: estafet-microservices-scrum
+        workdir: ~/.estafet
          
   
