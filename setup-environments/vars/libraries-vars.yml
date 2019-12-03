@@ -1,12 +1,13 @@
 ---
 # Project definition - add new libraries here
 libraries:
+  - name: parent
+    repo: estafet-microservices-scrum-parent
   - name: commons-lib
     repo: estafet-microservices-scrum-commons-lib    
   - name: pages-lib
     repo: estafet-microservices-scrum-pages-lib
   - name: data-lib
     repo: estafet-microservices-scrum-data-lib   
-  - name: parent
-    repo: estafet-microservices-scrum-parent            
+            
     

@@ -1,12 +1,12 @@
 ---
-- name: Create SDLC Environments for Microservices Scrum Demo
+- name: Update the CICD Environment for Microservices Scrum Demo
   hosts: local
   vars_files: 
     - vars/microservices-vars.yml
     - vars/libraries-vars.yml    
   tasks:          
     - include_role:
-        name: create-environments    
+        name: nexus-setup    
       vars:
         product: ms-scrum
         product_description: Microservices Scrum Demo

@@ -1,16 +1,17 @@
 ---
-- name: Create SDLC Environments for Microservices Scrum Demo
+- name: Run the Build Pipelines for Libraries for Microservices Scrum Demo
   hosts: local
   vars_files: 
     - vars/microservices-vars.yml
     - vars/libraries-vars.yml    
   tasks:          
     - include_role:
-        name: create-environments    
+        name: run-library-pipelines    
       vars:
         product: ms-scrum
         product_description: Microservices Scrum Demo
         repo: estafet-microservices-scrum
         workdir: ~/.estafet
+        type: release
          
   
