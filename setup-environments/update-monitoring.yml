@@ -1,5 +1,5 @@
 ---
-- name: Update the CICD Environment for Microservices Scrum Demo
+- name: Update the Monitoring Environment for Microservices Scrum Demo
   hosts: local
   vars_files: 
     - vars/microservices-vars.yml

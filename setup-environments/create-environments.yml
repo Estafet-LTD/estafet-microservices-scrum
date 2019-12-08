@@ -1,6 +1,6 @@
 ---
 - name: Create SDLC Environments for Microservices Scrum Demo
-  hosts: local
+  hosts: local  
   vars_files: 
     - vars/microservices-vars.yml
     - vars/libraries-vars.yml    
