@@ -2,9 +2,9 @@ Prequisites
 
 Ansible
 
-
-
 Setting up the Inventory File
+
+Preparing the ansible roles
 
 * prepare-openshift-boost.yml
 
