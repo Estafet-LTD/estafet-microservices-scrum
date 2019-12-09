@@ -1,16 +1,15 @@
 ---
 - name: Install Estafet Microservices Application in Openshift
   hosts: local
-  vars_files:
-    - local-environment-vars.yml
-    - microservices-vars.yml
-
-  tasks:  
-    - include: roles/init.yml
-    - include: roles/namespace-setup.yml
-    - include: roles/jaeger-setup.yml
-    - include: roles/imagestream-setup.yml
-    - include: roles/amq-setup.yml template templates_project={{ project }}
-    - include: roles/create-db.yml
-    - include: roles/wiremock-setup.yml
-    - include: roles/microservices-setup.yml
+  vars_files: 
+    - vars/microservices-vars.yml
+    - vars/libraries-vars.yml    
+  tasks:          
+    - include_role:
+        name: local-environment-setup    
+      vars:
+        product: ms-scrum
+        product_description: Microservices Scrum Demo
+        test: false
+        repo: estafet-microservices-scrum
+        workdir: ~/.estafet
