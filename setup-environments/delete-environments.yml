@@ -3,7 +3,7 @@
   hosts: local 
   tasks:          
     - include_role:
-        name: delete-cloud-environments    
+        name: delete-environments    
       vars:
         product: ms-scrum
         product_description: Microservices Scrum
