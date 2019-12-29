@@ -42,10 +42,6 @@
 	path = estafet-microservices-scrum-data-lib
 	url = https://github.com/Estafet-LTD/estafet-microservices-scrum-data-lib.git
 	branch = master
-[submodule "estafet-microservices-scrum-lib"]
-	path = estafet-microservices-scrum-lib
-	url = https://github.com/Estafet-LTD/estafet-microservices-scrum-lib.git
-	branch = master
 [submodule "estafet-microservices-scrum-pages-lib"]
 	path = estafet-microservices-scrum-pages-lib
 	url = https://github.com/Estafet-LTD/estafet-microservices-scrum-pages-lib.git
