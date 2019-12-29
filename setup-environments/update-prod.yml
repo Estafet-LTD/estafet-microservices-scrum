@@ -1,0 +1,16 @@
+---
+- name: Update the Product Environment for Microservices Scrum Demo
+  hosts: local
+  vars_files: 
+    - vars/microservices-vars.yml
+    - vars/libraries-vars.yml    
+  tasks:          
+    - include_role:
+        name: prod-namespace-setup    
+      vars:
+        product: ms-scrum
+        product_description: Microservices Scrum Demo
+        repo: estafet-microservices-scrum
+        workdir: ~/.estafet
+         
+  
