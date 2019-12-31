@@ -3,7 +3,8 @@
   hosts: local
   vars_files: 
     - vars/microservices-vars.yml
-    - vars/libraries-vars.yml    
+    - vars/libraries-vars.yml
+    - vars/users-vars.yml    
   tasks:          
     - include_role:
         name: cicd-environment-setup    

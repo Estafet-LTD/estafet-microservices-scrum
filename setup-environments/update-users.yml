@@ -1,13 +1,13 @@
 ---
-- name: Update the Product Environment for Microservices Scrum Demo
+- name: Update the users for Microservices Scrum Demo
   hosts: local
   vars_files: 
     - vars/microservices-vars.yml
-    - vars/libraries-vars.yml 
-    - vars/users-vars.yml       
+    - vars/libraries-vars.yml
+    - vars/users-vars.yml    
   tasks:          
     - include_role:
-        name: test-environment-setup    
+        name: update-users    
       vars:
         product: ms-scrum
         product_description: Microservices Scrum Demo
