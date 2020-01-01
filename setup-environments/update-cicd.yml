@@ -1,17 +1,7 @@
 ---
-- name: Update the CICD Environment for Microservices Scrum Demo
+- name: Update the CICD Environment
   hosts: local
-  vars_files: 
-    - vars/microservices-vars.yml
-    - vars/libraries-vars.yml
-    - vars/users-vars.yml    
-  tasks:          
-    - include_role:
-        name: cicd-environment-setup    
-      vars:
-        product: ms-scrum
-        product_description: Microservices Scrum Demo
-        repo: estafet-microservices-scrum
-        workdir: ~/.estafet
+  roles:
+    - cicd-environment-setup
          
   

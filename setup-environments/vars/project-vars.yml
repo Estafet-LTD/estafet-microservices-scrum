@@ -1,0 +1,12 @@
+---
+# the project code
+product: ms-scrum
+
+# the project descrption
+product_description: Microservices Scrum Demo
+
+# the name of the repostory for this project
+repo: estafet-microservices-scrum
+
+# the working directory
+workdir: ~/.estafet

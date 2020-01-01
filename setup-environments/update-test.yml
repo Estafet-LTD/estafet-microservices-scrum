@@ -1,17 +1,8 @@
 ---
 - name: Update the Product Environment for Microservices Scrum Demo
   hosts: local
-  vars_files: 
-    - vars/microservices-vars.yml
-    - vars/libraries-vars.yml 
-    - vars/users-vars.yml       
-  tasks:          
-    - include_role:
-        name: test-environment-setup    
-      vars:
-        product: ms-scrum
-        product_description: Microservices Scrum Demo
-        repo: estafet-microservices-scrum
-        workdir: ~/.estafet
+  roles:
+    - test-environment-setup
+
          
   

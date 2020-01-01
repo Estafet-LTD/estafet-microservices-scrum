@@ -1,13 +1,5 @@
 ---
-- name: Delete SDLC Environments for Microservices Scrum Demo
+- name: Delete SDLC Environments
   hosts: local 
-  tasks:          
-    - include_role:
-        name: delete-environments    
-      vars:
-        product: ms-scrum
-        product_description: Microservices Scrum
-        repo: estafet-microservices-scrum
-        workdir: ~/.estafet
-         
-  
+  roles:
+    - delete-environments

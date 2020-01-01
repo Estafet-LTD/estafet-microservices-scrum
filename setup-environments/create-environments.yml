@@ -1,17 +1,6 @@
 ---
-- name: Create SDLC Environments for Microservices Scrum Demo
+- name: Create SDLC Environments
   hosts: local  
-  vars_files: 
-    - vars/microservices-vars.yml
-    - vars/libraries-vars.yml 
-    - vars/users-vars.yml           
-  tasks:          
-    - include_role:
-        name: create-environments    
-      vars:
-        product: ms-scrum
-        product_description: Microservices Scrum Demo
-        repo: estafet-microservices-scrum
-        workdir: ~/.estafet
-         
-  
+  roles:
+    - create-environments
+

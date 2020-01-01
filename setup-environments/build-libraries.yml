@@ -1,17 +1,10 @@
 ---
-- name: Run the Build Pipelines for Libraries for Microservices Scrum Demo
+- name: Run the Build Pipelines for Libraries
   hosts: local
-  vars_files: 
-    - vars/microservices-vars.yml
-    - vars/libraries-vars.yml    
   tasks:          
     - include_role:
         name: run-library-pipelines    
       vars:
-        product: ms-scrum
-        product_description: Microservices Scrum Demo
-        repo: estafet-microservices-scrum
-        workdir: ~/.estafet
         type: build
          
   
