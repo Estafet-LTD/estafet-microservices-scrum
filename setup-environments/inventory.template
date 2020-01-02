@@ -8,9 +8,6 @@ github=Estafet-LTD
 # openshift host and port
 openshift=192.168.99.100:8443 
 
-# internal host for openshift - required for boost console
-#openshift_internal=1.2.3.4:8443
-
 # openshift credentials 
 username=developer 
 password=developer
