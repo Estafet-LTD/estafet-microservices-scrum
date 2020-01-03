@@ -1,16 +1,9 @@
 ---
-- name: Install Estafet Microservices Application in Openshift
-  hosts: local
-  vars_files: 
-    - vars/microservices-vars.yml
-    - vars/libraries-vars.yml    
+- name: Install Local Test Environment
+  hosts: local 
   tasks:          
     - include_role:
         name: local-environment-setup    
       vars:
-        product: ms-scrum
-        product_description: Microservices Scrum Demo
         test: true
-        repo: estafet-microservices-scrum
-        workdir: ~/.estafet
 

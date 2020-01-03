@@ -3,3 +3,5 @@
 /setup-pipeline.groovy.bak
 /inventory
 /ansible.log
+/inventory.cloud
+/inventory.local
