@@ -9,14 +9,17 @@ microservices:
     repo: estafet-microservices-scrum-api-project-burndown
     expose: false 
     db: true
+    ignore: false
   - name: sprint-api     
     repo: estafet-microservices-scrum-api-sprint   
     expose: false   
     db: true
+    ignore: false
   - name: sprint-board
     repo: estafet-microservices-scrum-api-sprint-board
     expose: false   
     db: false
+    ignore: false
   - name: sprint-burndown
     repo: estafet-microservices-scrum-api-sprint-burndown
     expose: false  
@@ -25,11 +28,14 @@ microservices:
     repo: estafet-microservices-scrum-api-story
     expose: false    
     db: true
+    ignore: false
   - name: task-api
     repo: estafet-microservices-scrum-api-task 
     expose: false   
     db: true
+    ignore: false
   - name: basic-ui
     repo: estafet-microservices-scrum-basic-ui
     expose: true  
     db: false 
+    ignore: false
