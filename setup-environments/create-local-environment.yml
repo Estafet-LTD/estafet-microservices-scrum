@@ -6,3 +6,4 @@
         name: local-environment-setup    
       vars:
         test: false
+        local_project: "microservices-scrum"

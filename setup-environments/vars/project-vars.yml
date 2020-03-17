@@ -10,3 +10,7 @@ repo: estafet-microservices-scrum
 
 # the working directory
 workdir: ~/.estafet
+
+# Task Manager
+task_manager: trello
+task_manager_title: Trello
