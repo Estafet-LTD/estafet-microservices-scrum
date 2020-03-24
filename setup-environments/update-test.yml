@@ -1,8 +1,0 @@
----
-- name: Update the Product Environment for Microservices Scrum Demo
-  hosts: local
-  roles:
-    - test-environment-setup
-
-         
-  

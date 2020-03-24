@@ -1,0 +1,35 @@
+---
+# Environments definition - add new environments here
+environments:
+  - name: build
+    display: Build
+    description: Build Environment
+    jaeger: true
+    amq: true   
+    wiremock: true 
+    db: postgres
+    next: test
+  - name: test
+    display: Test
+    description: Test Environment
+    jaeger: true
+    amq: true   
+    wiremock: false  
+    db: postgres   
+    next: perf
+  - name: perf
+    display: Performance
+    description: Performance Test Environment
+    jaeger: true
+    amq: true      
+    db: postgres
+    wiremock: false 
+    next: prod
+  - name: prod
+    display: Production
+    description: Production Environment
+    jaeger: true
+    amq: false 
+    wiremock: false
+    db: postgres
+    next: end    

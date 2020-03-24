@@ -1,0 +1,11 @@
+---
+- name: Update the Product Environment
+  hosts: local
+  tasks:
+    - include_role: 
+        name: init
+    - include_role: 
+        name: environments-setup
+      vars:
+        env: "{{ item }}"     
+      with_items: "{{ environments }}"
