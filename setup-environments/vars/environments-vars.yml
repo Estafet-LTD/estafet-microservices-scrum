@@ -1,35 +1,36 @@
 ---
 # Environments definition - add new environments here
 environments:
+
+  repo: estafet-microservices-scrum
+  jaeger: true
+  db: postgres
+  amq: true
+
+  stages:
   - name: build
     display: Build
-    description: Build Environment
-    jaeger: true
-    amq: true   
+    description: Build Environment 
     wiremock: true 
-    db: postgres
+    role: edit
     next: test
+    
   - name: test
     display: Test
     description: Test Environment
-    jaeger: true
-    amq: true   
-    wiremock: false  
-    db: postgres   
+    wiremock: false   
+    role: edit
     next: perf
+    
   - name: perf
     display: Performance
     description: Performance Test Environment
-    jaeger: true
-    amq: true      
-    db: postgres
     wiremock: false 
+    role: view
     next: prod
+    
   - name: prod
     display: Production
     description: Production Environment
-    jaeger: true
-    amq: false 
     wiremock: false
-    db: postgres
     next: end    

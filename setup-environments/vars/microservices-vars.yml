@@ -1,25 +1,43 @@
 ---
 # Project definition - add new microservices here
 microservices:
+
   - name: project-api
     repo: estafet-microservices-scrum-api-project
     expose: false
     db: true
+    build_jenkinsFile: build.jenkinsFile
+    release_jenkinsFile: release.jenkinsFile
+    promote_jenkinsFile: promote.jenkinsFile
+    promote_to_prod_jenkinsFile: promote-to-prod.jenkinsFile
+    
   - name: project-burndown
     repo: estafet-microservices-scrum-api-project-burndown
     expose: false 
     db: true
-    ignore: false
+    build_jenkinsFile: build.jenkinsFile
+    release_jenkinsFile: release.jenkinsFile
+    promote_jenkinsFile: promote.jenkinsFile
+    promote_to_prod_jenkinsFile: promote-to-prod.jenkinsFile
+    
   - name: sprint-api     
     repo: estafet-microservices-scrum-api-sprint   
     expose: false   
     db: true
-    ignore: false
+    build_jenkinsFile: build.jenkinsFile
+    release_jenkinsFile: release.jenkinsFile
+    promote_jenkinsFile: promote.jenkinsFile
+    promote_to_prod_jenkinsFile: promote-to-prod.jenkinsFile
+    
   - name: sprint-board
     repo: estafet-microservices-scrum-api-sprint-board
     expose: false   
     db: false
-    ignore: false
+    build_jenkinsFile: build.jenkinsFile
+    release_jenkinsFile: release.jenkinsFile
+    promote_jenkinsFile: promote.jenkinsFile
+    promote_to_prod_jenkinsFile: promote-to-prod.jenkinsFile
+    
   - name: sprint-burndown
     repo: estafet-microservices-scrum-api-sprint-burndown
     expose: false  
@@ -28,14 +46,25 @@ microservices:
     repo: estafet-microservices-scrum-api-story
     expose: false    
     db: true
-    ignore: false
+    build_jenkinsFile: build.jenkinsFile
+    release_jenkinsFile: release.jenkinsFile
+    promote_jenkinsFile: promote.jenkinsFile
+    promote_to_prod_jenkinsFile: promote-to-prod.jenkinsFile
+
   - name: task-api
     repo: estafet-microservices-scrum-api-task 
     expose: false   
     db: true
-    ignore: false
+    build_jenkinsFile: build.jenkinsFile
+    release_jenkinsFile: release.jenkinsFile
+    promote_jenkinsFile: promote.jenkinsFile
+    promote_to_prod_jenkinsFile: promote-to-prod.jenkinsFile
+
   - name: basic-ui
     repo: estafet-microservices-scrum-basic-ui
     expose: true  
     db: false 
-    ignore: false
+    build_jenkinsFile: build.jenkinsFile
+    release_jenkinsFile: release.jenkinsFile
+    promote_jenkinsFile: promote.jenkinsFile
+    promote_to_prod_jenkinsFile: promote-to-prod.jenkinsFile

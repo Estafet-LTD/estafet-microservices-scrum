@@ -1,0 +1,154 @@
+@NonCPS
+def getVersions(json) {
+	def tags = new groovy.json.JsonSlurper().parseText(json).status.tags
+	def versions = []
+	for (int i = 0; i < tags.size(); i++) {
+		versions << tags[i]['tag'].replaceAll("\\-SNAPSHOT","")
+	}
+	return versions
+}
+
+@NonCPS
+def next(json) {
+	return new groovy.json.JsonSlurper().parseText(json).metadata.labels.next
+}
+
+@NonCPS
+def recentVersion(List versions) {
+	versions.sort( false ) { a, b ->
+		[a,b]*.tokenize('.')*.collect { it as int }.with { u, v ->
+			[u,v].transpose().findResult{ x,y-> x<=>y ?: null } ?: u.size() <=> v.size()
+		}
+	}[-1]
+}
+
+@NonCPS
+boolean dcexists(json, microservice) {
+	def items = new groovy.json.JsonSlurper().parseText(json).items
+	for (int i = 0; i < items.size(); i++) {
+		def name = items[i]['metadata']['name']
+		if (name.equals(microservice)) {
+			return true;
+		}
+	}
+	return false
+}
+
+boolean deploymentConfigExists(project, microservice) {
+	sh "oc get dc -o json -n ${project} > dc.json"
+	def dc = readFile('dc.json')
+	return dcexists(dc, microservice)
+}
+
+def nextProject(project) {
+	sh "oc get project ${project} -o json > namespace.json"
+	def namespace = readFile('namespace.json')
+	return next(namespace)
+}
+
+def username() {
+    withCredentials([usernamePassword(credentialsId: 'microservices-scrum', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+        return USERNAME
+    }
+}
+
+def password() {
+    withCredentials([usernamePassword(credentialsId: 'microservices-scrum', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+        return PASSWORD
+    }
+}
+
+def getLatestVersion(product, microservice) {
+	sh "oc get is ${microservice} -o json -n ${product}-cicd > image.json"
+	def image = readFile('image.json')
+	def versions = getVersions(image)
+	if (versions.size() == 0) {
+		error("There are no images for ${microservice}")
+	}
+	return "${recentVersion(versions)}-SNAPSHOT"
+}
+
+node('maven') {
+
+	properties([
+	  parameters([
+	     string(name: 'GITHUB'), string(name: 'PRODUCT'), string(name: 'REPO'), string(name: 'MICROSERVICE'), string(name: 'PROJECT'),
+	  ])
+	])
+
+	def project = params.PROJECT
+	def microservice = params.MICROSERVICE	
+
+	String version
+	def developmentVersion
+	def releaseVersion
+	def pipelines
+	def next
+	boolean skipStages = false
+	
+	stage("checkout") {
+		git branch: "master", url: "https://${username()}:${password()}@github.com/${params.GITHUB}/${params.REPO}"
+	}
+
+	stage("read the pipeline definition") {
+		pipelines = readYaml file: "openshift/pipelines/pipelines.yml"
+	}
+
+	stage("determine the next environment") {
+		next = nextProject project
+		println "the next project is ${next}"
+	}
+
+	if (!skipStages) {
+		stage("remove the previous deployment") {
+			if (deploymentConfigExists(project, microservice)) {
+				sh "oc delete dc ${microservice} -n ${project}"	
+			}
+		}		
+	}
+
+	if (!skipStages) {
+		if (pipelines.release.db[0]) {
+			stage("prepare the database") {
+				withMaven(mavenSettingsConfig: 'microservices-scrum') {
+			      sh "mvn clean package -P prepare-db -Dmaven.test.skip=true -Dproject=${project}"
+			    } 
+			}	
+		}		
+	}
+
+	if (!skipStages) {
+		stage("promote the image from ${params.PRODUCT}-cicd to ${project}") {
+			openshiftTag namespace: "${params.PRODUCT}-cicd", srcStream: microservice, srcTag: version, destinationNamespace: project, destinationStream: microservice, destinationTag: releaseVersion
+			sh "oc patch is/${microservice} -p '{\"metadata\":{\"labels\":{\"product\":\"${params.PRODUCT}\"}}}' -n ${project}"
+		}
+	}
+
+	if (!skipStages) {
+		stage("create deployment config") {
+			sh "oc process -n ${project} -f openshift/templates/${microservice}-config.yml -p NAMESPACE=${project} -p DOCKER_NAMESPACE=${project} -p DOCKER_IMAGE_LABEL=${releaseVersion} -p PRODUCT=${params.PRODUCT} | oc apply -f -"
+		}
+	}
+
+	if (!skipStages) {
+		stage("execute deployment") {
+			openshiftDeploy namespace: project, depCfg: microservice,  waitTime: "3000000"
+			openshiftVerifyDeployment namespace: project, depCfg: microservice, replicaCount:"1", verifyReplicaCount: "true", waitTime: "300000" 
+		}
+	}
+	
+	if (!skipStages) {
+		stage("promote the image to ${next}") {
+			openshiftTag namespace: project, srcStream: microservice, srcTag: releaseVersion, destinationNamespace: next, destinationStream: microservice, destinationTag: releaseVersion
+			sh "oc patch is/${microservice} -p '{\"metadata\":{\"labels\":{\"product\":\"${params.PRODUCT}\"}}}' -n ${next}"
+		}
+	}
+
+	if (!skipStages) {
+		stage("flag this microservice as untested") {
+			sh "oc patch dc/${microservice} -p '{\"metadata\":{\"labels\":{\"testStatus\":\"untested\"}}}' -n ${project}"		
+		}
+	}
+
+}
+
