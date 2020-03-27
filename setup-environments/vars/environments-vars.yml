@@ -18,6 +18,7 @@ environments:
   - name: test
     display: Test
     description: Test Environment
+    test_repo: estafet-microservices-scrum-qa
     wiremock: false   
     role: edit
     next: perf
@@ -25,6 +26,7 @@ environments:
   - name: perf
     display: Performance
     description: Performance Test Environment
+    test_repo: estafet-microservices-scrum-qa-perf
     wiremock: false 
     role: view
     next: prod
@@ -32,5 +34,6 @@ environments:
   - name: prod
     display: Production
     description: Production Environment
+    test_repo: estafet-microservices-scrum-qa-prod
     wiremock: false
     next: end    
