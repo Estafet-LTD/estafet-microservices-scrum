@@ -18,5 +18,10 @@
       tags:
         - git  
 
-         
-  
+    - name: Updating playbooks
+      copy:
+        src: "{{ item }}"
+        dest: . 
+        force: yes       
+      with_fileglob:
+      - "{{ workdir }}/estafet-openshift-boost/setup-environments/*.yml"
