@@ -1,0 +1,8 @@
+---
+- name: Update cloud Environment
+  hosts: local 
+  tasks:          
+    - include_role:
+        name: cloud-environment-setup    
+      vars:
+        test: false

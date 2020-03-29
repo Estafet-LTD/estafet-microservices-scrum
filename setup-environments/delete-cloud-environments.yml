@@ -1,0 +1,5 @@
+---
+- name: Delete SDLC Environments
+  hosts: local 
+  roles:
+    - delete-environments

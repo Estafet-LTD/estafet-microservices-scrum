@@ -4,67 +4,72 @@ microservices:
 
   - name: project-api
     repo: estafet-microservices-scrum-api-project
+    build: build.jenkinsFile
+    release: release.jenkinsFile
+    promote: promote.jenkinsFile
+    promote_to_prod: promote-to-prod.jenkinsFile    
     expose: false
     db: true
-    build_jenkinsFile: build.jenkinsFile
-    release_jenkinsFile: release.jenkinsFile
-    promote_jenkinsFile: promote.jenkinsFile
-    promote_to_prod_jenkinsFile: promote-to-prod.jenkinsFile
     
   - name: project-burndown
     repo: estafet-microservices-scrum-api-project-burndown
+    build: build.jenkinsFile
+    release: release.jenkinsFile
+    promote: promote.jenkinsFile
+    promote_to_prod: promote-to-prod.jenkinsFile    
     expose: false 
     db: true
-    build_jenkinsFile: build.jenkinsFile
-    release_jenkinsFile: release.jenkinsFile
-    promote_jenkinsFile: promote.jenkinsFile
-    promote_to_prod_jenkinsFile: promote-to-prod.jenkinsFile
     
   - name: sprint-api     
-    repo: estafet-microservices-scrum-api-sprint   
+    repo: estafet-microservices-scrum-api-sprint  
+    build: build.jenkinsFile
+    release: release.jenkinsFile
+    promote: promote.jenkinsFile
+    promote_to_prod: promote-to-prod.jenkinsFile     
     expose: false   
     db: true
-    build_jenkinsFile: build.jenkinsFile
-    release_jenkinsFile: release.jenkinsFile
-    promote_jenkinsFile: promote.jenkinsFile
-    promote_to_prod_jenkinsFile: promote-to-prod.jenkinsFile
     
   - name: sprint-board
     repo: estafet-microservices-scrum-api-sprint-board
+    build: build.jenkinsFile
+    release: release.jenkinsFile
+    promote: promote.jenkinsFile
+    promote_to_prod: promote-to-prod.jenkinsFile    
     expose: false   
     db: false
-    build_jenkinsFile: build.jenkinsFile
-    release_jenkinsFile: release.jenkinsFile
-    promote_jenkinsFile: promote.jenkinsFile
-    promote_to_prod_jenkinsFile: promote-to-prod.jenkinsFile
     
   - name: sprint-burndown
     repo: estafet-microservices-scrum-api-sprint-burndown
+    build: build.jenkinsFile
+    release: release.jenkinsFile
+    promote: promote.jenkinsFile
+    promote_to_prod: promote-to-prod.jenkinsFile        
     expose: false  
     db: true
+   
   - name: story-api
     repo: estafet-microservices-scrum-api-story
+    build: build.jenkinsFile
+    release: release.jenkinsFile
+    promote: promote.jenkinsFile
+    promote_to_prod: promote-to-prod.jenkinsFile    
     expose: false    
     db: true
-    build_jenkinsFile: build.jenkinsFile
-    release_jenkinsFile: release.jenkinsFile
-    promote_jenkinsFile: promote.jenkinsFile
-    promote_to_prod_jenkinsFile: promote-to-prod.jenkinsFile
 
   - name: task-api
     repo: estafet-microservices-scrum-api-task 
+    build: build.jenkinsFile
+    release: release.jenkinsFile
+    promote: promote.jenkinsFile
+    promote_to_prod: promote-to-prod.jenkinsFile    
     expose: false   
     db: true
-    build_jenkinsFile: build.jenkinsFile
-    release_jenkinsFile: release.jenkinsFile
-    promote_jenkinsFile: promote.jenkinsFile
-    promote_to_prod_jenkinsFile: promote-to-prod.jenkinsFile
 
   - name: basic-ui
     repo: estafet-microservices-scrum-basic-ui
+    build: build.jenkinsFile
+    release: release.jenkinsFile
+    promote: promote.jenkinsFile
+    promote_to_prod: promote-to-prod.jenkinsFile    
     expose: true  
     db: false 
-    build_jenkinsFile: build.jenkinsFile
-    release_jenkinsFile: release.jenkinsFile
-    promote_jenkinsFile: promote.jenkinsFile
-    promote_to_prod_jenkinsFile: promote-to-prod.jenkinsFile
