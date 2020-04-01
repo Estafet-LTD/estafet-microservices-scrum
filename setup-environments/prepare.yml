@@ -25,3 +25,9 @@
         force: yes       
       with_fileglob:
       - "{{ workdir }}/estafet-openshift-boost/setup-environments/*.yml"
+
+    - name: Updating roles
+      copy:
+        src: "{{ workdir }}/estafet-openshift-boost/setup-environments/roles"
+        dest: "~/.ansible"
+        force: yes

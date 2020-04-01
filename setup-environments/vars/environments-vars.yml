@@ -3,37 +3,71 @@
 environments:
 
   repo: estafet-microservices-scrum
-  jaeger: true
-  db: postgres
-  amq: true
+
+  roles:
+  - name: mq-namespace-setup
+    colour: blue    
+    amq_user: amq
+    amq_password: amq
+    templates_project: openshift
+
+  - name: mq-namespace-setup
+    colour: green    
+    amq_user: amq
+    amq_password: amq        
+    templates_project: openshift
 
   stages:
   - name: build
     display: Build
     description: Build Environment 
-    wiremock: true 
     role: edit
     next: test
-    
+    roles:
+    - name: jaeger-setup
+    - name: external-postgres-setup
+    - name: amq-setup    
+      amq_user: amq
+      amq_password: amq
+      templates_project: openshift
+    - name: wiremock-setup  
+      tag: 2.25.1
+      expose: false    
+
   - name: test
     display: Test
     description: Test Environment
     test_repo: estafet-microservices-scrum-qa
-    wiremock: false   
     role: edit
     next: perf
-    
+    roles:
+    - name: jaeger-setup
+    - name: external-postgres-setup
+    - name: amq-setup    
+      amq_user: amq
+      amq_password: amq    
+      templates_project: openshift
+
   - name: perf
     display: Performance
     description: Performance Test Environment
     test_repo: estafet-microservices-scrum-qa-perf
-    wiremock: false 
     role: view
     next: prod
-    
+    roles:
+    - name: jaeger-setup
+    - name: external-postgres-setup
+    - name: amq-setup    
+      amq_user: amq
+      amq_password: amq    
+      templates_project: openshift
+
   - name: prod
     display: Production
     description: Production Environment
     test_repo: estafet-microservices-scrum-qa-prod
-    wiremock: false
     next: end    
+    roles:
+    - name: jaeger-setup
+    - name: external-postgres-setup
+      templates_project: openshift
