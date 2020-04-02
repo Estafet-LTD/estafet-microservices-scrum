@@ -12,5 +12,5 @@ repo: estafet-microservices-scrum
 workdir: ~/.estafet
 
 # Task Manager
-task_manager: trello
-task_manager_title: Trello
+task_manager: jira
+task_manager_title: Jira
