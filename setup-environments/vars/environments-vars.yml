@@ -4,6 +4,12 @@ environments:
 
   repo: estafet-microservices-scrum
 
+  teardown_roles:
+    - name: delete-mq-namespace
+      colour: blue  
+    - name: delete-mq-namespace
+      colour: green  
+
   roles:
   - name: mq-namespace-setup
     colour: blue    
