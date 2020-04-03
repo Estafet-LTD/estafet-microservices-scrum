@@ -30,15 +30,15 @@ environments:
       role: edit
       next: test
       roles:
-      - name: jaeger-setup
-      - name: external-postgres-setup
-      - name: amq-setup    
-        amq_user: amq
-        amq_password: amq
-        templates_project: openshift
-      - name: wiremock-setup  
-        tag: 2.25.1
-        expose: false    
+        - name: jaeger-setup
+        - name: external-postgres-setup
+        - name: amq-setup    
+          amq_user: amq
+          amq_password: amq
+          templates_project: openshift
+        - name: wiremock-setup  
+          tag: 2.25.1
+          expose: false    
   
     - name: test
       display: Test
@@ -47,12 +47,12 @@ environments:
       role: edit
       next: perf
       roles:
-      - name: jaeger-setup
-      - name: external-postgres-setup
-      - name: amq-setup    
-        amq_user: amq
-        amq_password: amq    
-        templates_project: openshift
+        - name: jaeger-setup
+        - name: external-postgres-setup
+        - name: amq-setup    
+          amq_user: amq
+          amq_password: amq    
+          templates_project: openshift
   
     - name: perf
       display: Performance
@@ -61,12 +61,12 @@ environments:
       role: view
       next: prod
       roles:
-      - name: jaeger-setup
-      - name: external-postgres-setup
-      - name: amq-setup    
-        amq_user: amq
-        amq_password: amq    
-        templates_project: openshift
+        - name: jaeger-setup
+        - name: external-postgres-setup
+        - name: amq-setup    
+          amq_user: amq
+          amq_password: amq    
+          templates_project: openshift
   
     - name: prod
       display: Production
@@ -74,6 +74,6 @@ environments:
       test_repo: estafet-microservices-scrum-qa-prod
       next: end    
       roles:
-      - name: jaeger-setup
-      - name: external-postgres-setup
-        templates_project: openshift
+        - name: jaeger-setup
+        - name: external-postgres-setup
+          templates_project: openshift
