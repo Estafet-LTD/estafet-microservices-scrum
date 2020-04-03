@@ -13,4 +13,4 @@ workdir: ~/.estafet
 
 # Task Manager
 task_manager: jira
-task_manager_title: Jira
+task_manager_title: Jira Features
