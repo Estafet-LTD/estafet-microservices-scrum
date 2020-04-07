@@ -1,0 +1,7 @@
+---
+- name: Update the Console Environment
+  hosts: local
+  roles:
+    - console-environment-setup
+
+  

@@ -1,0 +1,14 @@
+---
+- name: Install Developer Environment
+  hosts: local 
+  tasks:   
+    - name: Verify if the environments have been defined
+      fail:
+        msg: "[Developer environment definition] are not set. Please edit developer-environment-vars.yml"
+      when: developer_environment is undefined
+            
+    - include_role:
+        name: environment-setup    
+      vars:
+        env: "{{ developer_environment }}" 
+        

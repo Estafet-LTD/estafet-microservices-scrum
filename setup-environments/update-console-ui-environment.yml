@@ -1,7 +1,0 @@
----
-- name: Update console ui environment
-  hosts: local 
-  tasks:          
-    - include_role:
-        name: boost-console-ui    
-

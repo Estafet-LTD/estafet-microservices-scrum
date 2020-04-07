@@ -1,0 +1,13 @@
+---
+- name: Install QA Environment
+  hosts: local 
+  tasks:          
+    - name: Verify if the environments have been defined
+      fail:
+        msg: "[QA environment definition] are not set. Please edit qa-environment-vars.yml"
+      when: qa_environment is undefined
+            
+    - include_role:
+        name: environment-setup    
+      vars:
+        env: "{{ qa_environment }}" 

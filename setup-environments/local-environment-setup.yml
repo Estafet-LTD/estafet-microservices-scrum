@@ -1,0 +1,14 @@
+---
+- name: Install Local Environment
+  hosts: local 
+  tasks:   
+    - name: Verify if the environments have been defined
+      fail:
+        msg: "[Local environment definition] are not set. Please edit local-environment-vars.yml"
+      when: local_environment is undefined
+            
+    - include_role:
+        name: environment-setup    
+      vars:
+        env: "{{ local_environment }}" 
+        
