@@ -9,11 +9,6 @@ def getVersions(json) {
 }
 
 @NonCPS
-def next(json) {
-	return new groovy.json.JsonSlurper().parseText(json).metadata.labels.next
-}
-
-@NonCPS
 def recentVersion(List versions) {
 	versions.sort( false ) { a, b ->
 		[a,b]*.tokenize('.')*.collect { it as int }.with { u, v ->
@@ -38,12 +33,6 @@ boolean deploymentConfigExists(project, microservice) {
 	sh "oc get dc -o json -n ${project} > dc.json"
 	def dc = readFile('dc.json')
 	return dcexists(dc, microservice)
-}
-
-def nextProject(project) {
-	sh "oc get project ${project} -o json > namespace.json"
-	def namespace = readFile('namespace.json')
-	return next(namespace)
 }
 
 def username() {
@@ -84,7 +73,6 @@ node('maven') {
 	def developmentVersion
 	def releaseVersion
 	def pipelines
-	def next
 	boolean skipStages = false
 	
 	stage("checkout") {
@@ -93,11 +81,6 @@ node('maven') {
 
 	stage("read the pipeline definition") {
 		pipelines = readYaml file: "openshift/pipelines/pipelines.yml"
-	}
-
-	stage("determine the next environment") {
-		next = nextProject project
-		println "the next project is ${next}"
 	}
 
 	stage ("verify build image") {
@@ -161,6 +144,12 @@ node('maven') {
 	}
 
 	if (!skipStages) {
+		stage("reset test flags for ${project}") {
+			sh "oc label namespace ${project} test-passed=false --overwrite=true"	
+		}
+	}
+
+	if (!skipStages) {
 		stage("create deployment config") {
 			sh "oc process -n ${project} -f openshift/templates/${microservice}-config.yml -p NAMESPACE=${project} -p DOCKER_NAMESPACE=${project} -p DOCKER_IMAGE_LABEL=${releaseVersion} -p PRODUCT=${params.PRODUCT} | oc apply -f -"
 		}
@@ -170,19 +159,6 @@ node('maven') {
 		stage("execute deployment") {
 			openshiftDeploy namespace: project, depCfg: microservice,  waitTime: "3000000"
 			openshiftVerifyDeployment namespace: project, depCfg: microservice, replicaCount:"1", verifyReplicaCount: "true", waitTime: "300000" 
-		}
-	}
-	
-	if (!skipStages) {
-		stage("promote the image to ${next}") {
-			openshiftTag namespace: project, srcStream: microservice, srcTag: releaseVersion, destinationNamespace: next, destinationStream: microservice, destinationTag: releaseVersion
-			sh "oc patch is/${microservice} -p '{\"metadata\":{\"labels\":{\"product\":\"${params.PRODUCT}\"}}}' -n ${next}"
-		}
-	}
-
-	if (!skipStages) {
-		stage("flag this microservice as untested") {
-			sh "oc patch dc/${microservice} -p '{\"metadata\":{\"labels\":{\"testStatus\":\"untested\"}}}' -n ${project}"		
 		}
 	}
 

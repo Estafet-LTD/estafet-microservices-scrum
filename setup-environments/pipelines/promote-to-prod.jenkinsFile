@@ -21,11 +21,6 @@ def getVersions(json) {
 }
 
 @NonCPS
-def next(json) {
-	return new groovy.json.JsonSlurper().parseText(json).metadata.labels.next
-}
-
-@NonCPS
 def recentVersion(List versions) {
 	versions.sort( false ) { a, b ->
 		[a,b]*.tokenize('.')*.collect { it as int }.with { u, v ->
@@ -51,6 +46,12 @@ boolean dcexists(json, microservice) {
 	return false
 }
 
+def testStatus(project) {
+	sh "oc get project ${project} -o json > test.json"
+	def test = readFile('test.json')
+	return getTestStatus(test)
+}
+
 boolean deploymentConfigExists(project, microservice) {
 	sh "oc get dc -o json -n ${project} > dc.json"
 	def dc = readFile('dc.json')
@@ -67,12 +68,6 @@ def getLatestVersion(project, microservice) {
 	return recentVersion(versions)
 }
 
-def nextProject(project) {
-	sh "oc get project ${project} -o json > namespace.json"
-	def namespace = readFile('namespace.json')
-	return next(namespace)
-}
-
 node("maven") {
 
 	properties([
@@ -81,21 +76,16 @@ node("maven") {
 	  ])
 	])
 	
-	def project = params.PROJECT
+	def prevProject = params.PROJECT
+	def project = "${params.PRODUCT}-prod"
 	def microservice = params.MICROSERVICE
+	def product = params.PRODUCT
 	def version
 	def env
-	def testStatus
 	def pipelines
-	def next
-
-	stage("determine the next environment") {
-		next = nextProject project
-		println "the next project is ${next}"
-	}	
 
 	stage("determine the environment to deploy to") {
-		sh "oc get routes -l product=${params.PRODUCT} -o json -n ${project} > routeList.json"
+		sh "oc get routes -l product=${product} -o json -n ${project} > routeList.json"
 		def routeList = readFile('routeList.json')
 		def routeName = getRouteName(routeList)
 		sh "oc get route ${routeName} -o json -n ${project} > route.json"
@@ -104,19 +94,22 @@ node("maven") {
 		println "the target environment is $env"
 	}
 	
-	stage ("determine the status of the ${params.PRODUCT}-test environment") {
-		sh "oc get project ${params.PRODUCT}-test -o json > test.json"
-		def test = readFile('test.json')
-		testStatus = getTestStatus(test)
-		println "the target environment test status is $testStatus"
-		if (testStatus.equals("false")) error("Cannot promote $env microservices to staging as they have not passed ${params.PRODUCT}-test testing")
+	stage ("determine the status of the ${params.PROJECT} environment") {
+		testStatus = testStatus prevProject
+		println "the ${prevProject} environment test status is $testStatus"
+		if (testStatus.equals("false")) error("Cannot promote $env microservices to staging as they have not passed ${params.PROJECT} testing")
 	}		
 	
 	stage("determine which image is to be deployed") {
-		version = getLatestVersion project, microservice
+		version = getLatestVersion prevProject, microservice
 		println "latest version is $version"
 	}
-	
+
+	stage("promote the image from ${prevProject} to ${project}") {
+		openshiftTag namespace: prevProject, srcStream: microservice, srcTag: version, destinationNamespace: project, destinationStream: microservice, destinationTag: version
+		sh "oc patch is/${microservice} -p '{\"metadata\":{\"labels\":{\"product\":\"${product}\"}}}' -n ${project}"
+	}
+
 	stage("checkout release version") {
 		checkout scm: [$class: 'GitSCM', 
       userRemoteConfigs: [[url: "https://github.com/${params.GITHUB}/${params.REPO}"]], 
@@ -129,6 +122,11 @@ node("maven") {
 	
 	stage("reset test flag for ${project}") {
 		sh "oc label namespace ${project} test-passed=false --overwrite=true"	
+	}	
+
+	stage("promote the image from ${params.PROJECT} to ${project}") {
+		openshiftTag namespace: params.PROJECT, srcStream: microservice, srcTag: version, destinationNamespace: project, destinationStream: microservice, destinationTag: version
+		sh "oc patch is/${microservice} -p '{\"metadata\":{\"labels\":{\"product\":\"${params.PRODUCT}\"}}}' -n ${project}"
 	}	
 	
 	stage("remove the previous deployment") {
