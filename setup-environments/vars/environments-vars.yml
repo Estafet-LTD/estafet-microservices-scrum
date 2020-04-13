@@ -11,6 +11,8 @@ environments:
       colour: green  
 
   roles:
+    - name: nexus-setup
+    
     - name: mq-namespace-setup
       colour: blue    
       amq_user: amq

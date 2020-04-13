@@ -1,0 +1,26 @@
+---
+# Developer Environment definition
+
+local_environment:
+
+  description: Local Environment
+  test: false
+
+  maven_mirror_url: "http://nexus-nexus.{{ openshift_host }}/nexus/content/groups/public/"
+  docker_registry: 172.30.1.1:5000
+
+  roles:
+    - name: jaeger-setup
+    - name: postgresql-setup
+    - name: imagestream-setup
+
+    - name: amq-setup    
+      amq_user: amq
+      amq_password: amq
+      templates_project: "{{ env_project }}"
+
+    - name: wiremock-setup  
+      tag: 2.25.1
+      expose: false
+
+

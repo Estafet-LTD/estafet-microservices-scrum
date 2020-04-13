@@ -1,0 +1,25 @@
+---
+# Developer Environment definition
+
+developer_environment:
+
+  description: DEV Environment
+  test: false
+
+  maven_mirror_url: http://nexus.nexus.svc:8081/nexus/content/groups/public
+  docker_registry: docker-registry.default.svc:5000
+
+  roles:
+    - name: jaeger-setup
+    - name: postgresql-setup
+
+    - name: amq-setup    
+      amq_user: amq
+      amq_password: amq
+      templates_project: openshift
+
+    - name: wiremock-setup  
+      tag: 2.25.1
+      expose: false
+ 
+
