@@ -4,13 +4,13 @@ environments:
 
   repo: estafet-microservices-scrum
 
-  teardown_roles:
+  teardown:
     - name: delete-mq-namespace
       colour: blue  
     - name: delete-mq-namespace
       colour: green  
 
-  roles:
+  setup:
     - name: nexus-setup
     
     - name: mq-namespace-setup
@@ -31,7 +31,7 @@ environments:
       description: Build Environment 
       role: edit
       next: test
-      roles:
+      setup:
         - name: jaeger-setup
         - name: external-postgres-setup
         - name: amq-setup    
@@ -48,7 +48,7 @@ environments:
       test_repo: estafet-microservices-scrum-qa
       role: edit
       next: perf
-      roles:
+      setup:
         - name: jaeger-setup
         - name: external-postgres-setup
         - name: amq-setup    
@@ -62,7 +62,7 @@ environments:
       test_repo: estafet-microservices-scrum-qa-perf
       role: view
       next: prod
-      roles:
+      setup:
         - name: jaeger-setup
         - name: external-postgres-setup
         - name: amq-setup    
@@ -75,7 +75,7 @@ environments:
       description: Production Environment
       test_repo: estafet-microservices-scrum-qa-prod
       next: end    
-      roles:
+      setup:
         - name: jaeger-setup
         - name: external-postgres-setup
           templates_project: openshift

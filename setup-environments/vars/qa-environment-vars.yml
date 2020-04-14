@@ -9,7 +9,7 @@ qa_environment:
   maven_mirror_url: http://nexus.nexus.svc:8081/nexus/content/groups/public
   docker_registry: docker-registry.default.svc:5000
 
-  roles:
+  setup:
     - name: jaeger-setup
     - name: postgresql-setup
 
