@@ -2,6 +2,10 @@
 - name: Install Developer Environment
   hosts: local 
   tasks:   
+  
+    - include_role:
+        name: init
+  
     - name: Verify if the environments have been defined
       fail:
         msg: "[Developer environment definition] are not set. Please edit developer-environment-vars.yml"

@@ -4,26 +4,28 @@ environments:
 
   repo: estafet-microservices-scrum
 
-  teardown:
-    - name: delete-mq-namespace
-      colour: blue  
-    - name: delete-mq-namespace
-      colour: green  
-
   setup:
-    - name: nexus-setup
-    
+    - name: nexus-setup    
+    - name: github-webhook-setup
+
     - name: mq-namespace-setup
       colour: blue    
       amq_user: amq
       amq_password: amq
       templates_project: openshift
-  
+
     - name: mq-namespace-setup
       colour: green    
       amq_user: amq
-      amq_password: amq        
+      amq_password: amq
       templates_project: openshift
+
+  teardown:
+    - name: github-webhook-teardown
+    - name: delete-mq-namespace
+      colour: blue  
+    - name: delete-mq-namespace
+      colour: green  
 
   stages:
     - name: build

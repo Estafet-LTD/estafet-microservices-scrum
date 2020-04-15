@@ -2,6 +2,10 @@
 - name: Install Local Environment
   hosts: local 
   tasks:   
+
+    - include_role:
+        name: init
+    
     - name: Verify if the environments have been defined
       fail:
         msg: "[Local environment definition] are not set. Please edit local-environment-vars.yml"

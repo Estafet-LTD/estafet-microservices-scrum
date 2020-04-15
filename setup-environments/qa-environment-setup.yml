@@ -1,7 +1,11 @@
 ---
 - name: Install QA Environment
   hosts: local 
-  tasks:          
+  tasks:         
+  
+    - include_role:
+        name: init
+        
     - name: Verify if the environments have been defined
       fail:
         msg: "[QA environment definition] are not set. Please edit qa-environment-vars.yml"
