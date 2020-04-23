@@ -23,18 +23,6 @@ def recentVersion(List versions) {
 }
 
 @NonCPS
-boolean dcexists(json, microservice) {
-	def items = new groovy.json.JsonSlurper().parseText(json).items
-	for (int i = 0; i < items.size(); i++) {
-		def name = items[i]['metadata']['name']
-		if (name.equals(microservice)) {
-			return true;
-		}
-	}
-	return false
-}
-
-@NonCPS
 def getTestStatus(json) {
 	return new groovy.json.JsonSlurper().parseText(json).metadata.labels."test-passed"
 }
@@ -43,12 +31,6 @@ def testStatus(project) {
 	sh "oc get project ${project} -o json > test.json"
 	def test = readFile('test.json')
 	return getTestStatus(test)
-}
-
-boolean deploymentConfigExists(project, microservice) {
-	sh "oc get dc -o json -n ${project} > dc.json"
-	def dc = readFile('dc.json')
-	return dcexists(dc, microservice)
 }
 
 def nextProject(project) {
@@ -91,6 +73,8 @@ node('maven') {
 	def project
 	def product = params.PRODUCT
 	def microservice = params.MICROSERVICE	
+	def dbProject = "${params.PRODUCT}-database" 
+	def label
 
 	String version
 	def pipelines
@@ -111,7 +95,9 @@ node('maven') {
 
 	stage("determine the environment to promote to") {
 		project = nextProject prevProject
+		label = project.substring(product.length()+1)
 		println "the promotion project is ${project}"
+		println "the label ${label}"
 	}
 
 	stage("determine which image is to be deployed") {
@@ -124,26 +110,58 @@ node('maven') {
 		sh "oc patch is/${microservice} -p '{\"metadata\":{\"labels\":{\"product\":\"${product}\"}}}' -n ${project}"
 	}
 
-	stage("remove the previous deployment") {
-		if (deploymentConfigExists(project, microservice)) {
-			sh "oc delete dc ${microservice} -n ${project}"	
+	stage("remove the deployment, configuration map and secrets") {
+		sh "oc delete dc ${microservice} -n ${project} || true"	
+		sh "oc delete configmap ${microservice} -n ${project} || true"
+		sh "oc delete secret ${microservice} -n ${project} || true"	
+	}
+
+	stage("create the configuration map") {
+		def yml = readYaml file: "openshift/configuration/${label}-config.yml"
+		def configMap = yml.config_map
+		def mapStr = ""
+		configMap.each { config ->
+			mapStr = "${mapStr} --from-literal=${config.name}=${config.value}"
 		}
-	}		
+		sh "oc create configmap ${microservice} ${mapStr} -n ${project}"
+	}
+
+	if (fileExists("openshift/configuration/${label}-secret.yml")) {
+		stage("create the secrets") {
+			def yml = readYaml file: "openshift/configuration/${label}-secret.yml"
+			def secrets = yml.secrets
+			def mapStr = ""
+			secrets.each { secret ->
+				mapStr = "${mapStr} --from-literal=${secret.name}=${secret.value}"
+			}
+			sh "oc create secret generic ${microservice} ${mapStr} -n ${project}"
+		}
+	}
 
 	stage("reset test flags for ${project}") {
 		sh "oc label namespace ${project} test-passed=false --overwrite=true"	
 	}
 
-	if (pipelines.release.db[0]) {
+	if (pipelines.release.db) {
 		stage("prepare the database") {
 			withMaven(mavenSettingsConfig: 'microservices-scrum') {
-		      sh "mvn clean package -P prepare-db -Dmaven.test.skip=true -Dproject=${project}"
+		      sh "mvn clean package -P prepare-db -Dmaven.test.skip=true -Dproject=${project} -Ddb.project=${dbProject}"
 		    } 
 		}	
 	}		
 
+	stage("read the resource definition") {
+		if (fileExists("openshift/configuration/${label}-resources.yml")) {
+			def yml = readYaml file: "openshift/configuration/${label}-resources.yml"
+			resources = yml.resources
+		} else {
+			def yml = readYaml file: "openshift/configuration/default-resources.yml"
+			resources = yml.resources
+		}
+	}
+
 	stage("create deployment config") {
-		sh "oc process -n ${project} -f openshift/templates/${microservice}-config.yml -p NAMESPACE=${project} -p DOCKER_NAMESPACE=${project} -p DOCKER_IMAGE_LABEL=${version} -p PRODUCT=${product} | oc apply -f -"
+		sh "oc process -n ${project} -f openshift/templates/${microservice}-config.yml -p NAMESPACE=${project} -p DOCKER_NAMESPACE=${project} -p DOCKER_IMAGE_LABEL=${version} -p PRODUCT=${product} -p MAX_MEMORY=${resources.max_memory} -p MIN_MEMORY=${resources.min_memory} -p MAX_CPU=${resources.max_cpu} -p MIN_CPU=${resources.min_cpu} -p REPLICAS=${resources.replicas} | oc apply -f -"
 	}
 
 	stage("execute deployment to ${project}") {
@@ -152,4 +170,3 @@ node('maven') {
 	}
 	
 }
-

@@ -17,24 +17,6 @@ def recentVersion(List versions) {
 	}[-1]
 }
 
-@NonCPS
-boolean dcexists(json, microservice) {
-	def items = new groovy.json.JsonSlurper().parseText(json).items
-	for (int i = 0; i < items.size(); i++) {
-		def name = items[i]['metadata']['name']
-		if (name.equals(microservice)) {
-			return true;
-		}
-	}
-	return false
-}
-
-boolean deploymentConfigExists(project, microservice) {
-	sh "oc get dc -o json -n ${project} > dc.json"
-	def dc = readFile('dc.json')
-	return dcexists(dc, microservice)
-}
-
 def username() {
     withCredentials([usernamePassword(credentialsId: 'microservices-scrum', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
         return USERNAME
@@ -68,11 +50,13 @@ node('maven') {
 
 	def project = "${params.PRODUCT}-test"
 	def microservice = params.MICROSERVICE	
+	def dbProject = "${params.PRODUCT}-database"
 
 	String version
 	def developmentVersion
 	def releaseVersion
 	def pipelines
+	def resources
 	boolean skipStages = false
 	
 	stage("checkout") {
@@ -97,33 +81,50 @@ node('maven') {
 	}
 
 	if (!skipStages) {
-		stage("remove the previous deployment") {
-			if (deploymentConfigExists(project, microservice)) {
-				sh "oc delete dc ${microservice} -n ${project}"	
-			}
-		}		
-	}
 
-	if (!skipStages) {
-		if (pipelines.release.db[0]) {
+		stage("remove the deployment, configuration map and secrets") {
+			sh "oc delete dc ${microservice} -n ${project} || true"	
+			sh "oc delete configmap ${microservice} -n ${project} || true"
+			sh "oc delete secret ${microservice} -n ${project} || true"	
+		}
+
+		stage("create the configuration map") {
+			def yml = readYaml file: "openshift/configuration/test-config.yml"
+			def configMap = yml.config_map
+			def mapStr = ""
+			configMap.each { config ->
+				mapStr = "${mapStr} --from-literal=${config.name}=${config.value}"
+			}
+			sh "oc create configmap ${microservice} ${mapStr} -n ${project}"
+		}
+
+		if (fileExists("openshift/configuration/test-secret.yml")) {
+			stage("create the secrets") {
+				def yml = readYaml file: "openshift/configuration/test-secret.yml"
+				def secrets = yml.secrets
+				def mapStr = ""
+				secrets.each { secret ->
+					mapStr = "${mapStr} --from-literal=${secret.name}=${secret.value}"
+				}
+				sh "oc create secret generic ${microservice} ${mapStr} -n ${project}"
+			}
+		}
+
+		if (pipelines.release.db) {
 			stage("prepare the database") {
 				withMaven(mavenSettingsConfig: 'microservices-scrum') {
-			      sh "mvn clean package -P prepare-db -Dmaven.test.skip=true -Dproject=${project}"
+			      sh "mvn clean package -P prepare-db -Dmaven.test.skip=true -Dproject=${project} -Ddb.project=${dbProject}"
 			    } 
 			}	
-		}		
-	}
+		}	
 
-	if (!skipStages) {
 		stage("increment version") {
 			def pom = readFile('pom.xml');
 			def matcher = new XmlSlurper().parseText(pom).version =~ /(\d+\.\d+\.)(\d+)(\-SNAPSHOT)/
 			developmentVersion = "${matcher[0][1]}${matcher[0][2].toInteger()+1}-SNAPSHOT"
 			releaseVersion = "${matcher[0][1]}${matcher[0][2]}"
-		}		
-	}
-	
-	if (!skipStages) {
+		}
+
 		stage("perform release") {
 	    sh "git config --global user.email \"jenkins@estafet.com\""
 	  	sh "git config --global user.name \"jenkins\""
@@ -133,33 +134,36 @@ node('maven') {
 				sh "git tag ${releaseVersion}"
 				sh "git push origin ${releaseVersion}"
 			} 
-		}			
-	}
+		}	
 
-	if (!skipStages) {
 		stage("promote the image from ${params.PRODUCT}-cicd to ${project}") {
 			openshiftTag namespace: "${params.PRODUCT}-cicd", srcStream: microservice, srcTag: version, destinationNamespace: project, destinationStream: microservice, destinationTag: releaseVersion
 			sh "oc patch is/${microservice} -p '{\"metadata\":{\"labels\":{\"product\":\"${params.PRODUCT}\"}}}' -n ${project}"
 		}
-	}
 
-	if (!skipStages) {
 		stage("reset test flags for ${project}") {
 			sh "oc label namespace ${project} test-passed=false --overwrite=true"	
 		}
-	}
 
-	if (!skipStages) {
-		stage("create deployment config") {
-			sh "oc process -n ${project} -f openshift/templates/${microservice}-config.yml -p NAMESPACE=${project} -p DOCKER_NAMESPACE=${project} -p DOCKER_IMAGE_LABEL=${releaseVersion} -p PRODUCT=${params.PRODUCT} | oc apply -f -"
+		stage("read the resource definition") {
+			if (fileExists("openshift/config/test-resources.yml")) {
+				def yml = readYaml file: "openshift/configuration/test-resources.yml"
+				resources = yml.resources
+			} else {
+				def yml = readYaml file: "openshift/configuration/default-resources.yml"
+				resources = yml.resources
+			}
 		}
-	}
 
-	if (!skipStages) {
+		stage("create deployment config") {
+			sh "oc process -n ${project} -f openshift/templates/${microservice}-config.yml -p NAMESPACE=${project} -p DOCKER_NAMESPACE=${project} -p DOCKER_IMAGE_LABEL=${releaseVersion} -p PRODUCT=${params.PRODUCT} -p MAX_MEMORY=${resources.max_memory} -p MIN_MEMORY=${resources.min_memory} -p MAX_CPU=${resources.max_cpu} -p MIN_CPU=${resources.min_cpu} -p REPLICAS=${resources.replicas} | oc apply -f -"
+		}
+
 		stage("execute deployment") {
 			openshiftDeploy namespace: project, depCfg: microservice,  waitTime: "3000000"
 			openshiftVerifyDeployment namespace: project, depCfg: microservice, replicaCount:"1", verifyReplicaCount: "true", waitTime: "300000" 
 		}
+
 	}
 
 }

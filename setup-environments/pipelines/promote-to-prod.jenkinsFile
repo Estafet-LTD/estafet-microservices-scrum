@@ -34,28 +34,10 @@ def getTestStatus(json) {
 	return new groovy.json.JsonSlurper().parseText(json).metadata.labels."test-passed"
 }
 
-@NonCPS
-boolean dcexists(json, microservice) {
-	def items = new groovy.json.JsonSlurper().parseText(json).items
-	for (int i = 0; i < items.size(); i++) {
-		def name = items[i]['metadata']['name']
-		if (name.equals(microservice)) {
-			return true;
-		}
-	}
-	return false
-}
-
 def testStatus(project) {
 	sh "oc get project ${project} -o json > test.json"
 	def test = readFile('test.json')
 	return getTestStatus(test)
-}
-
-boolean deploymentConfigExists(project, microservice) {
-	sh "oc get dc -o json -n ${project} > dc.json"
-	def dc = readFile('dc.json')
-	return dcexists(dc, microservice)
 }
 
 def getLatestVersion(project, microservice) {
@@ -80,6 +62,7 @@ node("maven") {
 	def project = "${params.PRODUCT}-prod"
 	def microservice = params.MICROSERVICE
 	def product = params.PRODUCT
+	def dbProject = "${params.PRODUCT}-database"
 	def version
 	def env
 	def pipelines
@@ -129,25 +112,54 @@ node("maven") {
 		sh "oc patch is/${microservice} -p '{\"metadata\":{\"labels\":{\"product\":\"${params.PRODUCT}\"}}}' -n ${project}"
 	}	
 	
-	stage("remove the previous deployment") {
-		if (deploymentConfigExists(project, "${env}${microservice}")) {
-			sh "oc delete dc ${env}${microservice} -n ${project}"	
+	stage("remove the deployment, configuration map and secrets") {
+		sh "oc delete dc ${env}${microservice} -n ${project} || true"	
+		sh "oc delete configmap ${env}${microservice} -n ${project} || true"
+		sh "oc delete secret ${env}${microservice} -n ${project} || true"	
+	}
+
+	stage("create the configuration map") {
+		def yml = readYaml file: "openshift/configuration/prod-${env}-config.yml"
+		def configMap = yml.config_map
+		def mapStr = ""
+		configMap.each { config ->
+			mapStr = "${mapStr} --from-literal=${config.name}=${config.value}"
 		}
-	}	
-		
-	if (pipelines.promote.db[0]) {
+		sh "oc create configmap ${env}${microservice} ${mapStr} -n ${project}"
+	}
+
+	if (fileExists("openshift/configuration/prod-${env}-secret.yml")) {
+		stage("create the secrets") {
+			def yml = readYaml file: "openshift/configuration/prod-${env}-secret.yml"
+			def secrets = yml.secrets
+			def mapStr = ""
+			secrets.each { secret ->
+				mapStr = "${mapStr} --from-literal=${secret.name}=${secret.value}"
+			}
+			sh "oc create secret generic ${env}${microservice} ${mapStr} -n ${project}"
+		}
+	}
+
+	if (pipelines.promote.db) {
 		stage("ensure the database exists") {
 			withMaven(mavenSettingsConfig: 'microservices-scrum') {
-		      sh "mvn clean package -P create-prod-db -Dmaven.test.skip=true -Dproject=${project}"
+		      sh "mvn clean package -P create-prod-db -Dmaven.test.skip=true -Dproject=${project} -Ddb.project=${dbProject}"
 		    } 
 		}
 	}
-	
-	stage("create deployment config") {
-		sh "oc process -n ${project} -f openshift/templates/${microservice}-config.yml -p NAMESPACE=${project} -p ENV=${env} -p DOCKER_NAMESPACE=${project} -p DOCKER_IMAGE_LABEL=${version} -p PRODUCT=${params.PRODUCT} | oc apply -f -"
-		if (pipelines.promote.mq[0]) {
-			sh "oc set env dc/${env}${microservice} JBOSS_A_MQ_BROKER_URL=tcp://broker-amq-tcp.${params.PRODUCT}-mq-${env}.svc:61616 -n ${project}"	
+
+	stage("read the resource definition") {
+		if (fileExists("openshift/configuration/prod-${env}-resources.yml")) {
+			def yml = readYaml file: "openshift/configuration/prod-${env}-resources.yml"
+			resources = yml.resources
+		} else {
+			def yml = readYaml file: "openshift/configuration/default-resources.yml"
+			resources = yml.resources
 		}
+	}
+
+	stage("create deployment config") {
+		sh "oc process -n ${project} -f openshift/templates/${microservice}-config.yml -p NAMESPACE=${project} -p ENV=${env} -p DOCKER_NAMESPACE=${project} -p DOCKER_IMAGE_LABEL=${version} -p PRODUCT=${params.PRODUCT} -p MAX_MEMORY=${resources.max_memory} -p MIN_MEMORY=${resources.min_memory} -p MAX_CPU=${resources.max_cpu} -p MIN_CPU=${resources.min_cpu} -p REPLICAS=${resources.replicas} | oc apply -f -"
 	}
 	
 	stage("execute deployment") {
@@ -156,4 +168,3 @@ node("maven") {
 	}
 
 }
-
