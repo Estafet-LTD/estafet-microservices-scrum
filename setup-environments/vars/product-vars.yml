@@ -36,6 +36,11 @@ openshift:
 # the working directory
 workdir: "{{ ansible_env.HOME }}/.estafet"
 
+# Task Manager
+task_manager:
+  name: jira
+  title: Stories
+
 # jira
 jira:
   access_token: !vault |
