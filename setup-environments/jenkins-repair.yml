@@ -3,11 +3,13 @@
   hosts: local 
   tasks:   
   
-    - include_role:
-        name: init
+    - name: load the variables
+      include_vars:
+        dir: vars
+        extensions: [yml]  
             
     - include_role:
         name: jenkins-repair    
       vars:
-        project: "{{ product }}-cicd" 
+        project: "{{ product.name }}-cicd" 
         

@@ -1,0 +1,55 @@
+---
+- name: Preparing the ansible roles for openshift boost 
+  hosts: local   
+  tasks:
+
+    - name: load the variables
+      include_vars:
+        dir: vars
+        extensions: [yml]  
+   
+    - name: Create Workdir
+      file:
+        path: "{{ workdir }}"
+        state: directory
+        
+    - name: Checkout the boost console dependencies from github
+      git:
+        repo: "https://github.com/{{ github.org }}/estafet-openshift-boost.git"
+        dest: "{{ workdir }}/estafet-openshift-boost"
+        update: yes
+      tags:
+        - git  
+
+    - name: Updating playbooks
+      copy:
+        src: "{{ item }}"
+        dest: . 
+        force: yes       
+      with_fileglob:
+      - "{{ workdir }}/estafet-openshift-boost/setup-environments/*.yml"
+
+    - name: Updating inventory
+      copy:
+        src: "{{ item }}"
+        dest: . 
+        force: yes       
+      with_fileglob:
+      - "{{ workdir }}/estafet-openshift-boost/setup-environments/*.ini"
+
+    - name: Updating boost roles
+      synchronize:
+        src: "{{ workdir }}/estafet-openshift-boost/setup-environments/roles"
+        dest: "~/.ansible"    
+
+    - name: Check that the product roles exist
+      stat:
+        path: "{{ playbook_dir }}/roles"
+      register: product_roles
+
+    - name: Updating product roles
+      copy:
+        src: "{{ playbook_dir }}/roles"
+        dest: "~/.ansible"
+        force: yes   
+      when: product_roles.stat.exists and product_roles.stat.isdir

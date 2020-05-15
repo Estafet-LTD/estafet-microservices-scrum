@@ -1,0 +1,20 @@
+---
+- name: Build and Deploy console app
+  hosts: local  
+  tasks:   
+
+    - name: Verify that the env_project variable is set
+      fail:
+        msg: "[env_project variable definition] is not set."
+      when: env_project is undefined
+
+    - name: Verify that the microservice variable is set
+      fail:
+        msg: "[target_app variable definition] is not set."
+      when: target_app is undefined
+
+    - include_role:
+        name: build-console-app
+      vars: 
+        project: "{{ env_project }}"
+

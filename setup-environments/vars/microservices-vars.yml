@@ -9,8 +9,13 @@ microservices:
     promote: promote.jenkinsFile
     promote_to_prod: promote-to-prod.jenkinsFile    
     expose: false
-    db: true
-    
+    messaging: true
+    setup:
+      - name: create-postgres-db
+        app: project-api
+        repo: estafet-microservices-scrum-api-project
+        reset_db: false
+
   - name: project-burndown
     repo: estafet-microservices-scrum-api-project-burndown
     build: build.jenkinsFile
@@ -18,8 +23,13 @@ microservices:
     promote: promote.jenkinsFile
     promote_to_prod: promote-to-prod.jenkinsFile    
     expose: false 
-    db: true
-    
+    messaging: true
+    setup:
+      - name: create-postgres-db
+        app: project-burndown
+        repo: estafet-microservices-scrum-api-project-burndown
+        reset_db: false    
+
   - name: sprint-api     
     repo: estafet-microservices-scrum-api-sprint  
     build: build.jenkinsFile
@@ -27,8 +37,13 @@ microservices:
     promote: promote.jenkinsFile
     promote_to_prod: promote-to-prod.jenkinsFile     
     expose: false   
-    db: true
-    
+    messaging: true
+    setup:
+      - name: create-postgres-db
+        app: sprint-api
+        repo: estafet-microservices-scrum-api-sprint
+        reset_db: false 
+
   - name: sprint-board
     repo: estafet-microservices-scrum-api-sprint-board
     build: build.jenkinsFile
@@ -36,8 +51,8 @@ microservices:
     promote: promote.jenkinsFile
     promote_to_prod: promote-to-prod.jenkinsFile    
     expose: false   
-    db: false
-    
+    messaging: false
+
   - name: sprint-burndown
     repo: estafet-microservices-scrum-api-sprint-burndown
     build: build.jenkinsFile
@@ -45,8 +60,13 @@ microservices:
     promote: promote.jenkinsFile
     promote_to_prod: promote-to-prod.jenkinsFile        
     expose: false  
-    db: true
-   
+    messaging: true
+    setup:
+      - name: create-postgres-db
+        app: sprint-api
+        repo: estafet-microservices-scrum-api-sprint
+        reset_db: false
+
   - name: story-api
     repo: estafet-microservices-scrum-api-story
     build: build.jenkinsFile
@@ -54,7 +74,7 @@ microservices:
     promote: promote.jenkinsFile
     promote_to_prod: promote-to-prod.jenkinsFile    
     expose: false    
-    db: true
+    messaging: true
 
   - name: task-api
     repo: estafet-microservices-scrum-api-task 
@@ -63,7 +83,7 @@ microservices:
     promote: promote.jenkinsFile
     promote_to_prod: promote-to-prod.jenkinsFile    
     expose: false   
-    db: true
+    messaging: true
 
   - name: basic-ui
     repo: estafet-microservices-scrum-basic-ui
@@ -72,4 +92,4 @@ microservices:
     promote: promote.jenkinsFile
     promote_to_prod: promote-to-prod.jenkinsFile    
     expose: true  
-    db: false 
+    messaging: false

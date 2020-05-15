@@ -3,9 +3,16 @@
   hosts: local 
   tasks:   
   
-    - include_role:
-        name: init
-  
+    - name: load the variables
+      include_vars:
+        dir: vars
+        extensions: [yml]  
+
+    - name: Verify that the env_project variable is set
+      fail:
+        msg: "[env_project variable definition] is not set."
+      when: env_project is undefined
+
     - name: Verify if the environments have been defined
       fail:
         msg: "[Developer environment definition] are not set. Please edit developer-environment-vars.yml"

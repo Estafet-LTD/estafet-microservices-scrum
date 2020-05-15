@@ -3,8 +3,10 @@
   hosts: local 
   tasks:   
 
-    - include_role:
-        name: init
+    - name: load the variables
+      include_vars:
+        dir: vars
+        extensions: [yml]  
     
     - name: Verify if the environments have been defined
       fail:

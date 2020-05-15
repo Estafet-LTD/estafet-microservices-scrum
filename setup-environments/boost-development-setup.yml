@@ -1,0 +1,6 @@
+---
+- name: Boost Development Environment
+  hosts: local  
+  roles:
+    - boost-development-setup
+

@@ -1,0 +1,10 @@
+---
+- name: Repair the jenkins server
+  hosts: local 
+  tasks:   
+     
+    - include_role:
+        name: jenkins-repair    
+      vars:
+        project: boost-cicd
+        
