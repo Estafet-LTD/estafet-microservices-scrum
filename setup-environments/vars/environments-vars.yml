@@ -12,13 +12,11 @@ environments:
       colour: blue    
       amq_user: amq
       amq_password: amq
-      templates_project: openshift
 
     - name: mq-namespace-setup
       colour: green    
       amq_user: amq
       amq_password: amq
-      templates_project: openshift
 
   teardown:
     - name: github-webhook-teardown

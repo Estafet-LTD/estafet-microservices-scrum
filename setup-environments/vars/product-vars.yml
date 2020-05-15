@@ -33,9 +33,6 @@ openshift:
           6232643832386662380a656562383461633866613561626235363363383831373332396233653330
           3562
 
-# the working directory
-workdir: "{{ ansible_env.HOME }}/.estafet"
-
 # Task Manager
 task_manager:
   name: jira
