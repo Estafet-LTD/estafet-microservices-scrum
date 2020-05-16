@@ -7,7 +7,7 @@
       include_vars:
         dir: vars
         extensions: [yml]  
-
+   
     - set_fact: 
         workdir: "{{ ansible_env.HOME }}/.boost"
 
@@ -20,6 +20,7 @@
       git:
         repo: "https://github.com/{{ github.org }}/estafet-openshift-boost.git"
         dest: "{{ workdir }}/estafet-openshift-boost"
+        version: "{{ boost.version }}"
         update: yes
       tags:
         - git  
