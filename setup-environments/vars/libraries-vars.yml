@@ -3,11 +3,19 @@
 libraries:
   - name: parent
     repo: estafet-microservices-scrum-parent
+    build: build-library.jenkinsFile
+    release: release-library.jenkinsFile
   - name: commons-lib
     repo: estafet-microservices-scrum-commons-lib    
+    build: build-library.jenkinsFile
+    release: release-library.jenkinsFile    
   - name: pages-lib
     repo: estafet-microservices-scrum-pages-lib
+    build: build-library.jenkinsFile
+    release: release-library.jenkinsFile    
   - name: data-lib
     repo: estafet-microservices-scrum-data-lib   
+    build: build-library.jenkinsFile
+    release: release-library.jenkinsFile    
             
     

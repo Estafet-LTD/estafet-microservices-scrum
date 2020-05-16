@@ -1,6 +1,7 @@
 ---
 # boost version
-boost: 0.0.1
+boost: 
+  version: master
 
 # product definition
 product: 

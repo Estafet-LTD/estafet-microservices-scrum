@@ -56,6 +56,7 @@ environments:
       display: Test
       description: Test Environment
       test_repo: estafet-microservices-scrum-qa
+      smoke_test: smoke_test.jenkinsFile
       role: edit
       next: perf
       setup:
@@ -67,6 +68,7 @@ environments:
       display: Performance
       description: Performance Test Environment
       test_repo: estafet-microservices-scrum-qa-perf
+      smoke_test: smoke_test.jenkinsFile
       role: view
       next: prod
       setup:
@@ -78,4 +80,5 @@ environments:
       display: Production
       description: Production Environment
       test_repo: estafet-microservices-scrum-qa-prod
+      smoke_test: smoke_test.jenkinsFile
       next: end    

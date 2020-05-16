@@ -4,40 +4,40 @@ microservices:
 
   - name: project-api
     repo: estafet-microservices-scrum-api-project
-    build: build.jenkinsFile    
+    test: test.jenkinsFile    
     expose: false
 
   - name: project-burndown
     repo: estafet-microservices-scrum-api-project-burndown
-    build: build.jenkinsFile   
+    test: test.jenkinsFile   
     expose: false 
 
   - name: sprint-api     
     repo: estafet-microservices-scrum-api-sprint  
-    build: build.jenkinsFile    
+    test: test.jenkinsFile    
     expose: false   
 
   - name: sprint-board
     repo: estafet-microservices-scrum-api-sprint-board
-    build: build.jenkinsFile  
+    test: test.jenkinsFile  
     expose: false   
 
   - name: sprint-burndown
     repo: estafet-microservices-scrum-api-sprint-burndown
-    build: build.jenkinsFile     
+    test: test.jenkinsFile     
     expose: false  
 
   - name: story-api
     repo: estafet-microservices-scrum-api-story
-    build: build.jenkinsFile  
+    test: test.jenkinsFile  
     expose: false    
 
   - name: task-api
     repo: estafet-microservices-scrum-api-task 
-    build: build.jenkinsFile
+    test: test.jenkinsFile
     expose: false   
 
   - name: basic-ui
     repo: estafet-microservices-scrum-basic-ui
-    build: build.jenkinsFile
+    test: test.jenkinsFile
     expose: true  
