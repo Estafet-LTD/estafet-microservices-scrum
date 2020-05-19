@@ -45,9 +45,6 @@ environments:
       role: edit
       next: test
       setup:
-        - name: build-amq-setup
-          amq_user: amq
-          amq_password: amq
         - name: wiremock-setup  
           tag: 2.25.1
           expose: false    
