@@ -1,0 +1,30 @@
+---
+- name: Build and Deploy console app
+  hosts: local  
+  tasks:   
+
+    - name: Verify that the env_project variable is set
+      fail:
+        msg: "[env_project variable definition] is not set."
+      when: env_project is undefined
+
+    - name: Verify that the microservice variable is set
+      fail:
+        msg: "[target_app variable definition] is not set."
+      when: target_app is undefined
+
+    - name: Verify that the release version variable is set
+      fail:
+        msg: "[release_version variable definition] is not set."
+      when: release_version is undefined
+
+    - name: Verify that the stage variable is set
+      fail:
+        msg: "[stage variable definition] is not set."
+      when: stage is undefined
+
+    - include_role:
+        name: deploy
+      vars: 
+        project: "{{ env_project }}"
+
